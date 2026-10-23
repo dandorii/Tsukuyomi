@@ -177,6 +177,8 @@ main {
     width: clamp(120px, 20vw, 230px);
     aspect-ratio: 1;
     transform: translateX(-50%);
+    animation: moon-float 7s ease-in-out infinite,
+    moon-glow 5s ease-in-out infinite alternate;
     border-radius: 50%;
     background: #dce6ff;
     box-shadow:
@@ -185,6 +187,32 @@ main {
         inset -18px -12px 35px rgba(100, 125, 180, 0.2);
 }
 
+@keyframes moon-float {
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    50% {
+        transform: translate(-50%, -12px);
+    }
+}
+
+@keyframes moon-glow {
+    from {
+        box-shadow:
+            0 0 35px rgba(199, 215, 255, 0.25),
+            0 0 90px rgba(130, 164, 255, 0.14),
+            inset -18px -12px 35px rgba(100, 125, 180, 0.2);
+    }
+
+    to {
+        box-shadow:
+            0 0 45px rgba(199, 215, 255, 0.4),
+            0 0 120px rgba(130, 164, 255, 0.28),
+            inset -18px -12px 35px rgba(100, 125, 180, 0.2);
+    }
+}
 
 /* Landing content */
 
