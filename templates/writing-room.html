@@ -54,17 +54,112 @@
             <span></span>
         </div>
 
-        <section class="writing-placeholder">
-            <p>THE PAGE IS WAITING FOR YOUR WORDS.</p>
-            <p>
-                Soon, you will be able to write a letter here.
-                For now, let the silence settle.
-            </p>
+        <section class="writing-editor">
+            <div class="letter-details">
+                <p class="writing-editor-eyebrow">01 / THE LETTER</p>
+
+                <h2>A LETTER, UNFINISHED</h2>
+
+                <p class="writing-editor-description">
+                    Some words take time to find their way.
+                    Begin wherever you are.
+                </p>
+
+                <div class="letter-field">
+                    <label for="letter-title">LETTER TITLE</label>
+                    <input
+                        type="text"
+                        id="letter-title"
+                        name="letter-title"
+                        maxlength="100"
+                        placeholder="A letter I have yet to send..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="letter-field">
+                    <label for="letter-recipient">TO</label>
+                    <input
+                        type="text"
+                        id="letter-recipient"
+                        name="letter-recipient"
+                        maxlength="100"
+                        placeholder="Someone, somewhere..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <p class="letter-private-note">
+                    THESE WORDS BELONG TO YOU.
+                </p>
+
+                <button type="button" id="clear-letter" class="clear-letter-button">
+                    CLEAR LETTER
+                </button>
+            </div>
+
+            <div class="letter-writing">
+                <div class="letter-writing-header">
+                    <span>YOUR WORDS</span>
+                    <span>TAKE YOUR TIME</span>
+                </div>
+
+                <label class="visually-hidden" for="letter-body">
+                    Letter body
+                </label>
+
+                <textarea
+                    id="letter-body"
+                    name="letter-body"
+                    placeholder="Dear you,&#10;&#10;I've been meaning to put these words somewhere..."
+                    rows="14"
+                ></textarea>
+
+                
+                <div class="letter-writing-footer">
+                    <span>WRITTEN BENEATH THE SAME MOON.</span>
+                    <span><span id="letter-character-count" aria-live="polite">0 characters</span> · UNSENT</span>
+                </div>
+            </div>
         </section>
 
         <footer class="writing-footer">
             <p>EVERY UNSENT WORD HAS A PLACE HERE.</p>
         </footer>
+
+        
+        <!-- CLEAR LETTER CONFIRMATION MODAL -->
+        <div
+            class="letter-modal"
+            id="letter-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="letter-modal-title"
+            aria-describedby="letter-modal-description"
+            hidden
+        >
+            <div class="letter-modal-panel">
+                <p class="letter-modal-eyebrow">A MOMENT OF PAUSE</p>
+
+                <h2 id="letter-modal-title">LET THESE WORDS GO?</h2>
+
+                <p id="letter-modal-description">
+                    This will clear the title, recipient, and everything written
+                    in this letter. Once cleared, these words cannot be recovered.
+                </p>
+
+                <div class="letter-modal-actions">
+                    <button type="button" id="cancel-clear-letter">
+                        KEEP MY WORDS
+                    </button>
+
+                    <button type="button" id="confirm-clear-letter">
+                        CLEAR LETTER
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
+    <script src="{{ url_for('static', filename='js/writing-room.js') }}"></script>
 </body>
 </html>
