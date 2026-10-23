@@ -328,3 +328,43 @@ main {
     }
 }
 
+/* Shooting star */
+.shooting-star {
+    position: absolute;
+    top: 18%;
+    left: 75%;
+    width: 100px;
+    height: 2px;
+    opacity: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        90deg,
+        rgba(199, 215, 255, 0),
+        rgba(199, 215, 255, 0.9)
+    );
+    box-shadow: 0 0 10px rgba(130, 164, 255, 0.8);
+    transform: rotate(-35deg);
+    transform-origin: right center;
+    animation: shooting-star 8s ease-in-out infinite;
+}
+
+@keyframes shooting-star {
+    0%, 75% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-35deg);
+    }
+
+    78% {
+        opacity: 1;
+    }
+
+    86% {
+        opacity: 0;
+        transform: translate(-260px, 180px) rotate(-35deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-260px, 180px) rotate(-35deg);
+    }
+}
