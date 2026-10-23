@@ -368,3 +368,715 @@ main {
         transform: translate(-260px, 180px) rotate(-35deg);
     }
 }
+
+
+/* ========================================
+   TSUKUYOMI — ARCHIVE FOUNDATION
+   ======================================== */
+
+.archive-page {
+    width: min(
+        calc(100% - 2 * var(--page-padding)),
+        var(--content-width)
+    );
+    min-height: 100vh;
+    margin-inline: auto;
+    padding-block: 32px 48px;
+}
+
+/* Archive header */
+.archive-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.archive-logo {
+    color: var(--color-moonlight);
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    line-height: 2;
+    text-decoration: none;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: text-shadow 200ms ease;
+}
+
+.archive-logo:hover {
+    text-shadow: 0 0 12px rgba(199, 215, 255, 0.7);
+}
+
+/* Navigation */
+.archive-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.archive-nav a {
+    position: relative;
+    display: inline-block;
+    color: var(--color-text-muted);
+    font-family: var(--font-interface);
+    font-size: 8px;
+    line-height: 2.2;
+    text-decoration: none;
+    transition:
+        color 250ms ease,
+        text-shadow 250ms ease;
+}
+
+/* Animated moonlight underline */
+.archive-nav a::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.55);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms ease;
+}
+
+.archive-nav a:hover,
+.archive-nav a:focus-visible {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 10px rgba(199, 215, 255, 0.35);
+}
+
+.archive-nav a:hover::after,
+.archive-nav a:focus-visible::after {
+    transform: scaleX(1);
+}
+
+/* Mobile header */
+@media (max-width: 600px) {
+    .archive-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .archive-nav {
+        justify-content: flex-start;
+        gap: 16px;
+    }
+
+    .archive-nav a {
+        font-size: 7px;
+    }
+}
+
+/* ========================================
+   ARCHIVE — INTRODUCTION
+   ======================================== */
+
+.archive-intro {
+    max-width: 780px;
+    margin: 100px auto 110px;
+    text-align: center;
+}
+
+.archive-intro .eyebrow {
+    margin-bottom: 28px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.4;
+    letter-spacing: 1px;
+}
+
+.archive-intro h1 {
+    margin: 0;
+    color: var(--color-warm-paper);
+    font-size: clamp(18px, 3.5vw, 30px);
+    line-height: 2;
+    text-shadow: 0 0 24px rgba(199, 215, 255, 0.12);
+}
+
+.archive-description {
+    max-width: 650px;
+    margin: 32px auto 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: 10px;
+    line-height: 2.8;
+}
+
+/* Mobile introduction */
+@media (max-width: 600px) {
+    .archive-intro {
+        margin: 72px auto 80px;
+    }
+
+    .archive-intro .eyebrow {
+        font-size: 7px;
+    }
+
+    .archive-intro h1 {
+        font-size: 18px;
+    }
+
+    .archive-description {
+        font-size: 9px;
+        line-height: 2.6;
+    }
+}
+
+
+/* ========================================
+   ARCHIVE — FEATURED REFLECTION
+   ======================================== */
+
+.featured-reflection {
+    margin-bottom: 110px;
+}
+
+.section-label {
+    margin: 0 0 24px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.4;
+    letter-spacing: 1px;
+}
+
+/* Reflection panel */
+.reflection-card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(28px, 5vw, 56px);
+    border: 1px solid var(--color-border);
+    background:
+        radial-gradient(
+            ellipse at 100% 0%,
+            rgba(130, 164, 255, 0.12),
+            transparent 55%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(23, 36, 64, 0.72),
+            rgba(8, 13, 27, 0.94)
+        );
+    box-shadow:
+        0 16px 50px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(199, 215, 255, 0.04);
+    transition:
+        border-color 250ms ease,
+        box-shadow 250ms ease,
+        transform 250ms ease;
+    
+    border: 1px solid rgba(199, 215, 255, 0.16);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 50, 82, 0.72),
+            rgba(12, 20, 38, 0.94)
+        );
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(199, 215, 255, 0.12),
+        inset 0 0 24px rgba(130, 164, 255, 0.025);
+    transition:
+        border-color 300ms ease,
+        box-shadow 300ms ease,
+        transform 300ms ease;
+}
+
+.reflection-card:hover {
+    border-color: rgba(199, 215, 255, 0.34);
+    box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.3),
+        0 0 22px rgba(130, 164, 255, 0.08),
+        inset 0 1px 0 rgba(199, 215, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+/* Card content */
+.reflection-category {
+    margin: 0 0 24px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.4;
+    display: inline-block;
+    padding: 6px 9px;
+    border: 1px solid rgba(199, 215, 255, 0.18);
+    background: rgba(130, 164, 255, 0.06);
+    color: var(--color-moonlight);
+    line-height: 1.8;
+}
+
+.reflection-card h2 {
+    max-width: 750px;
+    margin: 0;
+    color: var(--color-warm-paper);
+    font-size: clamp(14px, 2.4vw, 21px);
+    line-height: 2.2;
+    overflow-wrap: anywhere;
+    text-shadow:
+        0 0 12px rgba(199, 215, 255, 0.18),
+        0 0 24px rgba(130, 164, 255, 0.08);
+        
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(199, 215, 255, 0.14);
+}
+
+.reflection-excerpt {
+    max-width: 760px;
+    margin: 28px 0;
+    color: var(--color-text-muted);
+    font-size: 9px;
+    line-height: 3;
+    color: rgba(243, 240, 232, 0.76);
+    line-height: 2.2;
+    max-width: 62ch;
+}
+
+.reflection-date {
+    margin: 0 0 24px;
+    color: rgba(199, 215, 255, 0.58);
+    font-size: 7px;
+    line-height: 2.4;
+}
+
+/* Read link */
+
+.read-link {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+    color: var(--color-moonlight);
+    font-family: var(--font-interface);
+    font-size: 8px;
+    line-height: 2.2;
+    text-decoration: none;
+    transition:
+        color 250ms ease,
+        text-shadow 250ms ease,
+        transform 250ms ease;
+}
+
+.read-link::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.55);
+    content: "";
+    transform: scaleX(0.35);
+    transform-origin: left;
+    transition: transform 250ms ease;
+}
+
+.read-link:hover,
+.read-link:focus-visible {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 10px rgba(199, 215, 255, 0.4);
+    transform: translateX(4px);
+}
+
+.read-link:hover::after,
+.read-link:focus-visible::after {
+    transform: scaleX(1);
+}
+
+
+.read-link:hover {
+    border-color: var(--color-moonlight);
+    color: var(--color-moonlight);
+    background: rgba(199, 215, 255, 0.08);
+}
+
+/* Mobile card */
+@media (max-width: 600px) {
+    .featured-reflection {
+        margin-bottom: 80px;
+    }
+
+    .section-label,
+    .reflection-category {
+        font-size: 7px;
+    }
+
+    .reflection-card h2 {
+        font-size: 13px;
+    }
+
+    .reflection-excerpt {
+        font-size: 8px;
+        line-height: 2.8;
+    }
+
+    .read-link {
+        max-width: 100%;
+        font-size: 7px;
+    }
+}
+
+/* ========================================
+   ARCHIVE — COLLECTION
+   ======================================== */
+
+.archive-entries {
+    margin-bottom: 110px;
+}
+
+.section-heading {
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(199, 215, 255, 0.12);
+
+}
+
+.section-heading .section-label {
+    margin-bottom: 16px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    color: var(--color-warm-paper);
+    font-size: clamp(12px, 2vw, 17px);
+    line-height: 2.4;
+}
+
+/* Empty collection placeholder */
+.entry-placeholder {
+    display: flex;
+    min-height: 180px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 32px 24px;
+    border: 1px dashed rgba(199, 215, 255, 0.2);
+    background: rgba(23, 36, 64, 0.18);
+    text-align: center;
+    border: 1px solid rgba(199, 215, 255, 0.12);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(23, 36, 64, 0.42),
+            rgba(8, 13, 27, 0.72)
+        );
+    box-shadow:
+        inset 0 1px 0 rgba(199, 215, 255, 0.05),
+        0 8px 24px rgba(0, 0, 0, 0.12);
+    transition:
+        border-color 300ms ease,
+        background 300ms ease;
+}
+
+.entry-placeholder span {
+    color: var(--color-moonlight);
+    font-size: 22px;
+    text-shadow: 0 0 18px rgba(130, 164, 255, 0.7);
+    animation: collection-star-glow 3s ease-in-out infinite alternate;
+}
+
+.entry-placeholder p {
+    max-width: 500px;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 8px;
+    line-height: 2.8;
+}
+
+@keyframes collection-star-glow {
+    from {
+        opacity: 0.5;
+        text-shadow: 0 0 8px rgba(130, 164, 255, 0.35);
+    }
+
+    to {
+        opacity: 1;
+        text-shadow: 0 0 20px rgba(130, 164, 255, 0.8);
+    }
+}
+
+/* Mobile collection */
+@media (max-width: 600px) {
+    .archive-entries {
+        margin-bottom: 80px;
+    }
+
+    .section-heading h2 {
+        font-size: 11px;
+    }
+
+    .entry-placeholder {
+        min-height: 160px;
+        padding: 24px 18px;
+    }
+
+    .entry-placeholder p {
+        font-size: 7px;
+    }
+}
+
+
+/* ========================================
+   ARCHIVE — CLOSING REMINDER
+   ======================================== */
+
+.archive-about {
+    max-width: 760px;
+    margin: 0 auto 100px;
+    padding: 48px 24px;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.archive-about .section-label {
+    margin-bottom: 28px;
+}
+
+.archive-about > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 9px;
+    line-height: 3;
+}
+
+/* Footer */
+.archive-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-border);
+}
+
+.archive-footer p {
+    margin: 0;
+    color: rgba(199, 215, 255, 0.55);
+    font-size: 7px;
+    line-height: 2.5;
+}
+
+.archive-footer a {
+    color: var(--color-moonlight);
+    font-size: 7px;
+    line-height: 2.5;
+    text-decoration: none;
+    transition:
+        color 200ms ease,
+        text-shadow 200ms ease;
+}
+
+.archive-footer a:hover {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 10px rgba(199, 215, 255, 0.5);
+}
+
+/* Mobile footer */
+@media (max-width: 600px) {
+    .archive-about {
+        margin-bottom: 72px;
+        padding: 36px 12px;
+    }
+
+    .archive-about > p:last-child {
+        font-size: 8px;
+    }
+
+    .archive-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* ========================================
+   TSUKUYOMI — ARCHIVE DRIFTING STARFIELD
+   ======================================== */
+
+.archive-starfield {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.archive-star {
+    position: absolute;
+    color: var(--color-moonlight);
+    opacity: 0.35;
+    text-shadow:
+        0 0 6px rgba(199, 215, 255, 0.45),
+        0 0 14px rgba(130, 164, 255, 0.2);
+    animation: archive-star-drift 24s ease-in-out infinite alternate;
+}
+
+/* Star positions */
+.archive-star-1  { top: 8%;  left: 12%; font-size: 12px; animation-delay: -3s; }
+.archive-star-2  { top: 16%; right: 15%; font-size: 16px; animation-delay: -8s; }
+.archive-star-3  { top: 28%; left: 7%;  font-size: 20px; animation-delay: -12s; }
+.archive-star-4  { top: 36%; right: 9%; font-size: 13px; animation-delay: -5s; }
+.archive-star-5  { top: 48%; left: 19%; font-size: 10px; animation-delay: -16s; }
+.archive-star-6  { top: 57%; right: 18%; font-size: 17px; animation-delay: -10s; }
+.archive-star-7  { top: 68%; left: 9%;  font-size: 14px; animation-delay: -6s; }
+.archive-star-8  { top: 76%; right: 11%; font-size: 11px; animation-delay: -14s; }
+.archive-star-9  { top: 84%; left: 27%; font-size: 15px; animation-delay: -19s; }
+.archive-star-10 { top: 22%; left: 43%; font-size: 9px;  animation-delay: -7s; }
+.archive-star-11 { top: 62%; right: 38%; font-size: 12px; animation-delay: -11s; }
+.archive-star-12 { top: 92%; right: 30%; font-size: 16px; animation-delay: -17s; }
+
+/* Slow, dreamlike movement */
+@keyframes archive-star-drift {
+    0% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+
+    100% {
+        transform: translate3d(8px, -14px, 0);
+        opacity: 0.3;
+    }
+}
+
+/* ========================================
+   TSUKUYOMI — CINEMATIC TEXT ENTRANCE
+   ======================================== */
+
+/* Shared entrance animation */
+@keyframes archive-text-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Introductory line appears first */
+.archive-intro .eyebrow {
+    animation: archive-text-arrive 1s ease-out 0.2s both;
+}
+
+/* Main title follows */
+.archive-intro h1 {
+    animation: archive-text-arrive 1.2s ease-out 0.6s both;
+}
+
+/* Description arrives last */
+.archive-intro .archive-description {
+    animation: archive-text-arrive 1.2s ease-out 1s both;
+}
+
+/* Footer link interactions */
+.archive-footer a {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+    color: var(--color-moonlight);
+    text-decoration: none;
+    transition:
+        color 250ms ease,
+        text-shadow 250ms ease;
+}
+
+.archive-footer a::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.45);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms ease;
+}
+
+.archive-footer a:hover,
+.archive-footer a:focus-visible {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 8px rgba(199, 215, 255, 0.3);
+}
+
+.archive-footer a:hover::after,
+.archive-footer a:focus-visible::after {
+    transform: scaleX(1);
+}
+
+/* Gentle moonlight breathing effect */
+@keyframes archive-heading-glow {
+    0%,
+    100% {
+        text-shadow: 0 0 8px rgba(199, 215, 255, 0.08);
+    }
+
+    50% {
+        text-shadow:
+            0 0 12px rgba(199, 215, 255, 0.22),
+            0 0 28px rgba(130, 164, 255, 0.12);
+    }
+}
+
+.archive-intro h1 {
+    animation:
+        archive-text-arrive 1.2s ease-out 0.6s both,
+        archive-heading-glow 6s ease-in-out 1.8s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .archive-intro h1 {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* Scroll-triggered archive reveals */
+.archive-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 800ms ease,
+        transform 800ms ease;
+}
+
+.archive-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .archive-reveal,
+    .archive-reveal.is-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+.entry-placeholder:hover {
+    border-color: rgba(199, 215, 255, 0.24);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(30, 45, 76, 0.5),
+            rgba(8, 13, 27, 0.78)
+        );
+}
