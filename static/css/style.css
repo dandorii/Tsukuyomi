@@ -1,0 +1,84 @@
+
+/* ========================================
+   TSUKUYOMI — DESIGN FOUNDATION
+   ======================================== */
+
+:root {
+    color-scheme: dark;
+
+    /* Core color palette */
+    --color-midnight: #080D1B;
+    --color-moonlit-blue: #172440;
+    --color-moonlight: #C7D7FF;
+    --color-warm-paper: #F3F0E8;
+
+    /* Text colors */
+    --color-text-primary: #F3F0E8;
+    --color-text-muted: #AAB6CF;
+
+    /* Borders and surfaces */
+    --color-border: rgba(199, 215, 255, 0.16);
+    --color-surface: rgba(23, 36, 64, 0.55);
+
+    /* Typography */
+    --font-body: Georgia, "Times New Roman", serif;
+    --font-interface: Arial, Helvetica, sans-serif;
+
+    /* Layout */
+    --content-width: 1100px;
+    --page-padding: 24px;
+
+    /* Typography — Press Start 2P throughout */
+    --font-pixel: "Press Start 2P", monospace;
+    --font-body: "Press Start 2P", monospace;
+    --font-interface: "Press Start 2P", monospace;
+}
+
+/* Basic reset */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-midnight);
+    color: var(--color-text-primary);
+    font-family: var(--font-pixel);
+    line-height: 2;
+}
+
+/* Consistent page layout */
+
+main {
+    width: min(
+        calc(100% - 2 * var(--page-padding)),
+        var(--content-width)
+    );
+    margin-inline: auto;
+}
+
+/* Accessible keyboard focus */
+
+:focus-visible {
+    outline: 3px solid var(--color-moonlight);
+    outline-offset: 4px;
+}
+
+/* Respect visitors who prefer less animation */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
