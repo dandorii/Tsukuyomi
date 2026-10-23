@@ -82,3 +82,245 @@ main {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ========================================
+   TSUKUYOMI — MOONLIT LANDING PAGE
+   ======================================== */
+
+.landing {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 80px 24px;
+    text-align: center;
+    background:
+        radial-gradient(
+            ellipse at 50% 35%,
+            rgba(35, 57, 100, 0.42),
+            transparent 55%
+        ),
+        var(--color-midnight);
+}
+
+/* Starfield */
+
+.starfield {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    color: var(--color-moonlight);
+    opacity: 0.65;
+    animation: star-twinkle 4s ease-in-out infinite alternate;
+}
+
+.star-1 {
+    top: 14%;
+    left: 17%;
+    font-size: 14px;
+}
+
+.star-2 {
+    top: 22%;
+    right: 19%;
+    font-size: 20px;
+    animation-delay: 1s;
+}
+
+.star-3 {
+    top: 38%;
+    left: 10%;
+    font-size: 28px;
+    animation-delay: 2s;
+}
+
+.star-4 {
+    top: 56%;
+    right: 13%;
+    font-size: 13px;
+    animation-delay: 0.5s;
+}
+
+.star-5 {
+    bottom: 22%;
+    left: 25%;
+    font-size: 24px;
+    animation-delay: 1.5s;
+}
+
+.star-6 {
+    bottom: 15%;
+    right: 28%;
+    font-size: 17px;
+    animation-delay: 2.5s;
+}
+
+.star-7 {
+    top: 12%;
+    left: 48%;
+    font-size: 22px;
+    animation-delay: 1.8s;
+}
+
+.star-8 {
+    bottom: 30%;
+    left: 7%;
+    font-size: 12px;
+    animation-delay: 3s;
+}
+
+@keyframes star-twinkle {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 0.9;
+    }
+}
+
+/* Full moon */
+
+
+.moon {
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    z-index: -1;
+    width: clamp(120px, 20vw, 230px);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #dce6ff;
+    box-shadow:
+        0 0 35px rgba(199, 215, 255, 0.25),
+        0 0 90px rgba(130, 164, 255, 0.14),
+        inset -18px -12px 35px rgba(100, 125, 180, 0.2);
+}
+
+
+/* Landing content */
+
+.landing-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 140px;
+}
+
+.eyebrow {
+    margin-bottom: 32px;
+    color: var(--color-moonlight);
+    font-family: var(--font-interface);
+    font-size: 9px;
+    line-height: 2.2;
+    letter-spacing: 1px;
+}
+
+.landing h1 {
+    margin: 0;
+    font-family: var(--font-pixel);
+    font-size: clamp(20px, 4vw, 42px);
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.landing h1 span {
+    display: block;
+    margin-top: 16px;
+    color: var(--color-moonlight);
+    font-size: clamp(9px, 1.5vw, 14px);
+    line-height: 2.2;
+}
+
+.tagline {
+    max-width: 680px;
+    margin: 36px auto;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 2.2;
+}
+
+/* Entrance link */
+
+.enter-link {
+    display: inline-block;
+    padding: 18px 22px;
+    border: 1px solid var(--color-border);
+    color: var(--color-warm-paper);
+    background: rgba(23, 36, 64, 0.45);
+    font-family: var(--font-interface);
+    font-size: 9px;
+    line-height: 2;
+    text-decoration: none;
+    transition:
+        background-color 200ms ease,
+        border-color 200ms ease,
+        transform 200ms ease;
+}
+
+.enter-link:hover {
+    border-color: var(--color-moonlight);
+    background: rgba(199, 215, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+
+.landing-footer {
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    left: 20px;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-interface);
+    font-size: 8px;
+    line-height: 2;
+    text-align: center;
+}
+
+/* Smaller screens */
+
+@media (max-width: 600px) {
+    .landing {
+        padding: 70px 20px;
+    }
+
+    .moon {
+        top: 8%;
+        width: 120px;
+    }
+
+    .landing-content {
+        margin-top: 100px;
+    }
+
+    .eyebrow {
+        font-size: 7px;
+    }
+
+    .tagline {
+        font-size: 12px;
+    }
+
+    .enter-link {
+        max-width: 100%;
+        padding: 14px 12px;
+        font-size: 8px;
+    }
+}
+
