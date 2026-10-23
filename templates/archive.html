@@ -77,8 +77,9 @@
 
                 <p class="reflection-date">A NOTE FROM THE NIGHT</p>
 
-                <a class="read-link" href="#reflection-placeholder">
-                    READ REFLECTION →
+                
+                <a class="read-link" href="{{ url_for('reflection') }}">
+                    READ REFLECTION
                 </a>
             </article>
         </section>
@@ -89,12 +90,35 @@
                 <h2>OTHER THOUGHTS</h2>
             </div>
 
-            <div class="entry-placeholder" id="reflection-placeholder">
-                <span aria-hidden="true">✦</span>
-                <p>
-                    MORE LETTERS WILL FIND THEIR WAY HERE.
+            <article class="entry-placeholder">
+                <p class="reflection-category">MEMORIES &amp; TIME</p>
+
+                <h3>Things the Moon Remembers</h3>
+
+                <p class="reflection-excerpt">
+                    Some memories arrive quietly, carrying meanings we only
+                    begin to understand as time passes.
                 </p>
-            </div>
+
+                <a class="read-link" href="{{ url_for('reflection') }}">
+                    READ REFLECTION
+                </a>
+            </article>
+
+            <article class="entry-placeholder">
+                <p class="reflection-category">TIME &amp; CHANGE</p>
+
+                <h3>The Things We Leave Behind</h3>
+
+                <p class="reflection-excerpt">
+                    Not everything that leaves us disappears. Some things
+                    remain quietly in the person we become.
+                </p>
+
+                <a class="read-link" href="{{ url_for('reflection_leave_behind') }}">
+                    READ REFLECTION
+                </a>
+            </article>
         </section>
 
         <section class="archive-about archive-reveal" id="about-archive">

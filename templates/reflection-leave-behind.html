@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>The Things We Leave Behind — Tsukuyomi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="reflection-starfield" aria-hidden="true">
+        <span class="reflection-star reflection-star-1"></span>
+        <span class="reflection-star reflection-star-2"></span>
+        <span class="reflection-star reflection-star-3"></span>
+        <span class="reflection-star reflection-star-4"></span>
+        <span class="reflection-star reflection-star-5"></span>
+        <span class="reflection-star reflection-star-6"></span>
+        <span class="reflection-star reflection-star-7"></span>
+        <span class="reflection-star reflection-star-8"></span>
+    </div>
+
+    <main class="reflection-page">
+        <header class="reflection-header">
+            <a class="reflection-back" href="{{ url_for('archive') }}">
+                ← BACK TO THE ARCHIVE
+            </a>
+        </header>
+
+        <article class="reflection-reading">
+            <p class="reflection-eyebrow">TIME &amp; CHANGE</p>
+
+            <h1 class="typewriter-title">The Things We Leave Behind</h1>
+
+            <p class="reflection-date">A REFLECTION ON WHAT REMAINS</p>
+
+            <button class="skip-typewriter" type="button" hidden>
+                SKIP ANIMATION »
+            </button>
+            
+            <div class="reflection-body">
+                <p>
+                    Not everything that leaves us disappears. Some things remain
+                    quietly in the person we become.
+                </p>
+
+                <p>
+                    We carry pieces of places we no longer visit, conversations
+                    that ended sooner than we expected, and moments whose
+                    importance only became clear after they had passed.
+                    Sometimes, we don't realize that something has changed us
+                    until we look back and find that we no longer see the world
+                    quite the same way.
+                </p>
+
+                <p>
+                    There are people who become part of our lives in ways we
+                    never quite know how to explain.
+                </p>
+
+                <p>
+                    Perhaps they stayed for years, or perhaps they were only
+                    there for a little while. Maybe they knew us better than
+                    we realized, or maybe they never knew just how much their
+                    presence meant to us.
+                </p>
+
+                <p>
+                    And sometimes, without a clear ending or a final
+                    conversation, things become different.
+                </p>
+
+                <p>
+                    The conversations grow quieter. The familiar moments
+                    become memories. The words we once thought we would have
+                    time to say begin to feel like things we should have
+                    said sooner.
+                </p>
+
+                <p>
+                    Yet, even when we can no longer reach someone in the same
+                    way, it doesn't mean that what we felt was meaningless.
+                </p>
+
+                <p>
+                    There are words that stay with us long after the moment
+                    to say them has passed.
+                </p>
+
+                <p>
+                    A thank-you we never quite expressed. An apology we kept
+                    rehearsing in our minds. An admission that someone meant
+                    more to us than we ever let them know.
+                </p>
+
+                <p>
+                    Sometimes, we remain silent because we are afraid.
+                    Sometimes, we wait for a better moment, believing that
+                    there will always be another chance. And sometimes,
+                    we simply don't know how to turn everything we feel into
+                    words that someone else can understand.
+                </p>
+
+                <p>
+                    Then time moves forward, as it always does, and those
+                    words become part of the quiet things we carry.
+                </p>
+
+                <p>
+                    We may never know how the other person would have
+                    responded. We may never find the right moment to say
+                    what we wanted to say. But the uncertainty of what might
+                    have happened does not make the feeling itself any less
+                    real.
+                </p>
+
+                <p>
+                    Perhaps that is what it means to leave something behind.
+                    Not to erase it, not to pretend it never mattered, but
+                    to allow it to become a part of our story without asking
+                    it to remain the same forever.
+                </p>
+
+                <p>
+                    There will always be people we remember a little more
+                    fondly than we know how to explain. Moments we wish we
+                    could visit once more. Words we still carry, even when
+                    the person they were meant for is no longer within reach
+                    in the way they once were.
+                </p>
+
+                <p>
+                    And maybe we don't have to find a perfect ending for
+                    all of them.
+                </p>
+
+                <p>
+                    Maybe some feelings are allowed to remain unfinished.
+                    Maybe some words can still be written, even if we are
+                    not yet ready to share them. And maybe, someday, we will
+                    look back and understand that what we carried was not
+                    only the sadness of what changed, but also the quiet
+                    gratitude of having experienced something that mattered.
+                </p>
+
+                <p>
+                    Because not everything we leave behind is lost.
+                </p>
+
+                <p>
+                    Some things become memories. Some become lessons. And
+                    some remain as small, unspoken reminders that, for a
+                    moment in this vast and passing world, someone made
+                    our lives a little different simply by being in them.
+                </p>
+
+                <p>
+                    And perhaps that is enough: to have felt something real,
+                    even if all we can do now is carry it gently into
+                    whatever comes next.
+                </p>
+            </div>
+
+            <footer class="reflection-ending">
+                <p class="reflection-invitation">
+                    SOME WORDS ARE STILL WAITING TO BE WRITTEN.
+                </p>
+                <p class="reflection-farewell">UNTIL THE NEXT MOONRISE.</p>
+
+                <a class="reflection-return" href="{{ url_for('archive') }}">
+                    RETURN TO THE ARCHIVE
+                </a>
+            </footer>
+        </article>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/archive.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>Things the Moon Remembers — Tsukuyomi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="reading-progress" aria-hidden="true">
+      <div class="reading-progress-bar"></div>
+    </div>
+
+    <div class="reflection-starfield" aria-hidden="true">
+        <span class="reflection-star reflection-star-1"></span>
+        <span class="reflection-star reflection-star-2"></span>
+        <span class="reflection-star reflection-star-3"></span>
+        <span class="reflection-star reflection-star-4"></span>
+        <span class="reflection-star reflection-star-5"></span>
+        <span class="reflection-star reflection-star-6"></span>
+        <span class="reflection-star reflection-star-7"></span>
+        <span class="reflection-star reflection-star-8"></span>
+    </div>
+
+    <main class="reflection-page">
+        <header class="reflection-header">
+            <a class="reflection-back" href="{{ url_for('archive') }}">
+                ← BACK TO THE ARCHIVE
+            </a>
+        </header>
+
+        <article class="reflection-reading">
+            <p class="reflection-eyebrow">MEMORIES &amp; TIME</p>
+
+            <h1 class="typewriter-title">Things the Moon Remembers</h1>
+
+            <p class="reflection-date">A REFLECTION UNDER THE MOONLIGHT</p>
+
+            <button class="skip-typewriter" type="button" hidden>
+                SKIP ANIMATION »
+            </button>
+
+            <div class="reflection-body">
+                <p>
+                    Some memories arrive quietly, like moonlight finding its
+                    way through a half-open window.
+                </p>
+
+                <p>
+                    They remind us of places we have been, people we have met,
+                    and moments that seemed ordinary until time gave them
+                    meaning.
+                </p>
+
+                <p>
+                    Perhaps the things we remember are not always the things
+                    we meant to keep. Sometimes, they are simply the moments
+                    that helped shape who we became.
+                </p>
+            </div>
+
+            
+            <footer class="reflection-ending">
+                <p class="reflection-farewell">UNTIL THE NEXT MOONRISE.</p>
+                <a class="reflection-return" href="{{ url_for('archive') }}">
+                    RETURN TO THE ARCHIVE
+                </a>
+            </footer>
+        </article>
+    </main>
+    <script src="{{ url_for('static', filename='js/archive.js') }}"></script>
+</body>
+</html>

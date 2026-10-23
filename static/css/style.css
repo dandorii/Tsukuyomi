@@ -638,10 +638,12 @@ main {
 }
 
 .reflection-date {
-    margin: 0 0 24px;
-    color: rgba(199, 215, 255, 0.58);
+    margin: 24px 0 0;
+    color: var(--color-moonlight);
     font-size: 7px;
     line-height: 2.4;
+    letter-spacing: 1px;
+    opacity: 0.55;
 }
 
 /* Read link */
@@ -1079,4 +1081,444 @@ main {
             rgba(30, 45, 76, 0.5),
             rgba(8, 13, 27, 0.78)
         );
+}
+
+/* ========================================
+   REFLECTION READING PAGE
+======================================== */
+
+.reflection-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+    overflow: hidden;   
+    background:
+        radial-gradient(
+            ellipse at 50% 8%,
+            rgba(91, 119, 184, 0.20),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 15% 65%,
+            rgba(60, 83, 140, 0.08),
+            transparent 45%
+        ),
+        var(--color-deep);
+
+}
+
+.reflection-header {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.reflection-reading {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    margin: 100px auto 0;
+}
+
+/* Reflection title and introduction */
+
+.reflection-eyebrow {
+    margin: 0 0 28px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.2;
+    letter-spacing: 1px;
+    opacity: 0.75;
+}
+
+.reflection-reading h1 {
+    margin: 0;
+    color: var(--color-warm-paper);
+    font-size: clamp(16px, 2.6vw, 24px);
+    line-height: 2;
+    overflow-wrap: anywhere;
+    text-shadow:
+        0 0 10px rgba(199, 215, 255, 0.12),
+        0 0 22px rgba(130, 164, 255, 0.10);
+
+}
+
+.reflection-date {
+    margin: 28px 0 0;
+    color: var(--color-moonlight);
+    font-size: 7px;
+    line-height: 2.4;
+    letter-spacing: 0.5px;
+    opacity: 0.55;
+}
+
+/* Reflection body text */
+
+.reflection-body {
+    margin-top: 30px;
+    color: rgba(243, 240, 232, 0.82);
+    font-size: 10px;
+    line-height: 3;
+}
+
+.reflection-body p {
+    margin: 0 0 32px;
+}
+
+.reflection-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Reflection ending */
+
+.reflection-ending {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(199, 215, 255, 0.14);
+    text-align: center;
+}
+
+.reflection-ending p {
+    margin: 0 0 24px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.4;
+    opacity: 0.65;
+}
+
+.reflection-ending a {
+    display: inline-block;
+    padding: 8px 10px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.4;
+    text-decoration: none;
+    transition:
+        color 250ms ease,
+        text-shadow 250ms ease;
+}
+
+.reflection-ending a:hover,
+.reflection-ending a:focus-visible {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 10px rgba(199, 215, 255, 0.35);
+}
+
+/* Reflection page navigation */
+
+.reflection-back {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.2;
+    text-decoration: none;
+    transition:
+        color 250ms ease,
+        text-shadow 250ms ease;
+}
+
+.reflection-back::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.4);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms ease;
+}
+
+.reflection-back:hover,
+.reflection-back:focus-visible {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 8px rgba(199, 215, 255, 0.3);
+}
+
+.reflection-back:hover::after,
+.reflection-back:focus-visible::after {
+    transform: scaleX(1);
+}
+
+/* REFLECTION STARFIELD */
+.reflection-starfield {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.reflection-star {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #C7D7FF;
+    clip-path: polygon(
+        50% 0%,
+        66% 34%,
+        100% 50%,
+        66% 66%,
+        50% 100%,
+        34% 66%,
+        0% 50%,
+        34% 34%
+    );
+    filter:
+        drop-shadow(0 0 2px rgba(199, 215, 255, 0.45))
+        drop-shadow(0 0 5px rgba(130, 164, 255, 0.2));
+    animation: reflection-star-drift 12s steps(4, end) infinite alternate;
+}
+
+.reflection-star-1 { top: 12%; left: 12%; }
+.reflection-star-2 { top: 24%; left: 84%; animation-delay: -3s; }
+.reflection-star-3 { top: 38%; left: 8%; animation-delay: -6s; }
+.reflection-star-4 { top: 52%; left: 91%; animation-delay: -2s; }
+.reflection-star-5 { top: 68%; left: 17%; animation-delay: -8s; }
+.reflection-star-6 { top: 76%; left: 79%; animation-delay: -4s; }
+.reflection-star-7 { top: 88%; left: 35%; animation-delay: -5s; }
+.reflection-star-8 { top: 16%; left: 64%; animation-delay: -7s; }
+
+@keyframes reflection-star-drift {
+    from {
+        opacity: 0.25;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0.75;
+        transform: translateY(-10px);
+    }
+}
+
+/* REFLECTION TEXT ENTRANCE */
+@keyframes reflection-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reflection-eyebrow {
+    animation: reflection-fade-in 1s ease-out both;
+}
+
+.reflection-reading h1 {
+    animation: reflection-fade-in 1.4s ease-out both;
+    animation-delay: 0.15s;
+}
+
+.reflection-date {
+    animation: reflection-fade-in 1.4s ease-out both;
+    animation-delay: 0.35s;
+}
+
+.reflection-body {
+    animation: reflection-fade-in 1.8s ease-out both;
+    animation-delay: 0.55s;
+}
+
+.reflection-ending {
+    animation: reflection-fade-in 1.8s ease-out both;
+    animation-delay: 0.85s;
+}
+
+
+/* PREPARE TEXT FOR TYPEWRITER */
+.reflection-eyebrow,
+.typewriter-title,
+.reflection-date,
+.reflection-body p {
+    visibility: hidden;
+}
+
+.reflection-eyebrow.is-typing,
+.reflection-eyebrow.is-typed,
+.typewriter-title.is-typing,
+.typewriter-title.is-typed,
+.reflection-date.is-typing,
+.reflection-date.is-typed,
+.reflection-body p.is-typing,
+.reflection-body p.is-typed {
+    visibility: visible;
+}
+
+/* TYPEWRITER PIXEL CURSOR */
+.is-typing::after {
+    content: "▋";
+    display: inline-block;
+    margin-left: 5px;
+    color: var(--color-moonlight);
+    animation: pixel-cursor-blink 0.8s steps(2, start) infinite;
+}
+
+@keyframes pixel-cursor-blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* REFLECTION FAREWELL REVEAL */
+.reflection-farewell,
+.reflection-return {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.reflection-farewell.is-visible,
+.reflection-return.is-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.reflection-farewell {
+    text-shadow: 0 0 10px rgba(199, 215, 255, 0.18);
+}
+
+/* REFLECTION ENTRY CARD */
+.entry-placeholder h3 {
+    margin: 18px 0;
+    color: var(--color-warm-paper);
+    font-size: 12px;
+    line-height: 2.2;
+    text-shadow: 0 0 8px rgba(199, 215, 255, 0.12);
+}
+
+.entry-placeholder .reflection-category {
+    margin: 0;
+}
+
+.entry-placeholder .reflection-excerpt {
+    margin: 0 0 28px;
+}
+
+.entry-placeholder .read-link {
+    display: inline-block;
+}
+
+/* HORIZONTAL REFLECTION GRID */
+.archive-entries {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.archive-entries .section-heading {
+    grid-column: 1 / -1;
+}
+
+.archive-entries .entry-placeholder {
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* REFLECTION GRID — MOBILE */
+@media (max-width: 600px) {
+    .archive-entries {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* REFLECTION — WRITING INVITATION */
+.reflection-invitation {
+    margin: 0 0 24px;
+    color: rgba(199, 215, 255, 0.8);
+    font-size: 7px;
+    line-height: 2.6;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(199, 215, 255, 0.15);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.reflection-invitation.is-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* TYPEWRITER SKIP BUTTON */
+.skip-typewriter {
+    display: block;
+    margin: 24px auto 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(199, 215, 255, 0.30);
+    background: rgba(23, 36, 64, 0.35);
+    color: var(--color-moonlight);
+    font-family: inherit;
+    font-size: 7px;
+    line-height: 2;
+    cursor: pointer;
+    transition:
+        color 250ms ease,
+        background 250ms ease,
+        border-color 250ms ease,
+        box-shadow 250ms ease;
+}
+
+.skip-typewriter:hover,
+.skip-typewriter:focus-visible {
+    color: var(--color-warm-paper);
+    background: rgba(91, 119, 184, 0.16);
+    border-color: rgba(199, 215, 255, 0.6);
+    box-shadow: 0 0 12px rgba(130, 164, 255, 0.12);
+}
+
+.skip-typewriter:focus-visible {
+    outline: 2px solid var(--color-moonlight);
+    outline-offset: 4px;
+}
+
+.skip-typewriter[hidden] {
+    display: none;
+}
+
+/* MOONLIT READING PROGRESS */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(199, 215, 255, 0.08);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.reading-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.55);
+    transition: width 100ms linear;
+}
+
+/* REFLECTION MOBILE POLISH */
+@media (max-width: 600px) {
+    .reflection-page {
+        padding: 36px 20px 60px;
+    }
+
+    .reflection-reading {
+        margin-top: 64px;
+    }
+
+    .reflection-body {
+        line-height: 2.2;
+    }
 }
