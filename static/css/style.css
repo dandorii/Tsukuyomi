@@ -108,8 +108,8 @@ main {
         var(--color-midnight);
 }
 
-/* Starfield */
 
+/* Starfield */
 .starfield {
     position: absolute;
     inset: 0;
@@ -120,75 +120,51 @@ main {
 
 .star {
     position: absolute;
-    color: var(--color-moonlight);
-    opacity: 0.65;
-    animation: star-twinkle 4s ease-in-out infinite alternate;
+    color: #E0E9FF;
+    opacity: 0.7;
+    text-shadow:
+        0 0 5px rgba(199, 215, 255, 0.9),
+        0 0 12px rgba(130, 164, 255, 0.8),
+        0 0 22px rgba(130, 164, 255, 0.45);
+    animation: star-twinkle 3s ease-in-out infinite alternate;
 }
 
-.star-1 {
-    top: 14%;
-    left: 17%;
-    font-size: 14px;
-}
+/* Original stars */
+.star-1 { top: 14%; left: 17%; font-size: 14px; }
+.star-2 { top: 22%; right: 19%; font-size: 20px; animation-delay: 1s; }
+.star-3 { top: 38%; left: 10%; font-size: 28px; animation-delay: 2s; }
+.star-4 { top: 56%; right: 13%; font-size: 13px; animation-delay: 0.5s; }
+.star-5 { bottom: 22%; left: 25%; font-size: 24px; animation-delay: 1.5s; }
+.star-6 { bottom: 15%; right: 28%; font-size: 17px; animation-delay: 2.5s; }
+.star-7 { top: 12%; left: 48%; font-size: 22px; animation-delay: 1.8s; }
+.star-8 { bottom: 30%; left: 7%; font-size: 12px; animation-delay: 3s; }
 
-.star-2 {
-    top: 22%;
-    right: 19%;
-    font-size: 20px;
-    animation-delay: 1s;
-}
-
-.star-3 {
-    top: 38%;
-    left: 10%;
-    font-size: 28px;
-    animation-delay: 2s;
-}
-
-.star-4 {
-    top: 56%;
-    right: 13%;
-    font-size: 13px;
-    animation-delay: 0.5s;
-}
-
-.star-5 {
-    bottom: 22%;
-    left: 25%;
-    font-size: 24px;
-    animation-delay: 1.5s;
-}
-
-.star-6 {
-    bottom: 15%;
-    right: 28%;
-    font-size: 17px;
-    animation-delay: 2.5s;
-}
-
-.star-7 {
-    top: 12%;
-    left: 48%;
-    font-size: 22px;
-    animation-delay: 1.8s;
-}
-
-.star-8 {
-    bottom: 30%;
-    left: 7%;
-    font-size: 12px;
-    animation-delay: 3s;
-}
+/* New stars */
+.star-9  { top: 9%; right: 34%; font-size: 12px; animation-delay: 0.7s; }
+.star-10 { top: 29%; left: 29%; font-size: 10px; animation-delay: 1.3s; }
+.star-11 { top: 34%; right: 8%; font-size: 17px; animation-delay: 2.2s; }
+.star-12 { top: 47%; left: 20%; font-size: 18px; animation-delay: 0.4s; }
+.star-13 { top: 63%; left: 38%; font-size: 13px; animation-delay: 2.7s; }
+.star-14 { top: 70%; right: 20%; font-size: 16px; animation-delay: 1.1s; }
+.star-15 { top: 78%; left: 15%; font-size: 11px; animation-delay: 2s; }
+.star-16 { top: 84%; right: 40%; font-size: 20px; animation-delay: 0.8s; }
+.star-17 { top: 18%; left: 75%; font-size: 13px; animation-delay: 1.6s; }
+.star-18 { top: 43%; right: 30%; font-size: 9px; animation-delay: 2.4s; }
+.star-19 { bottom: 9%; left: 48%; font-size: 14px; animation-delay: 0.6s; }
+.star-20 { top: 52%; left: 55%; font-size: 11px; animation-delay: 1.9s; }
 
 @keyframes star-twinkle {
     from {
-        opacity: 0.3;
+        opacity: 0.35;
+        filter: brightness(0.8);
     }
 
     to {
-        opacity: 0.9;
+        opacity: 1;
+        filter: brightness(1.5);
     }
 }
+
 
 /* Full moon */
 
