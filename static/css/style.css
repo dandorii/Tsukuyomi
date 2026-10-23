@@ -1522,3 +1522,339 @@ main {
         line-height: 2.2;
     }
 }
+
+/* ========================================
+   TSUKUYOMI — WRITING ROOM
+======================================== */
+
+.writing-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 48px 24px 64px;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 50% 12%,
+            rgba(91, 119, 184, 0.18),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 85% 75%,
+            rgba(60, 83, 140, 0.08),
+            transparent 40%
+        ),
+        var(--color-deep);
+}
+
+.writing-header {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.writing-back {
+    display: inline-block;
+    padding-bottom: 6px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.2;
+    text-decoration: none;
+    transition:
+        color 250ms ease,
+        text-shadow 250ms ease;
+}
+
+.writing-back:hover,
+.writing-back:focus-visible {
+    color: var(--color-warm-paper);
+    text-shadow: 0 0 8px rgba(199, 215, 255, 0.3);
+}
+
+.writing-intro {
+    width: 100%;
+    max-width: 720px;
+    margin: 120px auto 0;
+    text-align: center;
+    animation: archive-text-arrive 1.2s ease both;
+}
+
+.writing-eyebrow {
+    margin: 0 0 32px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.2;
+    letter-spacing: 1px;
+    opacity: 0.75;
+}
+
+.writing-intro h1 {
+    margin: 0;
+    color: var(--color-warm-paper);
+    font-size: clamp(16px, 2.6vw, 24px);
+    line-height: 2;
+    overflow-wrap: anywhere;
+    text-shadow:
+        0 0 10px rgba(199, 215, 255, 0.12),
+        0 0 22px rgba(130, 164, 255, 0.1);
+}
+
+.writing-description {
+    max-width: 600px;
+    margin: 32px auto 0;
+    color: rgba(243, 240, 232, 0.76);
+    font-size: 9px;
+    line-height: 2.5;
+}
+
+.writing-placeholder {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    margin: 45px auto 0;
+    padding: 48px 32px;
+    border: 1px solid rgba(199, 215, 255, 0.18);
+    border-radius: 3px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 36, 64, 0.72),
+            rgba(8, 13, 27, 0.88)
+        );
+    box-shadow:
+        0 0 35px rgba(91, 119, 184, 0.07),
+        inset 0 1px 0 rgba(199, 215, 255, 0.06);
+    text-align: center;
+    transition:
+        border-color 300ms ease,
+        box-shadow 300ms ease,
+        transform 300ms ease;
+    opacity: 0;
+    animation: writing-panel-arrive 1.2s ease 0.5s both;
+}
+
+.writing-placeholder:hover {
+    border-color: rgba(199, 215, 255, 0.32);
+    box-shadow:
+        0 0 40px rgba(91, 119, 184, 0.12),
+        inset 0 1px 0 rgba(199, 215, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.writing-placeholder p:first-child {
+    margin: 0 0 24px;
+    color: var(--color-moonlight);
+    font-size: 8px;
+    line-height: 2.4;
+}
+
+.writing-placeholder p:last-child {
+    margin: 0;
+    color: rgba(243, 240, 232, 0.68);
+    font-size: 8px;
+    line-height: 2.5;
+}
+
+.writing-footer {
+    margin: 100px auto 0;
+    text-align: center;
+}
+
+.writing-footer p {
+    margin: 0;
+    color: var(--color-moonlight);
+    font-size: 7px;
+    line-height: 2.5;
+    opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+    .writing-page {
+        padding: 36px 20px 48px;
+    }
+
+    .writing-intro {
+        margin-top: 80px;
+    }
+
+    .writing-description {
+        line-height: 2.3;
+    }
+
+    .writing-placeholder {
+        margin-top: 72px;
+        padding: 36px 18px;
+    }
+
+    .writing-footer {
+        margin-top: 72px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-intro {
+        animation: none;
+    }
+}
+
+/* WRITING ROOM — MOONLIT STARFIELD */
+
+.writing-starfield {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.writing-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.5);
+    opacity: 0.3;
+    animation: writing-star-twinkle 5s ease-in-out infinite alternate;
+}
+
+.writing-star-1  { top: 12%; left: 12%; }
+.writing-star-2  { top: 19%; left: 82%; animation-delay: -2s; }
+.writing-star-3  { top: 31%; left: 7%; animation-delay: -3.5s; }
+.writing-star-4  { top: 38%; left: 91%; animation-delay: -1s; }
+.writing-star-5  { top: 54%; left: 16%; animation-delay: -2.5s; }
+.writing-star-6  { top: 62%; left: 87%; animation-delay: -4s; }
+.writing-star-7  { top: 73%; left: 9%; animation-delay: -1.5s; }
+.writing-star-8  { top: 79%; left: 78%; animation-delay: -3s; }
+.writing-star-9  { top: 88%; left: 24%; animation-delay: -0.5s; }
+.writing-star-10 { top: 91%; left: 94%; animation-delay: -2.8s; }
+
+@keyframes writing-star-twinkle {
+    from {
+        opacity: 0.15;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 0.7;
+        transform: scale(1.35);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-star {
+        animation: none;
+        opacity: 0.35;
+    }
+}
+
+/* WRITING ROOM — MOON MOTIF */
+
+.writing-moon {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 40px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow:
+        -8px 2px 0 2px var(--color-moonlight),
+        -8px 2px 18px rgba(199, 215, 255, 0.3);
+    animation: writing-moon-float 7s ease-in-out infinite;
+}
+
+@keyframes writing-moon-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-moon {
+        animation: none;
+    }
+}
+
+@keyframes writing-panel-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-placeholder {
+        opacity: 1;
+        animation: none;
+    }
+}
+
+/* WRITING ROOM — MOONLIGHT DIVIDER */
+
+.writing-divider {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 52px auto 0;
+    pointer-events: none;
+}
+
+.writing-divider:hover span {
+    opacity: 1;
+    box-shadow:
+        0 0 10px rgba(199, 215, 255, 0.75),
+        0 0 18px rgba(130, 164, 255, 0.35);
+    transition:
+        opacity 250ms ease,
+        box-shadow 250ms ease;
+}
+
+.writing-divider span {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-moonlight);
+    box-shadow: 0 0 8px rgba(199, 215, 255, 0.45);
+    animation: divider-glimmer 3s ease-in-out infinite alternate;
+}
+
+.writing-divider span:nth-child(2) {
+    width: 6px;
+    height: 6px;
+    animation-delay: 0.8s;
+}
+
+.writing-divider span:nth-child(3) {
+    animation-delay: 1.6s;
+}
+
+@keyframes divider-glimmer {
+    from {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 0.9;
+        transform: scale(1.2);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-divider span {
+        animation: none;
+        opacity: 0.6;
+    }
+}

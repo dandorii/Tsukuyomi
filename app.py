@@ -24,5 +24,10 @@ def reflection_leave_behind():
     return render_template("reflection-leave-behind.html")
 
 
+@app.route("/write")
+def writing_room():
+    return render_template("writing-room.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

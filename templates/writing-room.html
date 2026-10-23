@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>The Writing Room — Tsukuyomi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="writing-starfield" aria-hidden="true">
+        <span class="writing-star writing-star-1"></span>
+        <span class="writing-star writing-star-2"></span>
+        <span class="writing-star writing-star-3"></span>
+        <span class="writing-star writing-star-4"></span>
+        <span class="writing-star writing-star-5"></span>
+        <span class="writing-star writing-star-6"></span>
+        <span class="writing-star writing-star-7"></span>
+        <span class="writing-star writing-star-8"></span>
+        <span class="writing-star writing-star-9"></span>
+        <span class="writing-star writing-star-10"></span>
+    </div>
+
+    <main class="writing-page">
+        <header class="writing-header">
+            <a class="writing-back" href="{{ url_for('archive') }}">
+                ← BACK TO THE ARCHIVE
+            </a>
+        </header>
+
+        <section class="writing-intro">
+            <div class="writing-moon" aria-hidden="true"></div>
+
+            <p class="writing-eyebrow">A QUIET PLACE FOR YOUR WORDS</p>
+
+            <h1>THE WRITING ROOM</h1>
+
+            <p class="writing-description">
+                Some things are easier to understand when we finally give
+                them words. Take your time. There is no need to rush.
+            </p>
+        </section>
+
+        <div class="writing-divider" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <section class="writing-placeholder">
+            <p>THE PAGE IS WAITING FOR YOUR WORDS.</p>
+            <p>
+                Soon, you will be able to write a letter here.
+                For now, let the silence settle.
+            </p>
+        </section>
+
+        <footer class="writing-footer">
+            <p>EVERY UNSENT WORD HAS A PLACE HERE.</p>
+        </footer>
+    </main>
+</body>
+</html>
