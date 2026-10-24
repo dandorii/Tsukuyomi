@@ -2,6 +2,10 @@ const draftList = document.getElementById("draft-list");
 const draftListStatus = document.getElementById("draft-list-status");
 const pageContent = document.querySelector(".archive-page");
 
+const restoreForm = document.getElementById("draft-restore-form");
+const restoreFile = document.getElementById("draft-restore-file");
+const restoreStatus = document.getElementById("draft-restore-status");
+
 const deleteLetterModal = document.getElementById("delete-letter-modal");
 const cancelDeleteButton = document.getElementById("cancel-delete-letter");
 const confirmDeleteButton = document.getElementById("confirm-delete-letter");
@@ -141,7 +145,7 @@ async function loadDrafts() {
             if (deleteButton) {
                 card.appendChild(deleteButton);
             }
-            
+
             draftList.appendChild(card);
         });
     } catch (error) {
@@ -254,6 +258,56 @@ confirmDeleteButton.addEventListener("click", async () => {
     } finally {
         confirmDeleteButton.disabled = false;
         confirmDeleteButton.textContent = "LET IT GO";
+    }
+});
+
+restoreForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const file = restoreFile.files[0];
+
+    if (!file) {
+        restoreStatus.textContent = "PLEASE SELECT A BACKUP FILE.";
+        return;
+    }
+
+    const submitButton = restoreForm.querySelector(
+        'button[type="submit"]'
+    );
+
+    const formData = new FormData(restoreForm);
+
+    submitButton.disabled = true;
+    submitButton.textContent = "RESTORING...";
+    restoreStatus.textContent = "READING YOUR BACKUP...";
+
+    try {
+        const response = await fetch(restoreForm.action, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "The backup could not be restored."
+            );
+        }
+
+        restoreStatus.textContent =
+            `RESTORE COMPLETE — ${result.imported} imported, ` +
+            `${result.skipped} skipped.`;
+
+        restoreFile.value = "";
+
+        await loadDrafts();
+    } catch (error) {
+        restoreStatus.textContent =
+            `RESTORE FAILED — ${error.message || "Please try again."}`;
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "↑ RESTORE MISSING LETTERS";
     }
 });
 
