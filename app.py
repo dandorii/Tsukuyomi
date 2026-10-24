@@ -1,11 +1,30 @@
 from flask import Flask, render_template, request, jsonify
 from database import initialize_database, save_draft, get_all_drafts, get_draft, update_draft, delete_draft
-
+from datetime import datetime, timezone, timedelta
 
 app = Flask(__name__)
 
 
 initialize_database()
+
+
+def format_letter_timestamp(timestamp):
+    if not timestamp:
+        return "Unknown date"
+
+    try:
+        date = datetime.strptime(
+            timestamp, "%Y-%m-%d %H:%M:%S"
+        ).replace(tzinfo=timezone.utc)
+
+        manila_time = date.astimezone(
+            timezone(timedelta(hours=8))
+        )
+
+        return manila_time.strftime("%b %d, %Y · %H:%M")
+
+    except (TypeError, ValueError):
+        return timestamp
 
 
 @app.route("/")
@@ -44,6 +63,15 @@ def read_letter(draft_id):
 
     if draft is None:
         return render_template("letter-not-found.html"), 404
+
+    draft = dict(draft)
+
+    draft["created_at_display"] = format_letter_timestamp(
+        draft["created_at"]
+    )
+    draft["updated_at_display"] = format_letter_timestamp(
+        draft["updated_at"]
+    )
 
     return render_template("read-letter.html", draft=draft)
 
