@@ -1,5 +1,6 @@
 const draftList = document.getElementById("draft-list");
 const draftListStatus = document.getElementById("draft-list-status");
+const pageContent = document.querySelector(".archive-page");
 
 const deleteLetterModal = document.getElementById("delete-letter-modal");
 const cancelDeleteButton = document.getElementById("cancel-delete-letter");
@@ -83,12 +84,15 @@ function openDeleteModal(draft, deleteButton) {
     draftPendingDeletion = draft;
     deleteButtonPendingDeletion = deleteButton;
 
+    pageContent.inert = true;
     deleteLetterModal.hidden = false;
     cancelDeleteButton.focus();
 }
 
 function closeDeleteModal() {
     deleteLetterModal.hidden = true;
+    pageContent.inert = false;
+
     draftPendingDeletion = null;
     deleteButtonPendingDeletion = null;
 }
