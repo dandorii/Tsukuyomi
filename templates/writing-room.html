@@ -93,6 +93,10 @@
                     THESE WORDS BELONG TO YOU.
                 </p>
 
+                <button type="button" id="save-draft" class="clear-letter-button">
+                    SAVE DRAFT
+                </button>
+
                 <button type="button" id="clear-letter" class="clear-letter-button">
                     CLEAR LETTER
                 </button>
@@ -155,6 +159,33 @@
 
                     <button type="button" id="confirm-clear-letter">
                         CLEAR LETTER
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SAVE DRAFT RESULT POPUP -->
+        <div
+            class="letter-modal"
+            id="draft-saved-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="draft-saved-title"
+            aria-describedby="draft-saved-message"
+            hidden
+        >
+            <div class="letter-modal-panel">
+                <p class="letter-modal-eyebrow">A MOMENT PRESERVED</p>
+
+                <h2 id="draft-saved-title">YOUR WORDS ARE SAFE.</h2>
+
+                <p id="draft-saved-message" role="status" aria-live="polite">
+                    DRAFT SAVED — NOT SENT.
+                </p>
+
+                <div class="letter-modal-actions">
+                    <button type="button" id="close-draft-saved">
+                        RETURN TO WRITING
                     </button>
                 </div>
             </div>
