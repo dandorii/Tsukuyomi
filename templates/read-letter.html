@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>{{ draft.title or "Untitled Letter" }} — Tsukuyomi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+<body>
+    <main class="read-letter-page">
+        
+        <div class="reading-starfield" aria-hidden="true">
+            <span class="reading-star star-one"></span>
+            <span class="reading-star star-two"></span>
+            <span class="reading-star star-three"></span>
+            <span class="reading-star star-four"></span>
+            <span class="reading-star star-five"></span>
+            <span class="reading-star star-six"></span>
+            <span class="reading-star star-seven"></span>
+        </div>
+
+
+        <header class="read-letter-header">
+            <a class="archive-logo" href="{{ url_for('home') }}">
+                TSUKUYOMI
+            </a>
+
+            <nav aria-label="Letter navigation">
+                <a href="{{ url_for('my_letters') }}">
+                    ← MY LETTERS
+                </a>
+            </nav>
+        </header>
+
+        <article class="read-letter-card">
+
+            <header class="read-letter-heading">
+                <p class="eyebrow">A LETTER KEPT UNDER THE MOON</p>
+
+                <p class="read-letter-status">
+                    SAVED DRAFT / NOT SENT
+                </p>
+
+                <h1>{{ draft.title or "Untitled Letter" }}</h1>
+
+                <p class="read-letter-recipient">
+                    {% if draft.recipient %}
+                        Written for: {{ draft.recipient }}
+                    {% else %}
+                        No recipient specified
+                    {% endif %}
+                </p>
+            </header>
+
+            <section class="read-letter-details"
+                     aria-label="Letter details">
+                <p>
+                    <span>FIRST WRITTEN</span>
+                    <time datetime="{{ draft.created_at }}">
+                        {{ draft.created_at }}
+                    </time>
+                </p>
+
+                <p>
+                    <span>LAST KEPT</span>
+                    <time datetime="{{ draft.updated_at }}">
+                        {{ draft.updated_at }}
+                    </time>
+                </p>
+            </section>
+
+            <div class="read-letter-divider" aria-hidden="true">
+                ☾
+            </div>
+
+            <section class="read-letter-sheet"
+                     aria-label="Letter content">
+                <div class="read-letter-body">{{ draft.body }}</div>
+            </section>
+
+            <footer class="read-letter-actions">
+                <a
+                    class="draft-open-link"
+                    href="{{ url_for('writing_room') }}?id={{ draft.id }}"
+                >
+                    EDIT LETTER →
+                </a>
+
+                <a href="{{ url_for('my_letters') }}">
+                    RETURN TO COLLECTION
+                </a>
+            </footer>
+
+        </article>
+
+        <footer class="archive-footer">
+            <p>TSUKUYOMI // LETTERS FOR THE UNKNOWN</p>
+            <p>Some words are meant to be kept, even when unsent.</p>
+        </footer>
+
+    </main>
+</body>
+</html>

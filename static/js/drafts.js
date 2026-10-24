@@ -6,6 +6,32 @@ const deleteLetterModal = document.getElementById("delete-letter-modal");
 const cancelDeleteButton = document.getElementById("cancel-delete-letter");
 const confirmDeleteButton = document.getElementById("confirm-delete-letter");
 
+function formatDraftDate(timestamp) {
+    if (!timestamp) {
+        return "Unknown date";
+    }
+
+    // SQLite timestamps use UTC, so interpret them as UTC.
+    const normalizedTimestamp = timestamp.includes("T")
+        ? timestamp
+        : `${timestamp.replace(" ", "T")}Z`;
+
+    const date = new Date(normalizedTimestamp);
+
+    if (Number.isNaN(date.getTime())) {
+        return timestamp;
+    }
+
+    return new Intl.DateTimeFormat(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23"
+    }).format(date);
+}
+
 async function loadDrafts() {
     draftListStatus.textContent = "Looking for your letters beneath the moon...";
     draftList.replaceChildren();
@@ -24,8 +50,31 @@ async function loadDrafts() {
         }
 
         if (data.drafts.length === 0) {
-            draftListStatus.textContent =
-                "No letters have been saved yet. Your words can begin whenever you are ready.";
+            draftListStatus.textContent = "YOUR COLLECTION IS QUIET.";
+
+            const emptyState = document.createElement("section");
+            emptyState.className = "draft-empty-state";
+
+            const moon = document.createElement("p");
+            moon.className = "draft-empty-moon";
+            moon.setAttribute("aria-hidden", "true");
+            moon.textContent = "☾";
+
+            const heading = document.createElement("h3");
+            heading.textContent = "NO LETTERS, FOR NOW.";
+
+            const message = document.createElement("p");
+            message.textContent =
+                "Some words have not found their way onto the page yet. There is no rush. When you are ready, the writing room is waiting.";
+
+            const writeLink = document.createElement("a");
+            writeLink.className = "draft-open-link";
+            writeLink.href = "/write";
+            writeLink.textContent = "WRITE YOUR FIRST LETTER →";
+
+            emptyState.append(moon, heading, message, writeLink);
+            draftList.appendChild(emptyState);
+
             return;
         }
 
@@ -49,15 +98,21 @@ async function loadDrafts() {
                 ? `Written for: ${draft.recipient}`
                 : "No recipient specified";
 
-            const date = document.createElement("p");
-            date.className = "reflection-date";
-            date.textContent = `LAST KEPT: ${draft.updated_at}`;
+            const createdDate = document.createElement("p");
+            createdDate.className = "reflection-date";
+            createdDate.textContent =
+                `FIRST WRITTEN: ${formatDraftDate(draft.created_at)}`;
+
+            const updatedDate = document.createElement("p");
+            updatedDate.className = "reflection-date";
+            updatedDate.textContent =
+                `LAST KEPT: ${formatDraftDate(draft.updated_at)}`;
 
             
             const openLink = document.createElement("a");
             openLink.className = "draft-open-link";
-            openLink.href = `/write?id=${encodeURIComponent(draft.id)}`;
-            openLink.textContent = "OPEN LETTER →";
+            openLink.href = `/my-letters/${encodeURIComponent(draft.id)}`;
+            openLink.textContent = "READ LETTER →";
 
             const deleteButton = document.createElement("button");
             deleteButton.type = "button";
@@ -68,7 +123,15 @@ async function loadDrafts() {
                 openDeleteModal(draft, deleteButton);
             });
 
-            card.append(category, title, recipient, date, openLink, deleteButton);
+            card.append(
+                category,
+                title,
+                recipient,
+                createdDate,
+                updatedDate,
+                openLink,
+                deleteButton
+            );
             draftList.appendChild(card);
         });
     } catch (error) {

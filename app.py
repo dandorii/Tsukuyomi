@@ -38,6 +38,16 @@ def my_letters():
     return render_template("my-letters.html")
 
 
+@app.route("/my-letters/<int:draft_id>")
+def read_letter(draft_id):
+    draft = get_draft(draft_id)
+
+    if draft is None:
+        return render_template("letter-not-found.html"), 404
+
+    return render_template("read-letter.html", draft=draft)
+
+
 @app.route("/api/drafts", methods=["POST"])
 def create_draft():
     data = request.get_json(silent=True)

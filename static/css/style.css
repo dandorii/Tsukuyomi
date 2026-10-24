@@ -1335,10 +1335,10 @@ main {
 
 
 /* PREPARE TEXT FOR TYPEWRITER */
-.reflection-eyebrow,
-.typewriter-title,
-.reflection-date,
-.reflection-body p {
+.reflection-page .reflection-eyebrow,
+.reflection-page .typewriter-title,
+.reflection-page .reflection-date,
+.reflection-page .reflection-body p {
     visibility: hidden;
 }
 
@@ -3005,5 +3005,608 @@ main {
     .letter-modal,
     .letter-modal-panel {
         animation: none;
+    }
+}
+
+/* My Letters — Empty State */
+.draft-empty-state {
+    box-sizing: border-box;
+    width: min(100%, 720px);
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+
+    min-height: 280px;
+    padding: 3rem 1.5rem;
+    border: 1px solid rgba(199, 215, 255, 0.14);
+    background: rgba(23, 36, 64, 0.24);
+    text-align: center;
+}
+
+.draft-empty-moon {
+    margin: 0;
+    color: #C7D7FF;
+    font-size: 3rem;
+    line-height: 1.2;
+    text-shadow: 0 0 24px rgba(199, 215, 255, 0.3);
+}
+
+.draft-empty-state h3 {
+    margin: 0;
+    color: #F3F0E8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.85rem;
+    line-height: 1.9;
+}
+
+.draft-empty-state > p:not(.draft-empty-moon) {
+    max-width: 560px;
+    margin: 0;
+    color: #C7D7FF;
+    font-size: 0.95rem;
+    line-height: 1.9;
+}
+
+.draft-empty-state .draft-open-link {
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .draft-empty-state {
+        min-height: 240px;
+        padding: 2rem 1rem;
+    }
+
+    .draft-empty-state h3 {
+        font-size: 0.7rem;
+    }
+}
+
+/* Tsukuyomi — Read-Only Letter Page */
+.read-letter-page {
+    width: min(100% - 2rem, 900px);
+    margin: 0 auto;
+    padding: 2rem 0 1rem;
+}
+
+.read-letter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(199, 215, 255, 0.16);
+}
+
+.read-letter-header > a:last-child,
+.read-letter-actions > a:last-child {
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.6rem;
+    line-height: 1.9;
+    text-decoration: none;
+}
+
+.read-letter-card {
+    margin: 4rem auto;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    border: 1px solid rgba(199, 215, 255, 0.16);
+    background: rgba(23, 36, 64, 0.3);
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18);
+}
+
+.read-letter-card > .eyebrow {
+    color: #C7D7FF;
+    font-size: 0.65rem;
+    line-height: 1.9;
+}
+
+.read-letter-status {
+    display: inline-block;
+    margin: 1rem 0;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid rgba(199, 215, 255, 0.2);
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.8;
+}
+
+.read-letter-card h1 {
+    margin: 1.5rem 0;
+    color: #F3F0E8;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+.read-letter-recipient {
+    color: #C7D7FF;
+    font-size: 0.95rem;
+    line-height: 1.9;
+}
+
+.read-letter-dates {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(199, 215, 255, 0.12);
+}
+
+.read-letter-dates p {
+    margin: 0;
+    color: #AAB9DC;
+    font-size: 0.75rem;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+.read-letter-divider {
+    margin: 2rem 0;
+    color: #C7D7FF;
+    font-size: 2rem;
+    text-align: center;
+    text-shadow: 0 0 24px rgba(199, 215, 255, 0.25);
+}
+
+.read-letter-body {
+    color: #F3F0E8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.7rem;
+    line-height: 2.4;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.read-letter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(199, 215, 255, 0.16);
+}
+
+.read-letter-actions > a:last-child {
+    text-decoration: none;
+    text-underline-offset: 4px;
+}
+
+.read-letter-page > .archive-footer {
+    margin-top: 2rem;
+}
+
+@media (max-width: 600px) {
+    .read-letter-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .read-letter-card {
+        margin: 2rem auto;
+    }
+
+    .read-letter-body {
+        font-size: 0.6rem;
+        line-height: 2.2;
+    }
+
+    .read-letter-dates p {
+        font-size: 0.65rem;
+    }
+
+    .read-letter-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+/* Tsukuyomi — Refined Reading Layout */
+
+.read-letter-heading {
+    text-align: center;
+}
+
+.read-letter-heading .eyebrow {
+    margin-bottom: 1.5rem;
+}
+
+.read-letter-heading h1 {
+    max-width: 700px;
+    margin: 2rem auto 1rem;
+}
+
+.read-letter-heading .read-letter-recipient {
+    margin-top: 1rem;
+}
+
+.read-letter-status {
+    display: table;
+    margin: 1.5rem auto;
+}
+
+.read-letter-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(199, 215, 255, 0.14);
+    border-bottom: 1px solid rgba(199, 215, 255, 0.14);
+}
+
+.read-letter-details p {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin: 0;
+    color: #AAB9DC;
+    font-size: 0.7rem;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+.read-letter-details p span {
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.5rem;
+    line-height: 1.9;
+}
+
+.read-letter-details time {
+    font-variant-numeric: tabular-nums;
+}
+
+.read-letter-sheet {
+    position: relative;
+    margin-top: 1.5rem;
+    padding: clamp(1.25rem, 4vw, 3rem);
+    border: 1px solid rgba(199, 215, 255, 0.16);
+    background: rgba(8, 13, 27, 0.58);
+    box-shadow:
+        0 0 18px rgba(120, 160, 255, 0.06),
+        0 0 45px rgba(120, 160, 255, 0.04),
+        inset 0 0 24px rgba(199, 215, 255, 0.025);
+    transition:
+        border-color 500ms ease,
+        box-shadow 500ms ease,
+        background-color 500ms ease;
+}
+
+.read-letter-sheet:hover {
+    border-color: rgba(199, 215, 255, 0.3);
+    background: rgba(12, 19, 38, 0.72);
+    box-shadow:
+        0 0 22px rgba(120, 160, 255, 0.12),
+        0 0 55px rgba(120, 160, 255, 0.08),
+        inset 0 0 30px rgba(199, 215, 255, 0.035);
+}
+
+.read-letter-sheet .read-letter-body {
+    position: relative;
+    max-width: 100%;
+    margin: 0;
+}
+
+.read-letter-sheet .read-letter-body {
+    max-width: 100%;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .read-letter-details {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .read-letter-details p span {
+        font-size: 0.45rem;
+    }
+
+    .read-letter-sheet {
+        padding: 1rem;
+    }
+}
+
+/* Tsukuyomi — Reading Page Action Links */
+
+.read-letter-actions a {
+    display: inline-block;
+    padding: 0.85rem 1rem;
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.6rem;
+    line-height: 1.9;
+    text-decoration: none;
+    border: 1px solid rgba(199, 215, 255, 0.22);
+    background: rgba(23, 36, 64, 0.2);
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.read-letter-actions a:hover {
+    color: #F3F0E8;
+    background: rgba(56, 80, 130, 0.32);
+    border-color: rgba(199, 215, 255, 0.65);
+    box-shadow: 0 0 18px rgba(199, 215, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.read-letter-actions a:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+.read-letter-actions a:active {
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .read-letter-actions a {
+        transition: none;
+    }
+
+    .read-letter-actions a:hover,
+    .read-letter-actions a:active {
+        transform: none;
+    }
+}
+
+/* Tsukuyomi — Header Navigation Link */
+
+.read-letter-header nav a {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    color: #AAB9DC;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.9;
+    text-decoration: none;
+    border: 1px solid rgba(199, 215, 255, 0.16);
+    background: rgba(23, 36, 64, 0.16);
+    box-shadow: 0 0 0 rgba(199, 215, 255, 0);
+    transform: translate3d(0, 0, 0);
+    transition:
+        color 260ms ease,
+        background-color 260ms ease,
+        border-color 260ms ease,
+        box-shadow 350ms ease,
+        transform 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.read-letter-header nav a:hover {
+    color: #F3F0E8;
+    background: rgba(56, 80, 130, 0.38);
+    border-color: rgba(199, 215, 255, 0.7);
+    box-shadow:
+        0 0 12px rgba(199, 215, 255, 0.12),
+        0 0 28px rgba(120, 160, 255, 0.08);
+    transform: translate3d(-4px, -2px, 0);
+}
+
+.read-letter-header nav a:active {
+    transform: translate3d(-2px, 0, 0) scale(0.98);
+}
+
+.read-letter-header nav a:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .read-letter-header nav a {
+        transition: none;
+    }
+
+    .read-letter-header nav a:hover {
+        transform: none;
+    }
+}
+
+/* Tsukuyomi — Read Letter Link Transition */
+
+.draft-open-link {
+    display: inline-block;
+    color: #C7D7FF;
+    text-decoration: none;
+    transition:
+        color 220ms ease,
+        text-shadow 280ms ease,
+        transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.draft-open-link:hover {
+    color: #F3F0E8;
+    text-shadow: 0 0 12px rgba(199, 215, 255, 0.4);
+    transform: translateX(5px);
+}
+
+.draft-open-link:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .draft-open-link {
+        transition: none;
+    }
+
+    .draft-open-link:hover {
+        transform: none;
+    }
+}
+
+/* Tsukuyomi — Letter Reading Fade-In */
+
+@keyframes letterPageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.read-letter-page {
+    animation: letterPageFadeIn 700ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .read-letter-page {
+        animation: none;
+    }
+}
+
+@keyframes starsTwinkle {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 0.8;
+    }
+}
+
+/* Tsukuyomi — Letter Text Reveal */
+
+@keyframes letterTextReveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.read-letter-body {
+    animation: letterTextReveal 1.2s ease-out 450ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .read-letter-body {
+        animation: none;
+    }
+}
+
+/* Tsukuyomi — Independent Twinkling Stars */
+
+.read-letter-page {
+    position: relative;
+    isolation: isolate;
+}
+
+.reading-starfield {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.reading-star {
+    position: absolute;
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #F3F0E8;
+    box-shadow: 0 0 8px 2px rgba(199, 215, 255, 0.55);
+    animation: independentStarTwinkle 3s ease-in-out infinite alternate;
+}
+
+.star-one {
+    top: 8%;
+    left: 8%;
+    animation-duration: 3.2s;
+}
+
+.star-two {
+    top: 15%;
+    right: 9%;
+    width: 5px;
+    height: 5px;
+    background: #C7D7FF;
+    animation-duration: 4.7s;
+    animation-delay: -1.4s;
+}
+
+.star-three {
+    top: 38%;
+    left: 4%;
+    width: 3px;
+    height: 3px;
+    animation-duration: 5.2s;
+    animation-delay: -2.6s;
+}
+
+.star-four {
+    top: 48%;
+    right: 5%;
+    background: #C7D7FF;
+    animation-duration: 3.8s;
+    animation-delay: -0.8s;
+}
+
+.star-five {
+    top: 68%;
+    left: 10%;
+    width: 5px;
+    height: 5px;
+    animation-duration: 4.4s;
+    animation-delay: -2s;
+}
+
+.star-six {
+    top: 79%;
+    right: 12%;
+    width: 3px;
+    height: 3px;
+    background: #C7D7FF;
+    animation-duration: 5.6s;
+    animation-delay: -3s;
+}
+
+.star-seven {
+    top: 91%;
+    left: 28%;
+    animation-duration: 3.6s;
+    animation-delay: -1.8s;
+}
+
+@keyframes independentStarTwinkle {
+    from {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reading-star {
+        animation: none;
+        opacity: 0.75;
     }
 }

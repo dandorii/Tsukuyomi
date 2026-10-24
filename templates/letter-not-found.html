@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>Letter Not Found — Tsukuyomi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+<body>
+    <main class="read-letter-page">
+        <header class="read-letter-header">
+            <a class="archive-logo" href="{{ url_for('home') }}">
+                TSUKUYOMI
+            </a>
+
+            <a href="{{ url_for('my_letters') }}">
+                RETURN TO MY LETTERS
+            </a>
+        </header>
+
+        <section class="read-letter-card letter-missing-card">
+            <p class="eyebrow">A PAGE LEFT IN THE DARK</p>
+
+            <div class="read-letter-divider" aria-hidden="true">☾</div>
+
+            <h1>LETTER NOT FOUND</h1>
+
+            <p class="read-letter-recipient">
+                This letter may have been let go, or perhaps its path
+                was never here.
+            </p>
+
+            <p class="read-letter-recipient">
+                Your other saved words are still waiting in your collection.
+            </p>
+
+            <div class="read-letter-actions">
+                <a class="draft-open-link"
+                   href="{{ url_for('my_letters') }}">
+                    RETURN TO MY LETTERS →
+                </a>
+            </div>
+        </section>
+
+        <footer class="archive-footer">
+            <p>TSUKUYOMI // LETTERS FOR THE UNKNOWN</p>
+        </footer>
+    </main>
+</body>
+</html>
