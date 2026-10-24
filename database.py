@@ -25,10 +25,28 @@ def initialize_database():
                 recipient TEXT NOT NULL DEFAULT '',
                 body TEXT NOT NULL DEFAULT '',
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                sealed INTEGER NOT NULL DEFAULT 0
+                    CHECK (sealed IN (0, 1))
             )
             """
         )
+
+        # Add the column to existing databases if it is missing.
+        columns = connection.execute(
+            "PRAGMA table_info(letters)"
+        ).fetchall()
+
+        column_names = [column["name"] for column in columns]
+
+        if "sealed" not in column_names:
+            connection.execute(
+                """
+                ALTER TABLE letters
+                ADD COLUMN sealed INTEGER NOT NULL DEFAULT 0
+                    CHECK (sealed IN (0, 1))
+                """
+            )
 
         connection.commit()
     finally:
@@ -64,14 +82,15 @@ def get_draft(draft_id):
     finally:
         connection.close()
 
+
 def get_all_drafts():
-    """Return all drafts, newest updated first."""
+    """Return all letters, newest updated first."""
     connection = get_connection()
 
     try:
         return connection.execute(
             """
-            SELECT id, title, recipient, created_at, updated_at
+            SELECT id, title, recipient, created_at, updated_at, sealed
             FROM letters
             ORDER BY updated_at DESC, id DESC
             """
@@ -79,8 +98,9 @@ def get_all_drafts():
     finally:
         connection.close()
 
+
 def update_draft(draft_id, title, recipient, body):
-    """Update an existing draft and report whether it exists."""
+    """Update an unsealed draft and report whether it was updated."""
     connection = get_connection()
 
     try:
@@ -91,7 +111,7 @@ def update_draft(draft_id, title, recipient, body):
                 recipient = ?,
                 body = ?,
                 updated_at = CURRENT_TIMESTAMP
-            WHERE id = ?
+            WHERE id = ? AND sealed = 0
             """,
             (title, recipient, body, draft_id),
         )
@@ -101,13 +121,37 @@ def update_draft(draft_id, title, recipient, body):
     finally:
         connection.close()
 
-def delete_draft(draft_id):
-    """Delete a draft by its ID and report whether it existed."""
+        
+def seal_draft(draft_id):
+    """Permanently seal an existing, unsealed letter."""
     connection = get_connection()
 
     try:
         cursor = connection.execute(
-            "DELETE FROM letters WHERE id = ?",
+            """
+            UPDATE letters
+            SET sealed = 1
+            WHERE id = ? AND sealed = 0
+            """,
+            (draft_id,),
+        )
+
+        connection.commit()
+        return cursor.rowcount > 0
+    finally:
+        connection.close()
+
+
+def delete_draft(draft_id):
+    """Delete an unsealed draft and report whether it was deleted."""
+    connection = get_connection()
+
+    try:
+        cursor = connection.execute(
+            """
+            DELETE FROM letters
+            WHERE id = ? AND sealed = 0
+            """,
             (draft_id,),
         )
 

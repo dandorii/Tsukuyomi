@@ -87,7 +87,9 @@ async function loadDrafts() {
 
             const category = document.createElement("p");
             category.className = "reflection-category";
-            category.textContent = "UNSENT LETTER";
+            category.textContent = draft.sealed
+                ? "SEALED — NOT SENT"
+                : "UNSENT LETTER";
 
             const title = document.createElement("h3");
             title.textContent = draft.title || "UNTITLED LETTER";
@@ -114,14 +116,18 @@ async function loadDrafts() {
             openLink.href = `/my-letters/${encodeURIComponent(draft.id)}`;
             openLink.textContent = "READ LETTER →";
 
-            const deleteButton = document.createElement("button");
-            deleteButton.type = "button";
-            deleteButton.className = "draft-delete-button";
-            deleteButton.textContent = "DELETE LETTER";
+            let deleteButton = null;
 
-            deleteButton.addEventListener("click", () => {
-                openDeleteModal(draft, deleteButton);
-            });
+            if (!draft.sealed) {
+                deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "draft-delete-button";
+                deleteButton.textContent = "DELETE LETTER";
+
+                deleteButton.addEventListener("click", () => {
+                    openDeleteModal(draft, deleteButton);
+                });
+            }
 
             card.append(
                 category,
@@ -130,8 +136,12 @@ async function loadDrafts() {
                 createdDate,
                 updatedDate,
                 openLink,
-                deleteButton
             );
+
+            if (deleteButton) {
+                card.appendChild(deleteButton);
+            }
+            
             draftList.appendChild(card);
         });
     } catch (error) {

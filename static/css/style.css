@@ -3610,3 +3610,188 @@ main {
         opacity: 0.75;
     }
 }
+
+/* Symbolic letter-sealing button */
+.read-letter-actions .seal-letter-button {
+    display: inline-block;
+    padding: 0.85rem 1rem;
+    margin: 0;
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.6rem;
+    line-height: 1.9;
+    text-decoration: none;
+    border: 1px solid rgba(199, 215, 255, 0.22);
+    background: rgba(23, 36, 64, 0.2);
+    cursor: pointer;
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.read-letter-actions .seal-letter-button:hover {
+    color: #F3F0E8;
+    background: rgba(35, 53, 88, 0.8);
+    border-color: #C7D7FF;
+    box-shadow:
+        0 0 12px rgba(199, 215, 255, 0.12),
+        inset 0 0 12px rgba(199, 215, 255, 0.04);
+    transform: translateY(-2px);
+}
+
+.read-letter-actions .seal-letter-button:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 5px;
+}
+
+.read-letter-actions .seal-letter-button:active {
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .read-letter-actions .seal-letter-button {
+        transition: none;
+    }
+}
+
+/* ========================================
+   PERMANENT SEAL CONFIRMATION MODAL
+======================================== */
+
+.seal-confirmation-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.25rem;
+    overflow-y: auto;
+
+    background: rgba(3, 6, 16, 0.82);
+    backdrop-filter: blur(6px);
+
+    animation: seal-overlay-appear 180ms ease-out;
+}
+
+.seal-confirmation-overlay[hidden] {
+    display: none;
+}
+
+.seal-confirmation-dialog {
+    width: min(100%, 540px);
+    max-height: calc(100vh - 2.5rem);
+    overflow-y: auto;
+
+    padding: 2rem;
+
+    color: #C7D7FF;
+    background: #080D1B;
+    border: 1px solid rgba(199, 215, 255, 0.35);
+    box-shadow:
+        0 0 30px rgba(91, 132, 255, 0.12),
+        0 0 90px rgba(91, 132, 255, 0.06);
+
+    animation: seal-dialog-appear 220ms ease-out;
+}
+
+.seal-confirmation-dialog h2 {
+    margin: 1.5rem 0;
+    color: #F3F0E8;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    line-height: 1.9;
+}
+
+.seal-confirmation-dialog > p:not(.eyebrow) {
+    color: rgba(199, 215, 255, 0.85);
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.6rem;
+    line-height: 2.2;
+}
+
+.seal-confirmation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.seal-confirmation-actions button {
+    padding: 0.85rem 1rem;
+
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.9;
+
+    background: rgba(23, 36, 64, 0.35);
+    border: 1px solid rgba(199, 215, 255, 0.25);
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.seal-confirmation-actions button:hover,
+.seal-confirmation-actions button:focus-visible {
+    background: rgba(23, 36, 64, 0.8);
+    border-color: #C7D7FF;
+    box-shadow: 0 0 16px rgba(91, 132, 255, 0.15);
+    outline: none;
+}
+
+#confirm-seal-button {
+    color: #F3F0E8;
+    border-color: rgba(199, 215, 255, 0.55);
+}
+
+#confirm-seal-button:hover,
+#confirm-seal-button:focus-visible {
+    background: rgba(52, 74, 120, 0.45);
+}
+
+@keyframes seal-overlay-appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes seal-dialog-appear {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .seal-confirmation-dialog {
+        padding: 1.25rem;
+    }
+
+    .seal-confirmation-actions {
+        flex-direction: column;
+    }
+
+    .seal-confirmation-actions button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .seal-confirmation-overlay,
+    .seal-confirmation-dialog {
+        animation: none;
+    }
+}

@@ -1,5 +1,13 @@
 from flask import Flask, render_template, request, jsonify
-from database import initialize_database, save_draft, get_all_drafts, get_draft, update_draft, delete_draft
+from database import (
+    initialize_database,
+    save_draft,
+    get_all_drafts,
+    get_draft,
+    update_draft,
+    delete_draft,
+    seal_draft,
+)
 from datetime import datetime, timezone, timedelta
 
 app = Flask(__name__)
@@ -116,6 +124,7 @@ def list_drafts():
                 "recipient": draft["recipient"],
                 "created_at": draft["created_at"],
                 "updated_at": draft["updated_at"],
+                "sealed": bool(draft["sealed"]),
             }
             for draft in drafts
         ]
@@ -169,12 +178,17 @@ def edit_draft(draft_id):
     if existing_draft is None:
         return jsonify({"error": "Letter not found."}), 404
 
-    update_draft(
+    updated = update_draft(
         draft_id,
         title.strip(),
         recipient.strip(),
         body
     )
+
+    if not updated:
+        return jsonify({
+            "error": "This letter is sealed or no longer exists."
+        }), 409
 
     return jsonify({
         "message": "Draft updated successfully.",
@@ -192,6 +206,30 @@ def remove_draft(draft_id):
     return jsonify({
         "message": "Draft deleted successfully.",
         "id": draft_id
+    }), 200
+
+
+@app.route("/api/drafts/<int:draft_id>/seal", methods=["POST"])
+def seal_letter(draft_id):
+    draft = get_draft(draft_id)
+
+    if draft is None:
+        return jsonify({"error": "Letter not found."}), 404
+
+    if draft["sealed"]:
+        return jsonify({"error": "This letter is already sealed."}), 409
+
+    sealed = seal_draft(draft_id)
+
+    if not sealed:
+        return jsonify({
+            "error": "This letter could not be sealed."
+        }), 409
+
+    return jsonify({
+        "message": "Letter sealed permanently. It has not been sent.",
+        "id": draft_id,
+        "sealed": True
     }), 200
 
 

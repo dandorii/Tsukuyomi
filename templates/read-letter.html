@@ -52,7 +52,11 @@
                 <p class="eyebrow">A LETTER KEPT UNDER THE MOON</p>
 
                 <p class="read-letter-status">
-                    SAVED DRAFT / NOT SENT
+                    {% if draft.sealed %}
+                        SEALED — NOT SENT
+                    {% else %}
+                        SAVED DRAFT / NOT SENT
+                    {% endif %}
                 </p>
 
                 <h1>{{ draft.title or "Untitled Letter" }}</h1>
@@ -92,13 +96,23 @@
                 <div class="read-letter-body">{{ draft.body }}</div>
             </section>
 
-            <footer class="read-letter-actions">
-                <a
-                    class="draft-open-link"
-                    href="{{ url_for('writing_room') }}?id={{ draft.id }}"
-                >
-                    EDIT LETTER →
-                </a>
+           <footer class="read-letter-actions">
+                {% if not draft.sealed %}
+                    <a
+                        class="draft-open-link"
+                        href="{{ url_for('writing_room') }}?id={{ draft.id }}"
+                    >
+                        EDIT LETTER →
+                    </a>
+
+                    <button
+                        class="seal-letter-button"
+                        type="button"
+                        id="seal-letter-button"
+                    >
+                        SEAL THIS LETTER ☾
+                    </button>
+                {% endif %}
 
                 <a href="{{ url_for('my_letters') }}">
                     RETURN TO COLLECTION
@@ -113,5 +127,47 @@
         </footer>
 
     </main>
+
+    {% if not draft.sealed %}
+    <div
+        class="seal-confirmation-overlay"
+        id="seal-confirmation-overlay"
+        hidden
+    >
+        <section
+            class="seal-confirmation-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="seal-confirmation-title"
+            aria-describedby="seal-confirmation-description"
+            tabindex="-1"
+        >
+            <p class="eyebrow">A DECISION UNDER THE MOON</p>
+
+            <h2 id="seal-confirmation-title">Seal this letter?</h2>
+
+            <p id="seal-confirmation-description">
+                Once sealed, this letter cannot be edited or deleted
+                through Tsukuyomi. It will remain saved here and will
+                not be sent to anyone.
+            </p>
+
+            <div class="seal-confirmation-actions">
+                <button type="button" id="cancel-seal-button">
+                    KEEP IT OPEN
+                </button>
+
+                <button type="button" id="confirm-seal-button">
+                    SEAL PERMANENTLY
+                </button>
+            </div>
+        </section>
+    </div>
+    {% endif %}
+
+    <script
+        src="{{ url_for('static', filename='js/seal-letter.js') }}"
+        defer
+    ></script>
 </body>
 </html>
