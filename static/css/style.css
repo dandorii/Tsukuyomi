@@ -1407,19 +1407,19 @@ main {
     display: inline-block;
 }
 
-/* HORIZONTAL REFLECTION GRID */
-.archive-entries {
+/* HORIZONTAL REFLECTION GRID — ARCHIVE REFLECTIONS ONLY */
+.archive-entries:not(:has(.draft-list)) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
     align-items: stretch;
 }
 
-.archive-entries .section-heading {
+.archive-entries:not(:has(.draft-list)) .section-heading {
     grid-column: 1 / -1;
 }
 
-.archive-entries .entry-placeholder {
+.archive-entries:not(:has(.draft-list)) .entry-placeholder {
     min-width: 0;
     height: 100%;
     box-sizing: border-box;
@@ -1427,8 +1427,8 @@ main {
 
 /* REFLECTION GRID — MOBILE */
 @media (max-width: 600px) {
-    .archive-entries {
-        grid-template-columns: 1fr;
+    .archive-entries:not(:has(.draft-list)) {
+        grid-template-columns: minmax(0, 1fr);
         gap: 16px;
     }
 }
@@ -2330,5 +2330,680 @@ main {
 @media (prefers-reduced-motion: reduce) {
     .letter-modal-actions button {
         transition: none;
+    }
+}
+
+/* Writing Room action buttons */
+#save-draft,
+#clear-letter {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    min-height: 48px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 2px;
+    font-family: "Press Start 2P", monospace;
+    font-size: 8px;
+    line-height: 1.8;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        background 200ms ease,
+        border-color 200ms ease,
+        color 200ms ease,
+        box-shadow 200ms ease;
+}
+
+/* Primary action: save */
+#save-draft {
+    margin-top: 24px;
+    border: 1px solid #91AEEB;
+    background: rgba(145, 174, 235, 0.14);
+    color: #C7D7FF;
+}
+
+#save-draft:hover {
+    background: rgba(145, 174, 235, 0.24);
+    box-shadow: 0 0 16px rgba(145, 174, 235, 0.12);
+}
+
+/* Secondary action: clear */
+#clear-letter {
+    border: 1px solid rgba(199, 215, 255, 0.22);
+    background: transparent;
+    color: rgba(199, 215, 255, 0.65);
+}
+
+#clear-letter:hover {
+    border-color: rgba(199, 215, 255, 0.55);
+    background: rgba(199, 215, 255, 0.04);
+    color: #C7D7FF;
+}
+
+#save-draft:focus-visible,
+#clear-letter:focus-visible {
+    outline: 2px solid #91AEEB;
+    outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+    #save-draft,
+    #clear-letter {
+        max-width: 100%;
+        min-height: 46px;
+        font-size: 7px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #save-draft,
+    #clear-letter {
+        transition: none;
+    }
+}
+
+/* Save Draft popup typography */
+#draft-saved-modal .letter-modal-panel h2 {
+    font-size: clamp(12px, 2vw, 16px);
+    line-height: 2;
+}
+
+#draft-saved-modal .letter-modal-panel #draft-saved-message {
+    font-size: 10px;
+    line-height: 2.2;
+}
+
+#draft-saved-modal #close-draft-saved {
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    line-height: 2;
+}
+
+@media (max-width: 480px) {
+    #draft-saved-modal .letter-modal-panel h2 {
+        font-size: 11px;
+    }
+
+    #draft-saved-modal .letter-modal-panel #draft-saved-message {
+        font-size: 9px;
+    }
+
+    #draft-saved-modal #close-draft-saved {
+        font-size: 8px;
+    }
+}
+
+
+/* ========================================
+   TSUKUYOMI — SAVED DRAFTS SECTION
+======================================== */
+
+/* Keep the collection section contained */
+.archive-entries {
+    min-width: 0;
+}
+
+/* Description and count share one aligned row */
+.archive-entries .draft-list-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 28px 0 0;
+    padding: 18px 0;
+    border-top: 1px solid rgba(199, 215, 255, 0.16);
+    border-bottom: 1px solid rgba(199, 215, 255, 0.16);
+}
+
+
+.archive-entries .draft-list-description {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    color: rgba(199, 215, 255, 0.72);
+    font-size: 9px;
+    line-height: 2;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.archive-entries .draft-list-count {
+    flex: 0 0 auto;
+    margin: 0;
+    color: #91AEEB;
+    font-size: 8px;
+    line-height: 2;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Saved drafts — full-width horizontal row */
+.archive-entries .draft-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    margin: 36px 0 0;
+    padding: 0;
+}
+
+/* Each card fills its column */
+.archive-entries .draft-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Keep card text aligned consistently */
+.archive-entries .draft-card .reflection-category {
+    margin: 0 0 16px;
+}
+
+.archive-entries .draft-card h3 {
+    margin: 0 0 16px;
+    overflow-wrap: anywhere;
+}
+
+.archive-entries .draft-card .reflection-excerpt {
+    margin: 0 0 20px;
+    overflow-wrap: anywhere;
+}
+
+.archive-entries .draft-card .reflection-date {
+    margin-top: auto;
+    padding-top: 14px;
+}
+
+/* Tablet: two columns */
+@media (max-width: 900px) {
+    .archive-entries .draft-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+/* Mobile: one column */
+@media (max-width: 600px) {
+    .archive-entries .draft-list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .archive-entries .draft-card {
+        min-height: 0;
+        padding: 20px;
+    }
+}
+
+/* Consistent card container */
+.archive-entries .draft-card {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 26px 28px;
+    border: 1px solid rgba(199, 215, 255, 0.18);
+    border-radius: 3px;
+    background: rgba(23, 36, 64, 0.38);
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.archive-entries .draft-card:hover {
+    border-color: rgba(145, 174, 235, 0.6);
+    background: rgba(23, 36, 64, 0.58);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(8, 13, 27, 0.25);
+}
+
+/* Letter status label */
+.archive-entries .draft-card .reflection-category {
+    margin: 0 0 14px;
+    color: #91AEEB;
+    font-size: 8px;
+    line-height: 1.8;
+}
+
+/* Letter title */
+.archive-entries .draft-card h3 {
+    margin: 0 0 16px;
+    color: #C7D7FF;
+    font-size: 12px;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+/* Recipient */
+.archive-entries .draft-card .reflection-excerpt {
+    margin: 0 0 20px;
+    color: rgba(199, 215, 255, 0.72);
+    font-size: 9px;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+/* Last-updated metadata */
+.archive-entries .draft-card .reflection-date {
+    margin: 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(199, 215, 255, 0.12);
+    color: rgba(199, 215, 255, 0.5);
+    font-size: 8px;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .archive-entries .draft-list-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 22px;
+        padding: 16px 0;
+    }
+
+    .archive-entries .draft-list-count {
+        text-align: left;
+        white-space: normal;
+    }
+
+    .archive-entries .draft-list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        margin-top: 18px;
+    }
+
+    .archive-entries .draft-card {
+        padding: 20px;
+    }
+
+    .archive-entries .draft-card h3 {
+        font-size: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .archive-entries .draft-card {
+        transition: none;
+    }
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+    .letters-overview {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+        padding: 18px;
+    }
+
+    .letters-overview-count {
+        padding-left: 0;
+        padding-top: 10px;
+        border-left: none;
+        border-top: 1px solid rgba(199, 215, 255, 0.18);
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* SAVED DRAFTS — HEADING AND COUNT */
+.draft-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.draft-heading-row h2 {
+    margin: 0;
+}
+
+.draft-heading-row .draft-list-count {
+    margin: 0;
+    color: #91AEEB;
+    font-size: 12px;
+    line-height: 2;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .draft-heading-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .draft-heading-row .draft-list-count {
+        text-align: left;
+    }
+}
+/* OPEN LETTER LINK */
+.archive-entries .draft-open-link {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 20px;
+    color: #91AEEB;
+    font-size: 10px;
+    line-height: 2;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(145, 174, 235, 0.35);
+    transition: color 180ms ease, border-color 180ms ease;
+}
+
+.archive-entries .draft-open-link:hover {
+    color: #F3F0E8;
+    border-color: #F3F0E8;
+}
+
+.archive-entries .draft-open-link:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+/* ========================================
+   TSUKUYOMI — SECTION FADE-IN
+======================================== */
+
+@keyframes tsukuyomi-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* My Letters — Collection section */
+.archive-entries {
+    animation: tsukuyomi-fade-in 800ms ease-out both;
+}
+
+/* Writing Room — Letter editor sections */
+.letter-details,
+.letter-writing {
+    animation: tsukuyomi-fade-in 800ms ease-out both;
+}
+
+/* Slightly stagger the editor panels */
+.letter-writing {
+    animation-delay: 150ms;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .archive-entries,
+    .letter-details,
+    .letter-writing {
+        animation: none;
+    }
+}
+
+/* ========================================
+   TSUKUYOMI — STAGGERED LETTER CARDS
+======================================== */
+
+.archive-entries .draft-card {
+    animation: tsukuyomi-fade-in 700ms ease-out both;
+}
+
+.archive-entries .draft-card:nth-child(1) {
+    animation-delay: 150ms;
+}
+
+.archive-entries .draft-card:nth-child(2) {
+    animation-delay: 300ms;
+}
+
+.archive-entries .draft-card:nth-child(3) {
+    animation-delay: 450ms;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .archive-entries .draft-card {
+        animation: none;
+    }
+}
+
+/* ========================================
+   TSUKUYOMI — OPEN LETTER LINK FADE-IN
+======================================== */
+
+.archive-entries .draft-open-link {
+    animation: tsukuyomi-fade-in 600ms ease-out both;
+    animation-delay: 350ms;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .archive-entries .draft-open-link {
+        animation: none;
+    }
+}
+
+/* DELETE LETTER BUTTON */
+.archive-entries .draft-delete-button {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 14px;
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid rgba(199, 145, 155, 0.35);
+    background: transparent;
+    color: #C7919B;
+    font-family: inherit;
+    font-size: 10px;
+    line-height: 2;
+    cursor: pointer;
+    transition: color 180ms ease, border-color 180ms ease;
+    margin-left: 15px;
+}
+
+.archive-entries .draft-delete-button:hover {
+    color: #F3F0E8;
+    border-color: #F3F0E8;
+}
+
+.archive-entries .draft-delete-button:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+/* ========================================
+   DELETE LETTER — CONFIRMATION MODAL
+======================================== */
+
+.letter-modal[hidden] {
+    display: none;
+}
+
+.letter-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: rgba(4, 7, 17, 0.82);
+    backdrop-filter: blur(5px);
+    animation: tsukuyomi-modal-fade 250ms ease-out both;
+}
+
+.letter-modal-panel {
+    width: 100%;
+    max-width: 520px;
+    padding: 36px;
+    box-sizing: border-box;
+    border: 1px solid rgba(199, 215, 255, 0.3);
+    border-radius: 3px;
+    background: #080D1B;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+    text-align: center;
+    animation: tsukuyomi-modal-rise 350ms ease-out both;
+}
+
+.letter-modal-panel .section-label {
+    margin-bottom: 28px;
+    color: #91AEEB;
+    font-size: 9px;
+    line-height: 2.2;
+    letter-spacing: 1px;
+}
+
+.letter-modal-panel h2 {
+    margin: 0 0 24px;
+    color: #C7D7FF;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+.letter-modal-panel #delete-modal-message {
+    margin: 0 auto;
+    max-width: 390px;
+    color: #B8C3DC;
+    font-size: 10px;
+    line-height: 2.4;
+}
+
+.delete-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 36px;
+}
+
+.delete-modal-actions button {
+    margin: 0;
+}
+
+.delete-modal-actions .clear-letter-button {
+    padding: 10px 0;
+    color: #C7D7FF;
+}
+
+
+.delete-modal-actions .draft-delete-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 12px 18px;
+    border: 1px solid rgba(199, 145, 155, 0.5);
+    border-radius: 3px;
+    background: rgba(199, 145, 155, 0.08);
+    color: #C7919B;
+    font-family: inherit;
+    font-size: 9px;
+    line-height: 1.8;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        color 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
+}
+
+.delete-modal-actions .draft-delete-button:hover {
+    color: #F3F0E8;
+    background: rgba(199, 145, 155, 0.18);
+    border-color: #C7919B;
+    transform: translateY(-1px);
+}
+
+.delete-modal-actions .draft-delete-button:active {
+    transform: translateY(0);
+}
+
+.delete-modal-actions .draft-delete-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
+.delete-modal-actions .draft-delete-button:hover {
+    color: #F3F0E8;
+    border-color: #F3F0E8;
+}
+
+.delete-modal-actions button:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 5px;
+}
+
+@keyframes tsukuyomi-modal-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes tsukuyomi-modal-rise {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .letter-modal {
+        padding: 16px;
+    }
+
+    .letter-modal-panel {
+        padding: 28px 20px;
+    }
+
+    .letter-modal-panel h2 {
+        font-size: 12px;
+    }
+
+    .delete-modal-actions {
+        gap: 16px;
+        margin-top: 28px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .letter-modal,
+    .letter-modal-panel {
+        animation: none;
     }
 }
