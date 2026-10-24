@@ -1,3 +1,4 @@
+import json
 from flask import Flask, render_template, request, jsonify
 from database import (
     initialize_database,
@@ -7,14 +8,87 @@ from database import (
     update_draft,
     delete_draft,
     seal_draft,
+    restore_missing_letters,
 )
 from datetime import datetime, timezone, timedelta
 
 app = Flask(__name__)
 
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5 MB
 
 initialize_database()
 
+def validate_backup(data):
+    """Validate a Tsukuyomi JSON backup before restoring letters."""
+    if not isinstance(data, dict):
+        return None, "The backup must contain a JSON object."
+
+    if data.get("app") != "Tsukuyomi: Letters for the Unknown":
+        return None, "This file is not a Tsukuyomi backup."
+
+    if data.get("backup_version") != 1 or isinstance(
+        data.get("backup_version"), bool
+    ):
+        return None, "This backup version is not supported."
+
+    letters = data.get("letters")
+
+    if not isinstance(letters, list):
+        return None, "The backup must contain a list of letters."
+
+    if len(letters) > 5000:
+        return None, "The backup contains too many letters."
+
+    validated_letters = []
+
+    for index, letter in enumerate(letters, start=1):
+        if not isinstance(letter, dict):
+            return None, f"Letter {index} must be a JSON object."
+
+        title = letter.get("title")
+        recipient = letter.get("recipient")
+        body = letter.get("body")
+        created_at = letter.get("created_at")
+        updated_at = letter.get("updated_at")
+        sealed = letter.get("sealed")
+
+        if not all(
+            isinstance(value, str)
+            for value in (
+                title, recipient, body, created_at, updated_at
+            )
+        ):
+            return None, f"Letter {index} has invalid text fields."
+
+        if (
+            len(title) > 100
+            or len(recipient) > 100
+            or len(body) > 100_000
+        ):
+            return None, f"Letter {index} exceeds the field limits."
+
+        if not any(value.strip() for value in (title, recipient, body)):
+            return None, f"Letter {index} is empty."
+
+        if type(sealed) is not bool:
+            return None, f"Letter {index} has an invalid sealed status."
+
+        for timestamp in (created_at, updated_at):
+            try:
+                datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                return None, f"Letter {index} has an invalid timestamp."
+
+        validated_letters.append({
+            "title": title,
+            "recipient": recipient,
+            "body": body,
+            "created_at": created_at,
+            "updated_at": updated_at,
+            "sealed": sealed,
+        })
+
+    return validated_letters, None
 
 def format_letter_timestamp(timestamp):
     if not timestamp:
@@ -170,6 +244,45 @@ def export_drafts():
 
     return response, 200
 
+@app.route("/api/drafts/restore", methods=["POST"])
+def restore_drafts():
+    backup_file = request.files.get("backup")
+
+    if backup_file is None or not backup_file.filename:
+        return jsonify({
+            "error": "Choose a JSON backup file first."
+        }), 400
+
+    if not backup_file.filename.lower().endswith(".json"):
+        return jsonify({
+            "error": "Only JSON backup files are accepted."
+        }), 400
+
+    try:
+        data = json.load(backup_file.stream)
+    except (ValueError, UnicodeDecodeError):
+        return jsonify({
+            "error": "The file is not valid JSON."
+        }), 400
+
+    validated_letters, error = validate_backup(data)
+
+    if error:
+        return jsonify({"error": error}), 400
+
+    try:
+        result = restore_missing_letters(validated_letters)
+    except Exception:
+        app.logger.exception("Backup restoration failed.")
+        return jsonify({
+            "error": "The backup could not be restored. No changes were saved."
+        }), 500
+
+    return jsonify({
+        "message": "Backup restoration completed.",
+        "imported": result["imported"],
+        "skipped": result["skipped"],
+    }), 200
 
 @app.route("/api/drafts/<int:draft_id>", methods=["GET"])
 def retrieve_draft(draft_id):

@@ -3932,3 +3932,113 @@ main {
         max-width: 100%;
     }
 }
+
+
+/* Backup restoration controls */
+.draft-tools-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.draft-export-button,
+.draft-restore-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 16px;
+    text-align: center;
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    line-height: 1.8;
+}
+
+.draft-restore-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+}
+
+.draft-restore-file-label {
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    line-height: 1.8;
+}
+
+.draft-restore-file {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    color: #C7D7FF;
+    font-family: "DM Mono", monospace;
+    font-size: 12px;
+}
+
+.draft-restore-file::file-selector-button {
+    margin-right: 10px;
+    padding: 10px 12px;
+    border: 1px solid #34466C;
+    background: #101A30;
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 8px;
+    cursor: pointer;
+}
+
+.draft-restore-button {
+    border: 1px solid #526B9E;
+    background: #172440;
+    color: #C7D7FF;
+    cursor: pointer;
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.draft-restore-button:hover {
+    background: #22365D;
+    border-color: #C7D7FF;
+    box-shadow: 0 0 16px rgb(199 215 255 / 12%);
+}
+
+.draft-restore-button:focus-visible,
+.draft-restore-file:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+.draft-restore-status {
+    margin-top: 12px;
+    color: #C7D7FF;
+    font-family: "DM Mono", monospace;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+    .draft-tools-actions {
+        max-width: 100%;
+    }
+
+    .draft-export-button,
+    .draft-restore-button {
+        font-size: 8px;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .draft-restore-button {
+        transition: none;
+    }
+}

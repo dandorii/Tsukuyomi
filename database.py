@@ -70,6 +70,85 @@ def save_draft(title, recipient, body):
     finally:
         connection.close()
 
+def restore_missing_letters(letters):
+    """Restore missing letters without overwriting existing records."""
+    connection = get_connection()
+
+    imported = 0
+    skipped = 0
+
+    try:
+        # Reserve the write transaction before checking for duplicates.
+        connection.execute("BEGIN IMMEDIATE")
+
+        existing_letters = connection.execute(
+            """
+            SELECT title, recipient, body, created_at, updated_at, sealed
+            FROM letters
+            """
+        ).fetchall()
+
+        def duplicate_key(letter):
+            return (
+                letter["title"],
+                letter["recipient"],
+                letter["body"],
+                letter["created_at"],
+                letter["updated_at"],
+                int(letter["sealed"]),
+            )
+
+        known_keys = {
+            duplicate_key(letter)
+            for letter in existing_letters
+        }
+
+        for letter in letters:
+            key = duplicate_key(letter)
+
+            if key in known_keys:
+                skipped += 1
+                continue
+
+            connection.execute(
+                """
+                INSERT INTO letters (
+                    title,
+                    recipient,
+                    body,
+                    created_at,
+                    updated_at,
+                    sealed
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    letter["title"],
+                    letter["recipient"],
+                    letter["body"],
+                    letter["created_at"],
+                    letter["updated_at"],
+                    int(letter["sealed"]),
+                ),
+            )
+
+            known_keys.add(key)
+            imported += 1
+
+        connection.commit()
+
+        return {
+            "imported": imported,
+            "skipped": skipped,
+        }
+
+    except Exception:
+        connection.rollback()
+        raise
+
+    finally:
+        connection.close()
+
 def get_draft(draft_id):
     """Retrieve one draft by its ID."""
     connection = get_connection()

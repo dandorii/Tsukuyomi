@@ -69,13 +69,53 @@
                             <p>Keep a copy of the letters you have written.</p>
                         </div>
 
-                        <a
-                            class="draft-export-button"
-                            href="{{ url_for('export_drafts') }}"
-                        >
-                            ↓ EXPORT LETTERS BACKUP
-                        </a>
+                        <div class="draft-tools-actions">
+                            <a
+                                class="draft-export-button"
+                                href="{{ url_for('export_drafts') }}"
+                            >
+                                ↓ EXPORT LETTERS BACKUP
+                            </a>
+
+                            <form
+                                id="draft-restore-form"
+                                class="draft-restore-form"
+                                action="{{ url_for('restore_drafts') }}"
+                                method="post"
+                                enctype="multipart/form-data"
+                            >
+                                <label
+                                    class="draft-restore-file-label"
+                                    for="draft-restore-file"
+                                >
+                                    SELECT JSON BACKUP
+                                </label>
+
+                                <input
+                                    id="draft-restore-file"
+                                    class="draft-restore-file"
+                                    type="file"
+                                    name="backup"
+                                    accept=".json,application/json"
+                                    required
+                                >
+
+                                <button
+                                    class="draft-restore-button"
+                                    type="submit"
+                                >
+                                    ↑ RESTORE MISSING LETTERS
+                                </button>
+                            </form>
+                        </div>
                     </div>
+
+                    <p
+                        id="draft-restore-status"
+                        class="draft-restore-status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
 
                     <div id="draft-list" class="draft-list"></div>
                 </section>
