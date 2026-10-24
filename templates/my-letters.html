@@ -43,7 +43,6 @@
                     </p>
                 </section>
 
-                
                 <section class="archive-entries">
                     <div class="section-heading">
                         <p class="section-label">01 / THE COLLECTION</p>
@@ -51,21 +50,35 @@
                         <div class="draft-heading-row">
                             <h2>SAVED DRAFTS</h2>
 
-                            <p
-                                id="draft-list-status"
-                                class="draft-list-count"
-                                role="status"
-                                aria-live="polite"
-                            >
-                                Looking for your letters...
-                            </p>
+                            <div class="draft-heading-actions">
+                                <p
+                                    id="draft-list-status"
+                                    class="draft-list-count"
+                                    role="status"
+                                    aria-live="polite"
+                                >
+                                    Looking for your letters...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="draft-tools">
+                        <div class="draft-tools-copy">
+                            <p class="section-label">BACKUP &amp; DATA</p>
+                            <p>Keep a copy of the letters you have written.</p>
                         </div>
 
+                        <a
+                            class="draft-export-button"
+                            href="{{ url_for('export_drafts') }}"
+                        >
+                            ↓ EXPORT LETTERS BACKUP
+                        </a>
                     </div>
 
                     <div id="draft-list" class="draft-list"></div>
                 </section>
-
 
                 <footer class="archive-footer">
                     <p>TSUKUYOMI // LETTERS FOR THE UNKNOWN</p>

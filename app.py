@@ -131,6 +131,46 @@ def list_drafts():
     }), 200
 
 
+@app.route("/api/drafts/export", methods=["GET"])
+def export_drafts():
+    drafts = get_all_drafts()
+    letters = []
+
+    for draft in drafts:
+        full_letter = get_draft(draft["id"])
+
+        if full_letter is None:
+            return jsonify({
+                "error": "A letter could not be retrieved. No backup was created."
+            }), 500
+
+        letters.append({
+            "id": full_letter["id"],
+            "title": full_letter["title"],
+            "recipient": full_letter["recipient"],
+            "body": full_letter["body"],
+            "created_at": full_letter["created_at"],
+            "updated_at": full_letter["updated_at"],
+            "sealed": bool(full_letter["sealed"]),
+        })
+
+    backup = {
+        "app": "Tsukuyomi: Letters for the Unknown",
+        "backup_version": 1,
+        "exported_at": datetime.now(timezone.utc).isoformat(),
+        "letters": letters,
+    }
+
+    response = jsonify(backup)
+    response.headers["Content-Disposition"] = (
+        'attachment; filename="tsukuyomi-backup.json"'
+    )
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+
+    return response, 200
+
+
 @app.route("/api/drafts/<int:draft_id>", methods=["GET"])
 def retrieve_draft(draft_id):
     draft = get_draft(draft_id)
