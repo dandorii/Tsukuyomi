@@ -1,111 +1,162 @@
-# Tsukuyomi — Letters for the Unknown
+# Tsukuyomi: Letters for the Unknown 🌙
 
-*A quiet place for the words we keep, the letters we never send, and the thoughts we don't always know how to express.*
+*A quiet digital space for reflection, personal writing, and letters that don't always need to be sent.*
 
----
+**Version:** 1.0.0   
+**Repository:** [dandorii/Tsukuyomi](https://github.com/dandorii/Tsukuyomi)
 
 ## About
 
-Not every letter needs to be sent. Not every thought needs an answer.
+**Tsukuyomi: Letters for the Unknown** is a reflective writing archive built to provide a quiet, moonlit space for writing and preserving personal letters.
 
-**Tsukuyomi** is a personal writing space built around that idea. It is a place to slow down, put thoughts into words, preserve meaningful moments, and write letters that may or may not ever reach their intended recipient.
+Inspired by midnight skies, pixel-art aesthetics, and the feeling of putting unspoken thoughts into words, Tsukuyomi focuses on a simple idea: some letters are valuable even when they are never sent.
 
-Inspired by the quiet atmosphere of midnight, handwritten letters, and nostalgic digital experiences, Tsukuyomi brings reflective writing into a small corner of the web.
+The project combines a Flask application with PostgreSQL storage and a custom retro-inspired interface.
 
-It isn't about finding the perfect words. It's about having somewhere to leave them.
+## Features
 
-## What You Can Do
+- **Reflective writing space** — write letters in a calm, night-themed interface.
+- **Draft management** — save, browse, reopen, edit, and delete letters.
+- **Persistent storage** — store letters in a PostgreSQL database hosted by Neon.
+- **Anonymous visitor sessions** — keep each browser session's letter collection associated with its own server-generated visitor ID.
+- **Sealed letters** — mark a letter as sealed and prevent normal editing or deletion through the application.
+- **Shareable letters** — publish a letter through a unique link and revoke its published status later.
+- **Backup and restoration** — export letters to a JSON backup and restore supported backups.
+- **Responsive, retro-inspired design** — a midnight-blue visual style with moon and star motifs.
 
-- **Write** — Compose letters in a dedicated writing room.
-- **Keep** — Save drafts and return to them whenever you're ready.
-- **Seal** — Preserve letters you aren't ready to change.
-- **Share** — Give a letter its own link when you're ready for someone else to read it.
-- **Revoke** — Disable a published letter's link when you no longer want it to be accessible.
-- **Reflect** — Explore a quiet archive designed for thoughtful reading and writing.
-- **Restore** — Export and restore supported letter data.
+> Feature availability and behavior should be verified against the deployed version before a public production release.
 
-## The Experience
+## Technology Stack
 
-Tsukuyomi takes inspiration from midnight skies, pixel art, and nostalgic interfaces. Its visual identity uses deep blues, moonlit accents, pixel-inspired typography, and a restrained atmosphere intended to let the writing take center stage.
+| Component | Technology |
+|---|---|
+| Backend | Python, Flask |
+| Database | PostgreSQL |
+| Database hosting | Neon |
+| Frontend | HTML, CSS, JavaScript |
+| Deployment | Vercel |
+| Database driver | Psycopg |
 
-The goal is simple: create a digital space that feels less like another productivity tool and more like opening a letter beneath a quiet night sky.
+## How Draft Storage Works
 
-## Built With
+Tsukuyomi stores letters in PostgreSQL. Each anonymous visitor receives a server-generated visitor ID held in a Flask session. Draft retrieval and modification operations use that ID to restrict access to the corresponding visitor's letters.
 
-- Python
-- Flask
-- PostgreSQL
-- Psycopg 3
-- HTML, CSS, and JavaScript
-- Jinja2
+**Important:** This is anonymous, browser-session-based storage—not a user account system. The database persists letters, but access to a collection depends on retaining the associated session.
 
-## Running Locally
+## Current Limitations
+
+Version 1.0.0 intentionally keeps the project focused. The following limitations are part of the current design:
+
+1. **No user accounts:** There is no Tsukuyomi registration, login, or account-recovery system.
+2. **Browser-session-dependent access:** Drafts are associated with an anonymous session. Different browsers and private browsing sessions normally have separate collections.
+3. **No automatic cross-device synchronization:** A visitor cannot sign in on another device to retrieve the same collection.
+4. **Session loss can mean loss of access:** Clearing browser cookies, losing the session, or using a different browser may make existing drafts inaccessible through the application. A database record may still exist even when the visitor no longer has the session needed to retrieve it.
+5. **Backup responsibility:** Visitors should export and securely retain their own backups. Restoration should be tested with care.
+6. **Share links are not private to their holder:** Anyone who obtains a published letter's unique link may be able to read that letter. Revoking the link prevents access through the application's published-link lookup, but cannot remove copies, screenshots, or content already obtained by others.
+7. **No in-platform replies:** Shared letters are intended for reading, not ongoing conversations within Tsukuyomi.
+8. **No guarantee of permanent storage or availability:** Service interruptions, hosting changes, database failures, or account and configuration issues may affect access. Keep independent backups of important writing.
+9. **Security testing is ongoing:** Ownership checks and session protections are implemented, but the application should not be considered independently security-audited or guaranteed secure.
+10. **Preview deployment:** During development and verification, Vercel Preview may be protected by Vercel Deployment Protection. Preview access is not the same as public production availability.
+
+## Privacy and Security Notes
+
+- The application uses server-generated anonymous visitor IDs to associate drafts with sessions.
+- Database queries use parameterized values and owner-based filters for private letter operations.
+- Flask session cookies are configured with `HttpOnly` and `SameSite=Lax`; the `Secure` setting is enabled when the relevant production or Vercel environment conditions apply.
+- Database credentials and the Flask secret key should be provided through environment variables and must not be committed to the repository.
+- Do not store sensitive or highly confidential information in this version unless you understand and accept its limitations.
+
+These measures are implementation details, not a substitute for a complete security review, deployment hardening, and testing.
+
+## Local Development
 
 ### Requirements
 
-- Python 3.13 or a compatible version
-- A PostgreSQL database
+- Python 3.13 or another version supported by the project's installed dependencies
+- A PostgreSQL database, such as a Neon development database
 - Git
 
 ### Setup
 
-Clone the repository:
+1. Clone the repository:
 
-```bash
-git clone https://github.com/dandorii/Tsukuyomi.git
-cd Tsukuyomi
-```
+   ```bash
+   git clone https://github.com/dandorii/Tsukuyomi.git
+   cd Tsukuyomi
+   ```
 
-Create and activate a virtual environment using Windows PowerShell:
+2. Create and activate a virtual environment.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
+   **Windows PowerShell:**
 
-Install the dependencies:
+   ```powershell
+   py -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
 
-```powershell
-python -m pip install -r requirements.txt
-```
+3. Install dependencies:
 
-Create a `.env` file in the project root:
+   ```powershell
+   python -m pip install -r requirements.txt
+   ```
 
-```dotenv
-FLASK_SECRET_KEY=your_secure_secret
-DATABASE_URL=your_postgresql_connection_string
-```
+4. Create a local `.env` file in the project root. Configure the required variables:
 
-Replace the example values with your own configuration. Keep `.env` private and never commit production secrets.
+   ```dotenv
+   FLASK_SECRET_KEY=replace-with-a-long-random-secret
+   DATABASE_URL=replace-with-your-postgresql-connection-string
+   ```
 
-Start the application:
+   Use your own development credentials. Never commit `.env` or paste real credentials into public issues or documentation.
 
-```powershell
-python app.py
-```
+5. Start the application:
 
-Open `http://127.0.0.1:5000` in your browser.
+   ```powershell
+   python app.py
+   ```
 
-## Development Status
+6. Open the local URL shown by Flask in your browser.
 
-Tsukuyomi is an ongoing project. Its core writing experience, PostgreSQL integration, and shareable-letter functionality are implemented, while deployment preparation, security review, and further testing remain in progress.
+The database connection must point to a PostgreSQL database you control. The application initializes the required table and index when it starts.
 
-Before a public release, the application needs additional verification of session handling, access controls, request protections, and the behavior of shared letters.
+## Environment Variables
 
-## A Note on Privacy
+| Variable | Purpose |
+|---|---|
+| `FLASK_SECRET_KEY` | Signs Flask session cookies. Use a strong, random secret. |
+| `DATABASE_URL` | PostgreSQL connection string for the selected environment. |
+| `VERCEL` | Set by Vercel; used by the application for deployment-specific behavior. |
+| `FLASK_ENV` | Used by the application to determine whether secure-cookie behavior should be enabled for the configured environment. |
 
-Personal writing can be sensitive. Tsukuyomi is being developed with privacy in mind, including owner-scoped database operations and revocable sharing links.
+Configure environment variables separately for local development and deployment. Ensure Vercel Preview and Production point to the intended database and use appropriate secrets.
 
-However, the application is still under development and has not been presented as fully security-audited. Avoid storing highly sensitive information until the deployment and security controls have been properly reviewed.
+## Roadmap
 
-## License
+Possible future improvements include:
 
-No license has been specified yet. All rights remain with the respective copyright holder unless a license is added.
+- User registration and authentication
+- Secure access to letters across devices
+- Account recovery and optional two-factor authentication
+- Expanded privacy and retention controls
+- Additional automated tests and security reviews
+- Further accessibility and usability improvements
+
+These items are planned possibilities, not promises or features currently available in version 1.0.0.
+
+## Versioning
+
+Tsukuyomi follows semantic versioning:
+
+- **Patch** (`1.0.x`): bug fixes and small corrections
+- **Minor** (`1.x.0`): backward-compatible features
+- **Major** (`x.0.0`): substantial changes that may affect existing behavior
+
+## Project Philosophy
+
+Tsukuyomi is built around reflection, gentleness, and the freedom to write without the expectation of a response.
+
+Not every letter has to be sent. Not every thought needs an audience. Sometimes, writing something down is enough.
 
 ---
 
-*Some words are never sent.*
-
-*Some memories are never forgotten.*
-
-*And some letters are written simply because they need somewhere to exist.*
+*Tsukuyomi: Letters for the Unknown — a quiet place beneath the same moon.*
