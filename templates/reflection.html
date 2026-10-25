@@ -9,13 +9,13 @@
     <title>Things the Moon Remembers — Tsukuyomi</title>
 
     <link rel="icon" type="image/svg+xml"
-      href="{{ url_for('static', filename='favicon.svg') }}">
+      href="{{ asset_url('favicon.svg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
 </head>
 <body>
     <div class="reading-progress" aria-hidden="true">
@@ -79,6 +79,6 @@
             </footer>
         </article>
     </main>
-    <script src="{{ url_for('static', filename='js/archive.js') }}"></script>
+    <script src="{{ asset_url('js/archive.js') }}"></script>
 </body>
 </html>

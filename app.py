@@ -22,6 +22,14 @@ load_dotenv()
 
 app = Flask(__name__)
 
+def asset_url(filename):
+    """Return the correct asset path for local Flask or Vercel."""
+    if os.environ.get("VERCEL") == "1":
+        return f"/{filename}"
+    return url_for("static", filename=filename)
+
+app.jinja_env.globals["asset_url"] = asset_url
+
 secret_key = os.environ.get("FLASK_SECRET_KEY")
 
 if not secret_key:

@@ -1,0 +1,48 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>Tsukuyomi — Crescent Moon</title>
+
+  <!-- Midnight background -->
+  <rect width="32" height="32" fill="#080D1B"/>
+
+  <!-- Pixel-art crescent moon -->
+  <path
+    fill="#C7D7FF"
+    d="M 10,4
+       H 17 V 6
+       H 21 V 10
+       H 23 V 17
+       H 21 V 21
+       H 17 V 23
+       H 10 V 21
+       H 7 V 18
+       H 5 V 12
+       H 7 V 8
+       H 10 Z"
+  />
+
+  <!-- Shadow cutout creates the crescent -->
+  <path
+    fill="#080D1B"
+    d="M 16,5
+       H 19 V 8
+       H 22 V 12
+       H 24 V 17
+       H 21 V 19
+       H 18 V 22
+       H 13 V 19
+       H 10 V 16
+       H 9 V 12
+       H 12 V 9
+       H 16 Z"
+  />
+
+  <!-- Tiny pixel star -->
+  <path
+    fill="#C7D7FF"
+    d="M 24,5 H 26 V 8 H 29 V 10 H 26 V 13 H 24 V 10 H 21 V 8 H 24 Z"
+  />
+
+  <!-- Small distant star -->
+  <rect x="5" y="24" width="2" height="2" fill="#91A8D8"/>
+</svg>
