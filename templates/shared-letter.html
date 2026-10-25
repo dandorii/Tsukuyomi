@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>{{ shared_letter.title or "A Letter" }} — Tsukuyomi</title>
+    <meta name="description" content="A letter shared through Tsukuyomi: Letters for the Unknown.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml"
+          href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .shared-letter-page {
+            --moonlight: #C7D7FF;
+            --moonlight-soft: rgba(199, 215, 255, 0.12);
+            --letter-ink: #F3F0E8;
+            --night: #080D1B;
+
+            position: relative;
+            isolation: isolate;
+            min-height: 100vh;
+            padding: clamp(2.5rem, 7vh, 5rem) 1.25rem 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    ellipse at 50% 5%,
+                    rgba(89, 119, 190, 0.14),
+                    transparent 48%
+                ),
+                linear-gradient(180deg, #0B1224 0%, var(--night) 65%);
+            color: var(--letter-ink);
+        }
+
+        .shared-letter-page::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 3.5rem;
+            left: 50%;
+            width: min(72vw, 480px);
+            aspect-ratio: 1;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: rgba(133, 163, 230, 0.045);
+            filter: blur(70px);
+            pointer-events: none;
+        }
+
+        /* Twinkling stars across the night sky */
+        .shared-letter-page::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(circle, rgba(235, 242, 255, 0.9) 1px, transparent 1.8px),
+                radial-gradient(circle, rgba(199, 215, 255, 0.75) 1px, transparent 2px),
+                radial-gradient(circle, rgba(235, 242, 255, 0.5) 1px, transparent 2px);
+            background-size: 113px 137px, 173px 191px, 227px 211px;
+            background-position: 17px 23px, 71px 49px, 109px 83px;
+            opacity: 0.5;
+            animation: star-twinkle 7s ease-in-out infinite alternate;
+        }
+
+        /* Decorative moon */
+        .shared-letter-moon {
+            position: absolute;
+            top: 2.5rem;
+            right: clamp(1.5rem, 8vw, 7rem);
+            width: clamp(38px, 6vw, 58px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: #E8EEFF;
+            box-shadow:
+                0 0 12px rgba(199, 215, 255, 0.55),
+                0 0 35px rgba(151, 180, 255, 0.3),
+                0 0 70px rgba(151, 180, 255, 0.12);
+            opacity: 0.88;
+            animation: moon-breathe 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes star-twinkle {
+            from {
+                opacity: 0.3;
+            }
+
+            to {
+                opacity: 0.75;
+            }
+        }
+
+        @keyframes moon-breathe {
+            0%, 100% {
+                box-shadow:
+                    0 0 12px rgba(199, 215, 255, 0.45),
+                    0 0 30px rgba(151, 180, 255, 0.22),
+                    0 0 60px rgba(151, 180, 255, 0.1);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 18px rgba(199, 215, 255, 0.7),
+                    0 0 42px rgba(151, 180, 255, 0.38),
+                    0 0 80px rgba(151, 180, 255, 0.16);
+            }
+        }
+
+        .shared-letter-shell {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            animation: shared-letter-arrive 900ms ease-out both;
+        }
+
+        .shared-letter-header {
+            text-align: center;
+            margin-bottom: clamp(2rem, 6vh, 3.25rem);
+        }
+
+        .shared-letter-eyebrow {
+            color: var(--moonlight);
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(0.48rem, 1.5vw, 0.6rem);
+            letter-spacing: 0.06em;
+            line-height: 2.2;
+            margin: 0 0 2rem;
+            opacity: 0.82;
+        }
+
+        .shared-letter-title {
+            color: var(--letter-ink);
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(0.85rem, 2.2vw, 1.2rem);
+            font-weight: normal;
+            line-height: 2;
+            letter-spacing: 0;
+            overflow-wrap: anywhere;
+            margin: 0 0 1.5rem;
+            text-shadow:
+                0 0 10px rgba(199, 215, 255, 0.16),
+                0 0 28px rgba(151, 180, 255, 0.12);
+        }
+
+        .shared-letter-recipient {
+            color: var(--moonlight);
+            font-family: "Press Start 2P", monospace;
+            font-size: 0.65rem;
+            line-height: 2.2;
+            margin: 0;
+            opacity: 0.88;
+        }
+
+        .shared-letter-status {
+            display: inline-block;
+            margin-top: 1.25rem;
+            padding: 0.65rem 0.8rem;
+            border: 1px solid rgba(199, 215, 255, 0.28);
+            background: rgba(199, 215, 255, 0.05);
+            color: var(--moonlight);
+            font-family: "Press Start 2P", monospace;
+            font-size: 0.65rem;
+            line-height: 2;
+            letter-spacing: 0.04em;
+        }
+
+        .shared-letter-card {
+            position: relative;
+            border: 1px solid rgba(199, 215, 255, 0.2);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(27, 42, 73, 0.78),
+                    rgba(13, 22, 41, 0.88)
+                );
+            padding: clamp(1.5rem, 6vw, 3.25rem);
+            border-radius: 3px;
+            box-shadow:
+                0 24px 70px rgba(0, 0, 0, 0.24),
+                inset 0 1px 0 rgba(255, 255, 255, 0.025);
+        }
+
+        .shared-letter-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 1.5rem;
+            right: 1.5rem;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(199, 215, 255, 0.32),
+                transparent
+            );
+            pointer-events: none;
+        }
+
+        .shared-letter-body {
+            color: var(--letter-ink);
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(0.58rem, 1.2vw, 0.72rem);
+            font-weight: normal;
+            line-height: 2.4;
+            letter-spacing: 0;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            margin: 0;
+        }
+
+        .shared-letter-footer {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: rgba(199, 215, 255, 0.65);
+            font-family: "Press Start 2P", monospace;
+            font-size: 0.72rem;
+            line-height: 2.2;
+        }
+
+        .shared-letter-footer p {
+            margin: 0 0 0.65rem;
+        }
+
+        .shared-letter-footer a {
+            color: var(--moonlight);
+            text-decoration-color: rgba(199, 215, 255, 0.35);
+            text-underline-offset: 0.3em;
+            transition:
+                color 180ms ease,
+                text-decoration-color 180ms ease;
+        }
+
+        .shared-letter-footer a:hover {
+            color: var(--letter-ink);
+            text-decoration-color: var(--letter-ink);
+        }
+
+        .shared-letter-footer a:focus-visible {
+            outline: 2px solid var(--moonlight);
+            outline-offset: 5px;
+        }
+
+        @keyframes shared-letter-arrive {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .shared-letter-page {
+                padding: 2.25rem 1rem;
+            }
+
+            .shared-letter-eyebrow {
+                margin-bottom: 1.5rem;
+            }
+
+            .shared-letter-header {
+                margin-bottom: 2rem;
+            }
+
+            .shared-letter-card {
+                padding: 1.4rem 1.15rem;
+            }
+
+            .shared-letter-body {
+                line-height: 2;
+            }
+
+            .shared-letter-footer {
+                margin-top: 2rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .shared-letter-shell,
+            .shared-letter-page::after,
+            .shared-letter-moon {
+                animation: none;
+            }
+
+            .shared-letter-footer a {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="shared-letter-page">
+        <div class="shared-letter-moon" aria-hidden="true"></div>
+
+
+        <article class="shared-letter-shell">
+            <header class="shared-letter-header">
+                <p class="shared-letter-eyebrow">
+                    TSUKUYOMI // A LETTER LEFT UNDER THE MOON
+                </p>
+
+                <h1 class="shared-letter-title">
+                    {{ shared_letter.title or "Untitled Letter" }}
+                </h1>
+
+                {% if shared_letter.recipient %}
+                    <p class="shared-letter-recipient">
+                        For {{ shared_letter.recipient }}
+                    </p>
+                {% endif %}
+
+                
+                <p class="shared-letter-status">
+                    ✦ RELEASED INTO THE NIGHT ✦
+                </p>
+            </header>
+
+            <section class="shared-letter-card"
+                     aria-label="Shared letter content">
+                <p class="shared-letter-body">{{ shared_letter.body }}</p>
+            </section>
+
+            <footer class="shared-letter-footer">
+                <p>
+                    This letter was shared through
+                    <a href="{{ url_for('home') }}">
+                        Tsukuyomi: Letters for the Unknown
+                    </a>.
+                </p>
+                <p>Some words find their way beneath the same moon.</p>
+            </footer>
+        </article>
+    </main>
+</body>
+</html>

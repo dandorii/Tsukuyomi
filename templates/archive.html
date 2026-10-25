@@ -7,6 +7,9 @@
     <meta name="theme-color" content="#080D1B">
 
     <title>The Archive — Tsukuyomi</title>
+    
+    <link rel="icon" type="image/svg+xml"
+      href="{{ url_for('static', filename='favicon.svg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,8 +48,9 @@
 
             <nav class="archive-nav" aria-label="Main navigation">
                 <a href="{{ url_for('home') }}">HOME</a>
-                <a href="#reflections">REFLECTIONS</a>
-                <a href="#about-archive">ABOUT</a>
+                <a href="{{ url_for('writing_room') }}">WRITE A LETTER</a>
+                <a href="{{ url_for('my_letters') }}">MY LETTERS</a>
+                <a href="{{ url_for('about') }}">ABOUT</a>
             </nav>
         </header>
 

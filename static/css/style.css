@@ -3165,14 +3165,99 @@ main {
     white-space: pre-wrap;
 }
 
+
 .read-letter-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1.25rem;
     margin-top: 3rem;
-    padding-top: 1.5rem;
+    padding-top: 1.75rem;
     border-top: 1px solid rgba(199, 215, 255, 0.16);
+    align-items: start;
+}
+
+/* Letter sharing panel */
+.letter-sharing-controls {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.25rem;
+    border: 1px solid rgba(199, 215, 255, 0.18);
+    background: rgba(8, 13, 27, 0.65);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.letter-sharing-controls #sharing-status {
+    font-size: 0.9rem;
+}
+
+.letter-sharing-controls #sharing-message:empty {
+    display: none;
+}
+
+.letter-sharing-controls #publish-letter-button {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+}
+
+.read-letter-actions > a[href*="my-letters"] {
+    margin-top: 0;
+}
+
+/* Sharing section heading */
+.letter-sharing-controls .eyebrow {
+    margin: 0;
+    color: #C7D7FF;
+    line-height: 1.8;
+}
+
+/* Private / published status */
+#sharing-status {
+    margin: 0;
+    color: #F3F0E8;
+    line-height: 1.8;
+}
+
+/* Sharing feedback */
+#sharing-message {
+    margin: 0;
+    min-height: 1.8em;
+    color: #C7D7FF;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+#sharing-message[data-state="error"] {
+    color: #ff9aab;
+}
+
+/* Shareable link field */
+#share-link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+#share-link-container label {
+    color: #C7D7FF;
+    font-size: 0.65rem;
+    line-height: 1.8;
+}
+
+#share-link {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.85rem;
+    border: 1px solid rgba(199, 215, 255, 0.22);
+    background: #080D1B;
+    color: #F3F0E8;
+    font: inherit;
+    font-size: 0.7rem;
 }
 
 .read-letter-actions > a:last-child {
@@ -4039,6 +4124,630 @@ main {
 
 @media (prefers-reduced-motion: reduce) {
     .draft-restore-button {
+        transition: none;
+    }
+}
+
+/* =========================================
+   TSUKUYOMI — INITIAL PAGE FADE-IN
+========================================= */
+
+@keyframes tsukuyomi-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.landing {
+    animation: tsukuyomi-fade-in 1.8s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .landing {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* =========================================
+   TSUKUYOMI — ABOUT: BENEATH THE SAME MOON
+========================================= */
+
+.about-page {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 50% 22%,
+            rgba(44, 67, 115, 0.24),
+            transparent 48%
+        ),
+        #080D1B;
+}
+
+.about-page .archive-header,
+.about-page .archive-intro,
+.about-page .archive-about,
+.about-page .archive-footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* Moonlit hero */
+
+.about-moon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 440px;
+    margin: 28px 0 76px;
+    padding: 64px 24px;
+    overflow: hidden;
+    border-top: 1px solid rgba(199, 215, 255, 0.12);
+    border-bottom: 1px solid rgba(199, 215, 255, 0.12);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(8, 13, 27, 0.08),
+            rgba(8, 13, 27, 0.72)
+        );
+}
+
+.about-moon-content {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 680px);
+    text-align: center;
+}
+
+.about-moon-content .eyebrow {
+    color: #91A8D8;
+    line-height: 2;
+}
+
+.about-moon-symbol {
+    margin: 28px 0;
+    color: #C7D7FF;
+    font-family: serif;
+    font-size: clamp(5rem, 12vw, 8rem);
+    line-height: 1;
+    text-shadow:
+        0 0 18px rgba(199, 215, 255, 0.45),
+        0 0 64px rgba(117, 151, 230, 0.25);
+    animation: about-moon-breathe 7s ease-in-out infinite;
+}
+
+.about-moon-content h2 {
+    color: #F3F0E8;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    line-height: 2.2;
+    letter-spacing: 0.08em;
+}
+
+.about-moon-content > p:not(.eyebrow) {
+    max-width: 520px;
+    margin: 24px auto 0;
+    color: rgba(243, 240, 232, 0.78);
+    font-size: 0.95rem;
+    line-height: 2;
+}
+
+.about-begin-link {
+    display: inline-block;
+    margin-top: 36px;
+    color: #C7D7FF;
+    font-size: 0.65rem;
+    line-height: 2;
+    text-decoration: none;
+    transition: color 250ms ease, text-shadow 250ms ease;
+}
+
+.about-begin-link:hover,
+.about-begin-link:focus-visible {
+    color: #F3F0E8;
+    text-shadow: 0 0 14px rgba(199, 215, 255, 0.5);
+}
+
+/* Quiet stars */
+
+.about-moon-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.about-star {
+    position: absolute;
+    color: #C7D7FF;
+    opacity: 0.35;
+    animation: about-star-twinkle 5s ease-in-out infinite;
+}
+
+.star-one {
+    top: 15%;
+    left: 15%;
+    font-size: 1rem;
+}
+
+.star-two {
+    top: 24%;
+    left: 72%;
+    font-size: 1.8rem;
+    animation-delay: -2s;
+}
+
+.star-three {
+    top: 65%;
+    left: 18%;
+    font-size: 1.3rem;
+    animation-delay: -3.5s;
+}
+
+.star-five {
+    top: 12%;
+    right: 17%;
+    font-size: 0.8rem;
+    animation-delay: -4s;
+}
+
+.star-six {
+    top: 48%;
+    left: 8%;
+    font-size: 1.6rem;
+    animation-delay: -2.5s;
+}
+
+.star-seven {
+    right: 10%;
+    bottom: 18%;
+    font-size: 1rem;
+    animation-delay: -1.5s;
+}
+
+/* Subtle light behind the moon */
+
+.about-moon-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(68vw, 460px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(75, 105, 177, 0.09);
+    filter: blur(55px);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: about-glow-breathe 9s ease-in-out infinite;
+}
+
+/* Animation */
+
+@keyframes about-star-twinkle {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.85);
+    }
+
+    50% {
+        opacity: 0.85;
+        transform: scale(1.12);
+    }
+}
+
+@keyframes about-moon-breathe {
+    0%, 100% {
+        text-shadow:
+            0 0 18px rgba(199, 215, 255, 0.35),
+            0 0 54px rgba(117, 151, 230, 0.18);
+    }
+
+    50% {
+        text-shadow:
+            0 0 28px rgba(199, 215, 255, 0.65),
+            0 0 76px rgba(117, 151, 230, 0.32);
+    }
+}
+
+@keyframes about-glow-breathe {
+    0%, 100% {
+        opacity: 0.55;
+        transform: translate(-50%, -50%) scale(0.92);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
+
+/* Mobile layout */
+
+@media (max-width: 600px) {
+    .about-moon {
+        min-height: 390px;
+        margin: 20px 0 56px;
+        padding: 48px 18px;
+    }
+
+    .about-moon-content > p:not(.eyebrow) {
+        font-size: 0.85rem;
+    }
+
+    .about-begin-link {
+        font-size: 0.58rem;
+    }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    .about-star,
+    .about-moon-symbol,
+    .about-moon-glow {
+        animation: none;
+    }
+
+    .about-begin-link {
+        transition: none;
+    }
+}
+
+
+/* ABOUT PAGE — REMOVE UNWANTED LIGHT PANELS */
+
+.about-page {
+    background-color: #080D1B;
+    box-shadow: none;
+}
+
+.about-page .about-moon {
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+}
+
+.about-page .about-moon-glow {
+    border: 0;
+    box-shadow: none;
+    background: radial-gradient(
+        ellipse,
+        rgba(75, 105, 177, 0.13) 0%,
+        rgba(75, 105, 177, 0.05) 38%,
+        transparent 72%
+    );
+}
+
+.about-page .archive-intro,
+.about-page .archive-about {
+    box-shadow: none;
+}
+
+/* ABOUT PAGE — CLEAN HERO LINK */
+
+.about-page .about-begin-link {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    outline-offset: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.about-page .about-begin-link::before,
+.about-page .about-begin-link::after {
+    content: none;
+    display: none;
+}
+/* TEMPORARY TEST — ABOUT HERO LINK */
+.about-page .about-begin-link {
+    background-color: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+.about-page .about-begin-link::before,
+.about-page .about-begin-link::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* =========================================
+   TSUKUYOMI — CREATOR NOTE READABILITY
+========================================= */
+
+.about-page .creator-note {
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px 28px;
+}
+
+.about-page .creator-note h2 {
+    line-height: 2.2;
+    margin: 28px 0;
+}
+
+.about-page .creator-note > p:not(.section-label) {
+    font-size: 0.7rem;
+    line-height: 2.8;
+    letter-spacing: 0.015em;
+    margin: 0 auto 30px;
+    max-width: 680px;
+    overflow-wrap: break-word;
+}
+
+.about-page .creator-note .creator-note-ending {
+    margin-top: 42px;
+    color: #C7D7FF;
+    line-height: 3;
+}
+
+.about-page .creator-note .creator-signature {
+    text-align: right;
+    color: #91A8D8;
+    line-height: 2.8;
+    margin-top: 32px;
+}
+
+@media (max-width: 600px) {
+    .about-page .creator-note {
+        padding: 28px 18px;
+    }
+
+    .about-page .creator-note > p:not(.section-label) {
+        font-size: 0.58rem;
+        line-height: 2.7;
+        margin-bottom: 26px;
+    }
+}
+
+/* Consistent Tsukuyomi action buttons */
+.read-letter-actions button,
+.read-letter-actions .draft-open-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 42px;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(199, 215, 255, 0.24);
+    background: transparent;
+    color: #C7D7FF;
+    font-family: inherit;
+    font-size: 0.65rem;
+    line-height: 1.8;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+.read-letter-actions button:hover,
+.read-letter-actions .draft-open-link:hover {
+    border-color: #C7D7FF;
+    background: rgba(199, 215, 255, 0.08);
+    color: #F3F0E8;
+}
+
+.read-letter-actions button:focus-visible,
+.read-letter-actions .draft-open-link:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+.read-letter-actions button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+/* Keep the share actions grouped */
+#share-link-container button {
+    width: 100%;
+}
+
+/* Keep the collection link aligned with the panel */
+.read-letter-actions > a[href*="my-letters"] {
+    justify-self: start;
+}
+
+
+/* Group the primary letter actions */
+.letter-primary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.letter-primary-actions > * {
+    flex: 0 1 auto;
+}
+
+/* Keep primary actions compact rather than full-width */
+.letter-primary-actions .draft-open-link,
+.letter-primary-actions button {
+    width: auto;
+}
+
+/* Stack primary actions on narrow screens */
+@media (max-width: 520px) {
+    .letter-primary-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .letter-primary-actions > * {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   REVOKE SHARE LINK — CONFIRMATION POPUP
+   ======================================== */
+
+.revoke-confirmation-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(3, 6, 16, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.revoke-confirmation-overlay[hidden] {
+    display: none !important;
+}
+
+.revoke-confirmation-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    margin: auto;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    border: 1px solid rgba(199, 215, 255, 0.32);
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(89, 119, 190, 0.16),
+            transparent 70%
+        ),
+        #0B1224;
+    color: #F3F0E8;
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(199, 215, 255, 0.06);
+    animation: revoke-dialog-arrive 220ms ease-out both;
+}
+
+.revoke-confirmation-dialog .eyebrow {
+    margin: 0 0 1.5rem;
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 2;
+}
+
+#revoke-confirmation-title {
+    margin: 0 0 1.25rem;
+    color: #F3F0E8;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    font-weight: normal;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+#revoke-confirmation-description {
+    margin: 0;
+    color: rgba(243, 240, 232, 0.82);
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.58rem;
+    line-height: 2.3;
+}
+
+/* Popup button layout */
+.revoke-confirmation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.revoke-confirmation-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 140px;
+    min-height: 46px;
+    box-sizing: border-box;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(199, 215, 255, 0.4);
+    background: transparent;
+    color: #C7D7FF;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.9;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+/* Keep link — quiet secondary action */
+#cancel-revoke-button:hover {
+    background: rgba(199, 215, 255, 0.08);
+    border-color: #C7D7FF;
+    color: #F3F0E8;
+}
+
+/* Revoke link — clearer warning action */
+#confirm-revoke-button {
+    border-color: rgba(255, 154, 171, 0.55);
+    color: #FFB2BF;
+}
+
+#confirm-revoke-button:hover {
+    border-color: #FF9AAB;
+    background: rgba(255, 100, 130, 0.12);
+    color: #FFE2E7;
+}
+
+.revoke-confirmation-actions button:focus-visible {
+    outline: 2px solid #C7D7FF;
+    outline-offset: 4px;
+}
+
+.revoke-confirmation-actions button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+@keyframes revoke-dialog-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 420px) {
+    .revoke-confirmation-actions {
+        flex-direction: column-reverse;
+    }
+
+    .revoke-confirmation-actions button {
+        width: 100%;
+        flex-basis: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .revoke-confirmation-dialog {
+        animation: none;
+    }
+
+    .revoke-confirmation-actions button {
         transition: none;
     }
 }

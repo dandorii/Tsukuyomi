@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080D1B">
+
+    <title>About — Tsukuyomi</title>
+
+    <link rel="icon" type="image/svg+xml"
+      href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+<body>
+    <main class="archive-page about-page">
+        <header class="archive-header">
+            <a class="archive-logo" href="{{ url_for('home') }}">
+                TSUKUYOMI
+            </a>
+
+            <nav class="archive-nav" aria-label="Main navigation">
+                <a href="{{ url_for('home') }}">HOME</a>
+                <a href="{{ url_for('archive') }}">ARCHIVE</a>
+                <a href="{{ url_for('writing_room') }}">WRITE A LETTER</a>
+                <a href="{{ url_for('my_letters') }}">MY LETTERS</a>
+            </nav>
+        </header>
+
+        <section class="archive-intro">
+            <p class="eyebrow">A NOTE BEHIND THE MOONLIGHT</p>
+            <h1>ABOUT TSUKUYOMI</h1>
+
+            <p class="archive-description">
+                A quiet place for thoughts that linger and words
+                that have not yet found their way into the world.
+            </p>
+        </section>
+
+        <section class="about-moon" aria-label="Beneath the same moon">
+            <div class="about-moon-stars" aria-hidden="true">
+                <span class="about-star star-one">✦</span>
+                <span class="about-star star-two">·</span>
+                <span class="about-star star-three">✧</span>
+                <span class="about-star star-five">✦</span>
+                <span class="about-star star-six">·</span>
+                <span class="about-star star-seven">✧</span>
+            </div>
+
+            <div class="about-moon-glow" aria-hidden="true"></div>
+
+            <div class="about-moon-content">
+                <p class="eyebrow">A MOMENT BENEATH THE NIGHT SKY</p>
+
+                <div class="about-moon-symbol" aria-hidden="true">☾</div>
+
+                <h2>BENEATH THE SAME MOON</h2>
+
+                <p>
+                    Some things pass quietly through our lives,
+                    yet leave us seeing the world a little differently.
+                </p>
+
+                <a href="#about-story" class="about-begin-link">
+                    A LITTLE ABOUT THIS PLACE ↓
+                </a>
+            </div>
+        </section>
+
+        <section class="archive-about" id="about-story">
+
+            <p>
+                Tsukuyomi was imagined as a small corner of the internet
+                where memories, reflections, and unfinished thoughts
+                could be given room to breathe.
+            </p>
+
+            <p>
+                Not every feeling needs an immediate answer.
+                Not every letter needs to be sent.
+                Sometimes, writing is simply a way to understand
+                what we carry.
+            </p>
+        </section>
+
+        <section class="archive-about">
+            <p class="section-label">02 / A PLACE FOR UNSENT WORDS</p>
+
+            <p>
+                Read a reflection, stay for a while, or enter the
+                Writing Room to write something of your own.
+                Your letters are saved here on this application
+                until you choose what to do with them.
+            </p>
+
+            <p>
+                Saving a letter does not send it to anyone.
+                Sealing a letter keeps it from being edited or deleted;
+                it does not deliver the letter.
+            </p>
+        </section>
+
+        <section class="archive-about">
+            <p class="section-label">03 / BEFORE YOU LEAVE</p>
+
+            <p>
+                Take your time. Keep what matters.
+                Leave a little room for the things you do not
+                understand yet.
+            </p>
+        </section>
+
+        <section class="archive-about creator-note">
+            <p class="section-label">04 / THE PERSON BEHIND THE MOON</p>
+
+            <h2>A Letter from a Wanderer</h2>
+
+            <p>
+                I have come to think that some of the things that shape us
+                arrive quietly. They find us in passing moments, in words
+                left unspoken, and in the presence of people who may never
+                fully know the place they have come to hold in our thoughts.
+            </p>
+
+            <p>
+                Sometimes, distance gives us room to reflect. We begin to
+                notice the things we feel, the memories we keep, and the
+                parts of ourselves we are still learning to understand.
+                Not every question finds an answer, and not every feeling
+                needs to be explained before it can mean something.
+            </p>
+
+            <p>
+                Perhaps not every encounter is meant to lead somewhere.
+                Some become quiet reminders that our lives can be changed
+                by moments we never expected, and by people whose paths
+                only briefly meet our own. There is gratitude in that,
+                even when we cannot know what those moments were meant
+                to become.
+            </p>
+
+            <p>
+                Tsukuyomi grew from a wish to give those thoughts somewhere
+                to rest. A place for the words we carry, the memories we
+                return to, and the letters that may never reach their
+                intended destination. Here, perhaps, they can be understood
+                a little better.
+            </p>
+
+            <p>
+                If you have found your way here, I hope you find room for
+                your own words, too. You do not need to know exactly what
+                they mean yet. You do not need to send them anywhere.
+                Sometimes, it is enough to write them down and let yourself
+                see them beneath a different light.
+            </p>
+
+            <p class="creator-note-ending">
+                Perhaps some things are meant to pass beneath the same moon,
+                leaving us changed long after their light has gone.
+            </p>
+
+            <p class="creator-signature">
+                — A Wanderer Passing Through
+            </p>
+        </section>
+
+        <footer class="archive-footer">
+            <p>TSUKUYOMI // LETTERS FOR THE UNKNOWN</p>
+            <a href="{{ url_for('archive') }}">RETURN TO THE ARCHIVE ↑</a>
+        </footer>
+    </main>
+</body>
+</html>

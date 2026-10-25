@@ -1,22 +1,54 @@
 import json
-from flask import Flask, render_template, request, jsonify
-from database import (
-    initialize_database,
-    save_draft,
-    get_all_drafts,
-    get_draft,
-    update_draft,
-    delete_draft,
-    seal_draft,
-    restore_missing_letters,
+import os
+import secrets
+from flask import Flask, render_template, request, jsonify, session, url_for
+from postgres_database import (
+    initialize_database as initialize_postgres_database,
+    save_letter,
+    get_letters_by_owner,
+    get_letter_by_owner,
+    update_letter,
+    delete_letter,
+    seal_letter as seal_postgres_letter,
+    publish_letter,
+    get_published_letter,
+    unpublish_letter,
+    restore_missing_letters_for_owner,
 )
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
+secret_key = os.environ.get("FLASK_SECRET_KEY")
+
+if not secret_key:
+    raise RuntimeError(
+        "FLASK_SECRET_KEY is missing. Configure it in .env "
+        "for local development or your deployment environment."
+    )
+
+app.config["SECRET_KEY"] = secret_key
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5 MB
 
-initialize_database()
+# Protect the session cookie.
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = (
+    os.environ.get("VERCEL") == "1"
+    or os.environ.get("FLASK_ENV") == "production"
+)
+
+def get_visitor_id():
+    """Return the current visitor's server-generated anonymous ID."""
+    if "visitor_id" not in session:
+        session["visitor_id"] = secrets.token_urlsafe(32)
+
+    return session["visitor_id"]
+
+initialize_postgres_database()
 
 def validate_backup(data):
     """Validate a Tsukuyomi JSON backup before restoring letters."""
@@ -26,10 +58,13 @@ def validate_backup(data):
     if data.get("app") != "Tsukuyomi: Letters for the Unknown":
         return None, "This file is not a Tsukuyomi backup."
 
-    if data.get("backup_version") != 1 or isinstance(
-        data.get("backup_version"), bool
+    if data.get("backup_version") != 2 or isinstance(
+    data.get("backup_version"), bool
     ):
-        return None, "This backup version is not supported."
+        return None, (
+            "Only version-2 Tsukuyomi backups are supported. "
+            "Legacy version-1 backups remain separate."
+        )
 
     letters = data.get("letters")
 
@@ -109,6 +144,14 @@ def format_letter_timestamp(timestamp):
         return timestamp
 
 
+def serialize_timestamp(value):
+    """Convert database timestamps into JSON-safe strings."""
+    if isinstance(value, datetime):
+        return value.isoformat()
+
+    return value
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -117,6 +160,71 @@ def home():
 @app.route("/archive")
 def archive():
     return render_template("archive.html")
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/shared/<string:share_token>")
+def shared_letter(share_token):
+    shared_letter = get_published_letter(share_token)
+
+    if shared_letter is None:
+        return render_template("letter-not-found.html"), 404
+
+    shared_letter = dict(shared_letter)
+
+    shared_letter["created_at_display"] = format_letter_timestamp(
+        shared_letter["created_at"].astimezone(
+            timezone(timedelta(hours=8))
+        ).strftime("%Y-%m-%d %H:%M:%S")
+    )
+
+    return render_template(
+        "shared-letter.html",
+        shared_letter=shared_letter,
+    )
+
+
+@app.route("/api/drafts/<int:draft_id>/publish", methods=["POST"])
+def publish_draft(draft_id):
+    published = publish_letter(get_visitor_id(), draft_id)
+
+    if published is None:
+        return jsonify({
+            "error": "Letter not found or already published."
+        }), 404
+
+    share_url = url_for(
+        "shared_letter",
+        share_token=published["share_token"],
+        _external=True,
+    )
+
+    return jsonify({
+        "message": "Letter published. Anyone with the link can read it.",
+        "id": published["id"],
+        "published": True,
+        "share_url": share_url,
+    }), 200
+
+
+@app.route("/api/drafts/<int:draft_id>/unpublish", methods=["POST"])
+def unpublish_draft(draft_id):
+    result = unpublish_letter(get_visitor_id(), draft_id)
+
+    if result is None:
+        return jsonify({
+            "error": "Letter not found or not published."
+        }), 404
+
+    return jsonify({
+        "message": "Share link revoked. The letter is private again.",
+        "id": result["id"],
+        "published": False,
+    }), 200
 
 
 @app.route("/reflection")
@@ -141,19 +249,34 @@ def my_letters():
 
 @app.route("/my-letters/<int:draft_id>")
 def read_letter(draft_id):
-    draft = get_draft(draft_id)
+    from postgres_database import get_letter_by_owner
+
+    draft = get_letter_by_owner(get_visitor_id(), draft_id)
 
     if draft is None:
         return render_template("letter-not-found.html"), 404
 
-    draft = dict(draft)
-
     draft["created_at_display"] = format_letter_timestamp(
-        draft["created_at"]
+        draft["created_at"].astimezone(
+            timezone(timedelta(hours=8))
+        ).strftime("%Y-%m-%d %H:%M:%S")
     )
     draft["updated_at_display"] = format_letter_timestamp(
-        draft["updated_at"]
+        draft["updated_at"].astimezone(
+            timezone(timedelta(hours=8))
+        ).strftime("%Y-%m-%d %H:%M:%S")
     )
+
+    draft["published"] = bool(draft.get("published"))
+
+    draft["share_url"] = ""
+
+    if draft["published"] and draft.get("share_token"):
+        draft["share_url"] = url_for(
+            "shared_letter",
+            share_token=draft["share_token"],
+            _external=True,
+        )
 
     return render_template("read-letter.html", draft=draft)
 
@@ -178,17 +301,22 @@ def create_draft():
     if len(title) > 100 or len(recipient) > 100 or len(body) > 100_000:
         return jsonify({"error": "One or more fields are too long."}), 400
 
-    draft_id = save_draft(title.strip(), recipient.strip(), body)
+    draft = save_letter(
+        get_visitor_id(),
+        title.strip(),
+        recipient.strip(),
+        body,
+    )
 
     return jsonify({
         "message": "Draft saved successfully.",
-        "id": draft_id
+        "id": draft["id"],
     }), 201
 
 
 @app.route("/api/drafts", methods=["GET"])
 def list_drafts():
-    drafts = get_all_drafts()
+    drafts = get_letters_by_owner(get_visitor_id())
 
     return jsonify({
         "drafts": [
@@ -196,8 +324,8 @@ def list_drafts():
                 "id": draft["id"],
                 "title": draft["title"],
                 "recipient": draft["recipient"],
-                "created_at": draft["created_at"],
-                "updated_at": draft["updated_at"],
+                "created_at": serialize_timestamp(draft["created_at"]),
+                "updated_at": serialize_timestamp(draft["updated_at"]),
                 "sealed": bool(draft["sealed"]),
             }
             for draft in drafts
@@ -207,30 +335,27 @@ def list_drafts():
 
 @app.route("/api/drafts/export", methods=["GET"])
 def export_drafts():
-    drafts = get_all_drafts()
+    drafts = get_letters_by_owner(get_visitor_id())
     letters = []
 
     for draft in drafts:
-        full_letter = get_draft(draft["id"])
-
-        if full_letter is None:
-            return jsonify({
-                "error": "A letter could not be retrieved. No backup was created."
-            }), 500
-
         letters.append({
-            "id": full_letter["id"],
-            "title": full_letter["title"],
-            "recipient": full_letter["recipient"],
-            "body": full_letter["body"],
-            "created_at": full_letter["created_at"],
-            "updated_at": full_letter["updated_at"],
-            "sealed": bool(full_letter["sealed"]),
+            "id": draft["id"],
+            "title": draft["title"],
+            "recipient": draft["recipient"],
+            "body": draft["body"],
+            "created_at": draft["created_at"].astimezone(
+                timezone.utc
+            ).strftime("%Y-%m-%d %H:%M:%S"),
+            "updated_at": draft["updated_at"].astimezone(
+                timezone.utc
+            ).strftime("%Y-%m-%d %H:%M:%S"),
+            "sealed": bool(draft["sealed"]),
         })
 
     backup = {
         "app": "Tsukuyomi: Letters for the Unknown",
-        "backup_version": 1,
+        "backup_version": 2,
         "exported_at": datetime.now(timezone.utc).isoformat(),
         "letters": letters,
     }
@@ -243,6 +368,7 @@ def export_drafts():
     response.headers["X-Content-Type-Options"] = "nosniff"
 
     return response, 200
+
 
 @app.route("/api/drafts/restore", methods=["POST"])
 def restore_drafts():
@@ -271,7 +397,10 @@ def restore_drafts():
         return jsonify({"error": error}), 400
 
     try:
-        result = restore_missing_letters(validated_letters)
+        result = restore_missing_letters_for_owner(
+            get_visitor_id(),
+            validated_letters,
+        )
     except Exception:
         app.logger.exception("Backup restoration failed.")
         return jsonify({
@@ -284,9 +413,10 @@ def restore_drafts():
         "skipped": result["skipped"],
     }), 200
 
+
 @app.route("/api/drafts/<int:draft_id>", methods=["GET"])
 def retrieve_draft(draft_id):
-    draft = get_draft(draft_id)
+    draft = get_letter_by_owner(get_visitor_id(), draft_id)
 
     if draft is None:
         return jsonify({"error": "Letter not found."}), 404
@@ -297,8 +427,9 @@ def retrieve_draft(draft_id):
             "title": draft["title"],
             "recipient": draft["recipient"],
             "body": draft["body"],
-            "created_at": draft["created_at"],
-            "updated_at": draft["updated_at"],
+            "created_at": serialize_timestamp(draft["created_at"]),
+            "updated_at": serialize_timestamp(draft["updated_at"]),
+            "sealed": bool(draft["sealed"]),
         }
     }), 200
 
@@ -326,63 +457,51 @@ def edit_draft(draft_id):
     if len(title) > 100 or len(recipient) > 100 or len(body) > 100_000:
         return jsonify({"error": "One or more fields are too long."}), 400
 
-    existing_draft = get_draft(draft_id)
-
-    if existing_draft is None:
-        return jsonify({"error": "Letter not found."}), 404
-
-    updated = update_draft(
+    updated = update_letter(
+        get_visitor_id(),
         draft_id,
         title.strip(),
         recipient.strip(),
-        body
+        body,
     )
 
-    if not updated:
+    if updated is None:
         return jsonify({
-            "error": "This letter is sealed or no longer exists."
-        }), 409
+            "error": "Letter not found, or it is sealed."
+        }), 404
 
     return jsonify({
         "message": "Draft updated successfully.",
-        "id": draft_id
+        "id": updated["id"],
     }), 200
 
 
 @app.route("/api/drafts/<int:draft_id>", methods=["DELETE"])
 def remove_draft(draft_id):
-    deleted = delete_draft(draft_id)
+    deleted = delete_letter(get_visitor_id(), draft_id)
 
     if not deleted:
-        return jsonify({"error": "Letter not found."}), 404
+        return jsonify({"error": "Letter not found or cannot be deleted."}), 404
 
     return jsonify({
         "message": "Draft deleted successfully.",
-        "id": draft_id
+        "id": draft_id,
     }), 200
 
 
 @app.route("/api/drafts/<int:draft_id>/seal", methods=["POST"])
-def seal_letter(draft_id):
-    draft = get_draft(draft_id)
+def seal_draft_route(draft_id):
+    sealed = seal_postgres_letter(get_visitor_id(), draft_id)
 
-    if draft is None:
-        return jsonify({"error": "Letter not found."}), 404
-
-    if draft["sealed"]:
-        return jsonify({"error": "This letter is already sealed."}), 409
-
-    sealed = seal_draft(draft_id)
-
-    if not sealed:
+    if sealed is None:
         return jsonify({
-            "error": "This letter could not be sealed."
-        }), 409
+            "error": "Letter not found or already sealed."
+        }), 404
 
     return jsonify({
         "message": "Letter sealed permanently. It has not been sent.",
-        "id": draft_id,
-        "sealed": True
+        "id": sealed["id"],
+        "sealed": True,
     }), 200
 
 
