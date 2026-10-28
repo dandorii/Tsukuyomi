@@ -48,6 +48,32 @@ def initialize_database():
             """
         )
 
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                username VARCHAR(30) NOT NULL UNIQUE,
+                email VARCHAR(254) NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+
+        connection.execute(
+            """
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username_lower
+            ON users (LOWER(username))
+            """
+        )
+
+        connection.execute(
+            """
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_lower
+            ON users (LOWER(email))
+            """
+        )
+
         connection.commit()
 
     except Exception:
@@ -289,6 +315,57 @@ def get_published_letter(share_token):
         connection.close()
 
 
+def get_public_letters(limit=50, offset=0):
+    """Return published letters for public discovery."""
+    connection = get_connection()
+
+    try:
+        return connection.execute(
+            """
+            SELECT
+                id,
+                title,
+                body,
+                created_at,
+                updated_at
+            FROM letters
+            WHERE published = TRUE
+            AND sealed = FALSE
+            ORDER BY updated_at DESC, id DESC
+            LIMIT %s OFFSET %s
+            """,
+            (limit, offset),
+        ).fetchall()
+
+    finally:
+        connection.close()
+
+
+def get_public_letter_by_id(letter_id):
+    """Return a letter only if it is published and not sealed."""
+    connection = get_connection()
+
+    try:
+        return connection.execute(
+            """
+            SELECT
+                id,
+                title,
+                body,
+                created_at,
+                updated_at
+            FROM letters
+            WHERE id = %s
+              AND published = TRUE
+              AND sealed = FALSE
+            """,
+            (letter_id,),
+        ).fetchone()
+
+    finally:
+        connection.close()
+
+
 def unpublish_letter(owner_id, letter_id):
     """Revoke a share link only when the letter belongs to the owner."""
     if not owner_id:
@@ -398,6 +475,57 @@ def restore_missing_letters_for_owner(owner_id, letters):
     except Exception:
         connection.rollback()
         raise
+
+    finally:
+        connection.close()
+
+
+def create_user(username, email, password_hash):
+    """Create a user account using an already-hashed password."""
+    if not username or not email or not password_hash:
+        raise ValueError("Username, email, and password hash are required.")
+
+    connection = get_connection()
+
+    try:
+        row = connection.execute(
+            """
+            INSERT INTO users (username, email, password_hash)
+            VALUES (%s, %s, %s)
+            RETURNING id, username, email, created_at
+            """,
+            (username, email, password_hash),
+        ).fetchone()
+
+        connection.commit()
+        return row
+
+    except Exception:
+        connection.rollback()
+        raise
+
+    finally:
+        connection.close()
+
+
+def get_user_by_username_or_email(identifier):
+    """Find a user by username or email for account verification."""
+    if not identifier:
+        return None
+
+    connection = get_connection()
+
+    try:
+        return connection.execute(
+            """
+            SELECT id, username, email, password_hash, created_at
+            FROM users
+            WHERE LOWER(username) = LOWER(%s)
+               OR LOWER(email) = LOWER(%s)
+            LIMIT 1
+            """,
+            (identifier, identifier),
+        ).fetchone()
 
     finally:
         connection.close()

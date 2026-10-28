@@ -1,9 +1,11 @@
 import json
 import os
 import secrets
-from flask import Flask, render_template, request, jsonify, session, url_for
+from flask import Flask, render_template, request, jsonify, session, url_for, redirect
 from postgres_database import (
     initialize_database as initialize_postgres_database,
+    create_user,
+    get_user_by_username_or_email,
     save_letter,
     get_letters_by_owner,
     get_letter_by_owner,
@@ -12,11 +14,17 @@ from postgres_database import (
     seal_letter as seal_postgres_letter,
     publish_letter,
     get_published_letter,
+    get_public_letters,
+    get_public_letter_by_id,
     unpublish_letter,
     restore_missing_letters_for_owner,
 )
 from datetime import datetime, timezone, timedelta
 from dotenv import load_dotenv
+import re
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
+from psycopg.errors import UniqueViolation
 
 load_dotenv()
 
@@ -173,6 +181,200 @@ def archive():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+
+@app.route("/library")
+def public_library():
+    letters = get_public_letters()
+    return render_template("public_library.html", letters=letters)
+
+
+@app.route("/library/letter/<int:letter_id>")
+def public_library_letter(letter_id):
+    letter = get_public_letter_by_id(letter_id)
+
+    if letter is None:
+        return render_template("404.html"), 404
+
+    return render_template(
+        "public_library_letter.html",
+        letter=letter,
+    )
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if "registration_csrf_token" not in session:
+        session["registration_csrf_token"] = secrets.token_urlsafe(32)
+
+    csrf_token = session["registration_csrf_token"]
+
+    if request.method == "GET":
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+        )
+
+    submitted_token = request.form.get("csrf_token", "")
+
+    if not secrets.compare_digest(submitted_token, csrf_token):
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+            error_message="Your session expired. Please refresh and try again.",
+        ), 400
+
+    username = request.form.get("username", "").strip().lower()
+    email = request.form.get("email", "").strip().lower()
+    password = request.form.get("password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if not re.fullmatch(r"[a-zA-Z0-9_]{3,30}", username):
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+            error_message="Use 3–30 characters: letters, numbers, or underscores.",
+        ), 400
+
+    if len(email) > 254 or not re.fullmatch(
+        r"[^@\s]+@[^@\s]+\.[^@\s]+", email
+    ):
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+            error_message="Please enter a valid email address.",
+        ), 400
+
+    if len(password) < 12 or len(password) > 128:
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+            error_message="Your password must be 12–128 characters long.",
+        ), 400
+
+    if password != confirm_password:
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+            error_message="The passwords do not match.",
+        ), 400
+
+    try:
+        password_hash = PasswordHasher().hash(password)
+        create_user(username, email, password_hash)
+    except UniqueViolation:
+        return render_template(
+            "register.html",
+            csrf_token=csrf_token,
+            error_message="That username or email address is already registered.",
+        ), 409
+
+    session["registration_csrf_token"] = secrets.token_urlsafe(32)
+
+    return render_template(
+            "register.html",
+            csrf_token=session["registration_csrf_token"],
+            success_message="Your account was created successfully. Sign-in is not available yet.",
+    ), 201
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if "login_csrf_token" not in session:
+        session["login_csrf_token"] = secrets.token_urlsafe(32)
+
+    csrf_token = session["login_csrf_token"]
+
+    if request.method == "GET":
+        return render_template(
+            "login.html",
+            csrf_token=csrf_token,
+        )
+
+    submitted_token = request.form.get("csrf_token", "")
+
+    if not secrets.compare_digest(submitted_token, csrf_token):
+        session["login_csrf_token"] = secrets.token_urlsafe(32)
+
+        return render_template(
+            "login.html",
+            csrf_token=session["login_csrf_token"],
+            error_message="Your session expired. Please refresh and try again.",
+        ), 400
+
+    session["login_csrf_token"] = secrets.token_urlsafe(32)
+
+    identifier = request.form.get("identifier", "").strip().lower()
+    password = request.form.get("password", "")
+
+    if not identifier or not password:
+        return render_template(
+            "login.html",
+            csrf_token=session["login_csrf_token"],
+            error_message="Invalid username/email or password.",
+        ), 400
+
+    user = get_user_by_username_or_email(identifier)
+
+    if user is None:
+        return render_template(
+            "login.html",
+            csrf_token=session["login_csrf_token"],
+            error_message="Invalid username/email or password.",
+        ), 401
+
+    try:
+        PasswordHasher().verify(user["password_hash"], password)
+    except VerifyMismatchError:
+        return render_template(
+            "login.html",
+            csrf_token=session["login_csrf_token"],
+            error_message="Invalid username/email or password.",
+        ), 401
+
+    visitor_id = session.get("visitor_id")
+    session.clear()
+
+    if visitor_id:
+        session["visitor_id"] = visitor_id
+
+    session["user_id"] = user["id"]
+    session["username"] = user["username"]
+    session["login_csrf_token"] = secrets.token_urlsafe(32)
+    session["logout_csrf_token"] = secrets.token_urlsafe(32)
+
+    return redirect(url_for("account"))
+
+
+@app.route("/account")
+def account():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return redirect(url_for("login"))
+
+    if "logout_csrf_token" not in session:
+        session["logout_csrf_token"] = secrets.token_urlsafe(32)
+
+    return render_template(
+        "account.html",
+        username=session.get("username", "Unknown"),
+        logout_csrf_token=session["logout_csrf_token"],
+    )
+
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    submitted_token = request.form.get("csrf_token", "")
+    session_token = session.get("logout_csrf_token", "")
+
+    if not session_token or not secrets.compare_digest(
+        submitted_token, session_token
+    ):
+        return "Invalid CSRF token.", 400
+
+    session.clear()
+    return redirect(url_for("home"))
 
 
 @app.route("/shared/<string:share_token>")

@@ -244,3 +244,140 @@ if (
         }
     });
 }
+
+
+
+/* ========================================
+   PUBLIC LIBRARY SHARING
+======================================== */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sharePublicButton = document.getElementById("share-public-letter");
+    const sharePublicModal = document.getElementById("share-public-modal");
+    const cancelSharePublicButton = document.getElementById("cancel-share-public");
+    const confirmSharePublicButton = document.getElementById("confirm-share-public");
+
+    if (
+        !sharePublicButton ||
+        !sharePublicModal ||
+        !cancelSharePublicButton ||
+        !confirmSharePublicButton
+    ) {
+        console.error("Tsukuyomi: A public sharing element is missing.");
+        return;
+    }
+
+    function openSharePublicModal() {
+        sharePublicModal.hidden = false;
+        document.body.style.overflow = "hidden";
+        cancelSharePublicButton.focus();
+    }
+
+    function closeSharePublicModal() {
+        sharePublicModal.hidden = true;
+        document.body.style.overflow = "";
+        sharePublicButton.focus();
+    }
+
+    sharePublicButton.onclick = openSharePublicModal;
+    cancelSharePublicButton.addEventListener("click", closeSharePublicModal);
+
+    sharePublicModal.addEventListener("click", function (event) {
+        if (event.target === sharePublicModal) {
+            closeSharePublicModal();
+        }
+    });
+
+    sharePublicModal.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            closeSharePublicModal();
+        }
+    });
+
+    confirmSharePublicButton.addEventListener("click", async function () {
+        if (
+            !letterTitle ||
+            !letterBody ||
+            !draftSavedModal ||
+            !draftSavedTitle ||
+            !draftSavedMessage ||
+            !closeDraftSavedButton
+        ) {
+            alert("The sharing interface could not be initialized.");
+            return;
+        }
+
+        if (!letterTitle.value.trim() || !letterBody.value.trim()) {
+            alert("Please add a letter title and letter body before sharing.");
+            return;
+        }
+
+        confirmSharePublicButton.disabled = true;
+        sharePublicButton.disabled = true;
+
+        try {
+            const editingExistingDraft = currentDraftId !== null;
+
+            const saveResponse = await fetch(
+                editingExistingDraft
+                    ? `/api/drafts/${encodeURIComponent(currentDraftId)}`
+                    : "/api/drafts",
+                {
+                    method: editingExistingDraft ? "PUT" : "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        title: letterTitle.value,
+                        recipient: letterRecipient.value,
+                        body: letterBody.value
+                    })
+                }
+            );
+
+            const saveResult = await saveResponse.json();
+
+            if (!saveResponse.ok) {
+                throw new Error(saveResult.error || "Unable to save your letter.");
+            }
+
+            if (!editingExistingDraft) {
+                currentDraftId = saveResult.id;
+            }
+
+            if (!currentDraftId) {
+                throw new Error("The saved letter ID was not returned by the server.");
+            }
+
+            const publishResponse = await fetch(
+                `/api/drafts/${encodeURIComponent(currentDraftId)}/publish`,
+                { method: "POST" }
+            );
+
+            const publishResult = await publishResponse.json();
+
+            if (!publishResponse.ok) {
+                throw new Error(publishResult.error || "Unable to publish your letter.");
+            }
+
+            closeSharePublicModal();
+            draftSavedTitle.textContent = "LETTER SHARED.";
+            draftSavedMessage.textContent = "YOUR LETTER IS NOW IN THE PUBLIC LIBRARY.";
+            draftSavedModal.hidden = false;
+            document.body.style.overflow = "hidden";
+            closeDraftSavedButton.focus();
+
+        } catch (error) {
+            closeSharePublicModal();
+            draftSavedTitle.textContent = "LETTER NOT SHARED.";
+            draftSavedMessage.textContent =
+                error.message || "Something went wrong. Please try again.";
+            draftSavedModal.hidden = false;
+            document.body.style.overflow = "hidden";
+            closeDraftSavedButton.focus();
+
+        } finally {
+            confirmSharePublicButton.disabled = false;
+            sharePublicButton.disabled = false;
+        }
+    });
+});

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d1b">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="icon" type="image/svg+xml"
+          href="{{ asset_url('favicon.svg') }}">
+
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/library.css') }}">
+
+    <title>{{ letter.title or "Untitled Letter" }} | Tsukuyomi</title>
+</head>
+
+<body class="library-page">
+    <header class="library-header">
+        <h1>TSUKUYOMI</h1>
+        <p>Letters for the Unknown</p>
+
+        <nav class="library-nav" aria-label="Main navigation">
+            <a href="{{ url_for('home') }}">HOME</a>
+            <a href="{{ url_for('public_library') }}">PUBLIC LIBRARY</a>
+        </nav>
+    </header>
+
+    <main class="library-main">
+        <article class="public-letter">
+            <a class="public-letter-back"
+               href="{{ url_for('public_library') }}">
+                ← BACK TO LIBRARY
+            </a>
+
+            <p class="public-letter-label">FROM THE ARCHIVE</p>
+
+            <h2 class="public-letter-title">
+                {{ letter.title or "Untitled Letter" }}
+            </h2>
+
+            <div class="public-letter-body">{{ letter.body }}</div>
+
+            <footer class="public-letter-footer">
+                <p>Some words are meant to find their way to someone.</p>
+                <a href="{{ url_for('public_library') }}">
+                    RETURN TO THE LIBRARY
+                </a>
+            </footer>
+        </article>
+    </main>
+</body>
+</html>

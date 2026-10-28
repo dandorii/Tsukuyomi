@@ -1,0 +1,829 @@
+
+/* ========================================
+   TSUKUYOMI — PUBLIC LIBRARY
+   Midnight blue • Moonlight • Pixel UI
+======================================== */
+
+.library-page {
+    min-height: 100vh;
+    margin: 0;
+    color: #e6edff;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(56, 189, 248, 0.12),
+            transparent 38rem
+        ),
+        #080d1b;
+}
+
+.library-header {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    padding: 2.5rem 0 1.5rem;
+    text-align: center;
+}
+
+.library-brand {
+    color: #e6edff;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    line-height: 1.8;
+    text-shadow: 0 0 18px rgba(56, 189, 248, 0.3);
+}
+
+.library-subtitle {
+    color: #94a9cb;
+    font-family: "DM Mono", monospace;
+    letter-spacing: 0.08em;
+}
+
+.library-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.library-nav a {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(148, 169, 203, 0.22);
+    border-radius: 4px;
+    color: #b9cbea;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.8;
+    text-decoration: none;
+    transition: color 180ms ease, border-color 180ms ease,
+                background 180ms ease;
+}
+
+.library-nav a:hover,
+.library-nav a:focus-visible {
+    color: #fff;
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+    outline: none;
+}
+
+.library-main {
+    width: min(1000px, 90%);
+    margin: 0 auto;
+    padding: 3rem 0 6rem;
+}
+
+.library-intro {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.library-title {
+    color: #f0f4ff;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1rem, 2.8vw, 1.5rem);
+    line-height: 1.9;
+}
+
+.library-description {
+    color: #a9bad6;
+    font-family: "Shippori Mincho", Georgia, serif;
+    font-size: 1.1rem;
+    line-height: 1.9;
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    gap: 1.5rem;
+}
+
+.library-card {
+    padding: 1.8rem;
+    border: 1px solid rgba(125, 166, 219, 0.22);
+    border-radius: 8px;
+    background: linear-gradient(
+        145deg,
+        rgba(25, 42, 70, 0.88),
+        rgba(12, 20, 35, 0.97)
+    );
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px rgba(255, 255, 255, 0.025);
+    transition: transform 200ms ease, border-color 200ms ease,
+                box-shadow 200ms ease;
+}
+
+.library-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.55);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+}
+
+.library-card h3 {
+    color: #e6edff;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.7rem;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+.library-card-body {
+    color: #c1cde1;
+    font-family: "Shippori Mincho", Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.95;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.library-empty {
+    padding: 3rem 1.5rem;
+    border: 1px dashed rgba(125, 166, 219, 0.3);
+    border-radius: 8px;
+    color: #a9bad6;
+    background: rgba(12, 20, 35, 0.55);
+    font-family: "Shippori Mincho", Georgia, serif;
+    line-height: 1.9;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .library-header {
+        padding-top: 2rem;
+    }
+
+    .library-nav {
+        gap: 0.5rem;
+    }
+
+    .library-nav a {
+        padding: 0.6rem;
+        font-size: 0.48rem;
+    }
+
+    .library-card {
+        padding: 1.3rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .library-card,
+    .library-nav a {
+        transition: none;
+    }
+
+    .library-card:hover {
+        transform: none;
+    }
+}
+
+/* ===== Tsukuyomi Public Library ===== */
+
+.library-page {
+    min-height: 100vh;
+    color: #e6edff;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(56, 189, 248, 0.12),
+            transparent 38rem
+        ),
+        #080d1b;
+}
+
+.library-header {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    padding: 2.5rem 0 1.5rem;
+    text-align: center;
+}
+
+.library-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.library-nav a {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(148, 169, 203, 0.22);
+    border-radius: 4px;
+    color: #b9cbea;
+    text-decoration: none;
+    transition: color 180ms ease,
+                border-color 180ms ease,
+                background 180ms ease;
+}
+
+.library-nav a:hover,
+.library-nav a:focus-visible {
+    color: #fff;
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+    outline: none;
+}
+
+.library-main {
+    width: min(1000px, 90%);
+    margin: 0 auto;
+    padding: 3rem 0 6rem;
+}
+
+.library-intro {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.library-description {
+    color: #a9bad6;
+    line-height: 1.9;
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    gap: 1.5rem;
+}
+
+.library-card {
+    position: relative;
+    padding: 1.8rem;
+    overflow-wrap: anywhere;
+    border: 1px solid rgba(125, 166, 219, 0.22);
+    border-radius: 8px;
+    background: linear-gradient(
+        145deg,
+        rgba(25, 42, 70, 0.88),
+        rgba(12, 20, 35, 0.97)
+    );
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px rgba(255, 255, 255, 0.025);
+    transition: transform 200ms ease,
+                border-color 200ms ease,
+                box-shadow 200ms ease;
+}
+
+.library-card::before {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 3px;
+    margin-bottom: 1.4rem;
+    background: #38bdf8;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+.library-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.55);
+    box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.3),
+        0 0 22px rgba(56, 189, 248, 0.06);
+}
+
+.library-card-body {
+    color: #c1cde1;
+    line-height: 1.95;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.library-empty {
+    padding: 3rem 1.5rem;
+    border: 1px dashed rgba(125, 166, 219, 0.3);
+    border-radius: 8px;
+    color: #a9bad6;
+    background: rgba(12, 20, 35, 0.55);
+    line-height: 1.9;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .library-header {
+        padding-top: 2rem;
+    }
+
+    .library-nav {
+        gap: 0.5rem;
+    }
+
+    .library-card {
+        padding: 1.3rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .library-card,
+    .library-nav a {
+        transition: none;
+    }
+
+    .library-card:hover {
+        transform: none;
+    }
+}
+
+/* ===== Clickable Letter Previews ===== */
+
+.library-card-link {
+    display: block;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 8px;
+    outline-offset: 5px;
+}
+
+.library-card-link:focus-visible {
+    outline: 2px solid #38bdf8;
+}
+
+.library-card-label {
+    display: block;
+    margin-bottom: 1rem;
+    color: #7dd3fc;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.5rem;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+}
+
+.library-card-link .library-card h3 {
+    margin-top: 0;
+}
+
+.library-card-link .library-card-body {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow-wrap: anywhere;
+}
+
+.library-card-read {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: #38bdf8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.9;
+    transition: color 180ms ease;
+}
+
+.library-card-link:hover .library-card-read {
+    color: #a5f3fc;
+}
+
+.library-card-link:hover .library-card {
+    border-color: rgba(56, 189, 248, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .library-card-read {
+        transition: none;
+    }
+}
+
+/* ===== Full Public Letter Page ===== */
+
+.public-letter {
+    width: min(100%, 820px);
+    margin: 2rem auto 4rem;
+    padding: clamp(1.5rem, 5vw, 3.5rem);
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(56, 189, 248, 0.09),
+            transparent 55%
+        ),
+        rgba(12, 20, 35, 0.94);
+    border: 1px solid rgba(125, 211, 252, 0.22);
+    border-radius: 8px;
+    box-shadow:
+        0 0 35px rgba(56, 189, 248, 0.07),
+        0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.public-letter-back {
+    display: inline-block;
+    margin-bottom: 3rem;
+    color: #7dd3fc;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 1.9;
+    text-decoration: none;
+}
+
+.public-letter-back:hover {
+    color: #e6edff;
+}
+
+.public-letter-label {
+    margin-bottom: 1.5rem;
+    color: #7dd3fc;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.5rem;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+}
+
+.public-letter-title {
+    margin: 0 0 2.5rem;
+    color: #e6edff;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+.public-letter-body {
+    color: #dbe7ff;
+    font-family: "Press Start 2P", monospace;
+    font-size: 1.05rem;
+    line-height: 2.2;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.public-letter-footer {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(125, 211, 252, 0.18);
+}
+
+.public-letter-footer p {
+    margin-bottom: 1.5rem;
+    color: #94a3b8;
+    font-family: "Shippori Mincho", "DM Serif Text", Georgia, serif;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    font-style: italic;
+}
+
+.public-letter-footer a {
+    color: #38bdf8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.5rem;
+    line-height: 2;
+    text-decoration: none;
+}
+
+.public-letter-footer a:hover {
+    color: #a5f3fc;
+}
+
+.public-letter a:focus-visible,
+.public-letter-footer a:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 5px;
+}
+
+@media (max-width: 600px) {
+    .public-letter {
+        margin-top: 1rem;
+        padding: 1.25rem;
+    }
+
+    .public-letter-back {
+        margin-bottom: 2rem;
+    }
+
+    .public-letter-body {
+        font-size: 1rem;
+        line-height: 2;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-letter a {
+        transition: none;
+    }
+}
+
+/* ===== Press Start 2P Throughout the Public Letter ===== */
+
+.public-letter,
+.public-letter * {
+    font-family: "Press Start 2P", monospace;
+}
+
+.public-letter-body {
+    font-size: 0.7rem;
+    line-height: 2.5;
+}
+
+.public-letter-footer p {
+    font-size: 0.65rem;
+    line-height: 2.5;
+}
+
+@media (max-width: 600px) {
+    .public-letter-body {
+        font-size: 0.6rem;
+        line-height: 2.4;
+    }
+}
+
+/* ===== Press Start 2P Throughout the Public Letter ===== */
+
+.public-letter,
+.public-letter * {
+    font-family: "Press Start 2P", monospace;
+}
+
+.public-letter-body {
+    font-size: 0.7rem;
+    line-height: 2.5;
+}
+
+.public-letter-footer p {
+    font-size: 0.65rem;
+    line-height: 2.5;
+}
+
+@media (max-width: 600px) {
+    .public-letter-body {
+        font-size: 0.6rem;
+        line-height: 2.4;
+    }
+}
+
+/* ===== Force Press Start 2P on All Library Text ===== */
+
+.library-page,
+.library-page *,
+.library-page *::before,
+.library-page *::after {
+    font-family: "Press Start 2P", monospace !important;
+}
+
+/* Library descriptions and secondary text */
+.library-description,
+.library-card-meta,
+.library-card-body,
+.library-card-label,
+.library-card-read,
+.library-empty,
+.library-header > p,
+.public-letter-label,
+.public-letter-body,
+.public-letter-footer p,
+.public-letter-back,
+.public-letter-footer a {
+    font-family: "Press Start 2P", monospace !important;
+}
+
+/* ===== Tsukuyomi Moonlit Library ===== */
+
+.library-page {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(43, 77, 135, 0.24),
+            transparent 55%
+        ),
+        linear-gradient(
+            180deg,
+            #080d1b 0%,
+            #0b1428 48%,
+            #080d1b 100%
+        );
+}
+
+/* Starfield layers */
+.library-page::before,
+.library-page::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-repeat: repeat;
+}
+
+/* Small distant stars */
+.library-page::before {
+    opacity: 0.55;
+    background-image:
+        radial-gradient(2px 2px at 40px 60px, #e6edff 99%, transparent),
+        radial-gradient(1px 1px at 130px 170px, #7dd3fc 99%, transparent),
+        radial-gradient(2px 2px at 220px 40px, #e6edff 99%, transparent),
+        radial-gradient(1px 1px at 310px 130px, #a5f3fc 99%, transparent),
+        radial-gradient(2px 2px at 370px 220px, #e6edff 99%, transparent);
+    background-size: 420px 280px;
+    animation: library-stars-drift 90s linear infinite;
+}
+
+/* Subtle blue star glow */
+.library-page::after {
+    opacity: 0.4;
+    background-image:
+        radial-gradient(3px 3px at 80px 100px, #38bdf8 30%, transparent 100%),
+        radial-gradient(2px 2px at 260px 190px, #c4b5fd 30%, transparent 100%),
+        radial-gradient(3px 3px at 340px 70px, #7dd3fc 30%, transparent 100%);
+    background-size: 460px 320px;
+    animation: library-stars-drift 120s linear infinite reverse;
+}
+
+/* ===== Pixel Moon ===== */
+
+.library-header {
+    position: relative;
+    z-index: 1;
+    padding-top: 9rem;
+}
+
+.library-header::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 1.5rem;
+    left: 50%;
+    width: 76px;
+    height: 76px;
+    transform: translateX(-50%);
+    background: #e6edff;
+    box-shadow:
+        0 0 0 4px rgba(230, 237, 255, 0.06),
+        0 0 24px rgba(191, 219, 254, 0.35),
+        0 0 65px rgba(56, 189, 248, 0.2);
+    clip-path: polygon(
+        25% 0, 75% 0,
+        75% 12%, 88% 12%,
+        88% 25%, 100% 25%,
+        100% 75%, 88% 75%,
+        88% 88%, 75% 88%,
+        75% 100%, 25% 100%,
+        25% 88%, 12% 88%,
+        12% 75%, 0 75%,
+        0 25%, 12% 25%,
+        12% 12%, 25% 12%
+    );
+}
+
+/* Keep content above the background effects */
+.library-header,
+.library-main {
+    z-index: 1;
+}
+
+/* Slow, dreamlike movement */
+@keyframes library-stars-drift {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 420px 280px;
+    }
+}
+
+/* Accessibility: respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .library-page::before,
+    .library-page::after {
+        animation: none;
+    }
+}
+
+/* Smaller moon on mobile */
+@media (max-width: 600px) {
+    .library-header {
+        padding-top: 7.5rem;
+    }
+
+    .library-header::before {
+        top: 1rem;
+        width: 58px;
+        height: 58px;
+    }
+}
+
+/* ===== Public Library Search ===== */
+
+.library-search {
+    width: min(100%, 620px);
+    margin: 2.5rem auto 0;
+    text-align: left;
+}
+
+.library-search label {
+    display: block;
+    margin-bottom: 1rem;
+    color: #7dd3fc;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 2;
+}
+
+.library-search input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem 1.1rem;
+    color: #e6edff;
+    background: rgba(8, 13, 27, 0.85);
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 5px;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 2;
+    outline: none;
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.04);
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.library-search input::placeholder {
+    color: #64748b;
+    opacity: 1;
+}
+
+.library-search input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.12);
+}
+
+.library-search-status {
+    min-height: 1.5rem;
+    margin-top: 1rem;
+    color: #94a3b8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.45rem;
+    line-height: 2.2;
+}
+
+@media (max-width: 600px) {
+    .library-search {
+        margin-top: 2rem;
+    }
+
+    .library-search input {
+        padding: 0.85rem;
+        font-size: 0.45rem;
+    }
+
+    .library-search label {
+        font-size: 0.48rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .library-search input {
+        transition: none;
+    }
+}
+
+/* Hide letter cards filtered out by search */
+.library-card-link[hidden] {
+    display: none !important;
+}
+/* ===== Clear Library Search Button ===== */
+
+.library-search-clear {
+    display: block;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #7dd3fc;
+    background: rgba(8, 13, 27, 0.75);
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 4px;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.45rem;
+    line-height: 1.8;
+    cursor: pointer;
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease;
+}
+
+.library-search-clear:hover {
+    color: #e6edff;
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.library-search-clear:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .library-search-clear {
+        transition: none;
+    }
+}

@@ -100,6 +100,14 @@
                     SAVE DRAFT
                 </button>
 
+                <button
+                    type="button"
+                    id="share-public-letter"
+                    class="clear-letter-button"
+                >
+                    SHARE IN PUBLIC LIBRARY
+                </button>
+
                 <button type="button" id="clear-letter" class="clear-letter-button">
                     CLEAR LETTER
                 </button>
@@ -134,7 +142,40 @@
             <p>EVERY UNSENT WORD HAS A PLACE HERE.</p>
         </footer>
 
-        
+        <!-- PUBLIC LIBRARY SHARING CONFIRMATION MODAL -->
+        <div
+            class="letter-modal"
+            id="share-public-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="share-public-title"
+            aria-describedby="share-public-description"
+            hidden
+        >
+            <div class="letter-modal-panel">
+                <p class="letter-modal-eyebrow">A LETTER INTO THE WORLD</p>
+
+                <h2 id="share-public-title">SHARE YOUR WORDS?</h2>
+
+                <p id="share-public-description">
+                    Your letter will become publicly readable in the
+                    Tsukuyomi Public Library. Anyone may read its title
+                    and contents. Only continue if you are comfortable
+                    sharing these words with others.
+                </p>
+
+                <div class="letter-modal-actions">
+                    <button type="button" id="cancel-share-public">
+                        KEEP IT PRIVATE
+                    </button>
+
+                    <button type="button" id="confirm-share-public">
+                        YES, SHARE IT
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- CLEAR LETTER CONFIRMATION MODAL -->
         <div
             class="letter-modal"

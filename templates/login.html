@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In | Tsukuyomi</title>
+
+    <link rel="icon" type="image/svg+xml"
+      href="{{ asset_url('favicon.svg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/auth.css') }}">
+</head>
+
+<body class="auth-page">
+    <main class="auth-container">
+        <section class="auth-card">
+            <h1>TSUKUYOMI</h1>
+            <p class="auth-description">Letters for the Unknown</p>
+
+            <h2>Sign In</h2>
+            <p class="auth-description">
+                Welcome back. Your corner of the night awaits.
+            </p>
+
+            {% if error_message %}
+                <p class="auth-message" role="alert">
+                    {{ error_message }}
+                </p>
+            {% endif %}
+
+            <form id="login-form" method="post">
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token }}"
+                >
+
+                <div class="auth-field">
+                    <label for="identifier">Username or Email</label>
+                    <input
+                        type="text"
+                        id="identifier"
+                        name="identifier"
+                        maxlength="254"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        maxlength="128"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="auth-submit">
+                    Sign In
+                </button>
+            </form>
+
+            <p class="auth-footer">
+                Don't have an account?
+                <a href="{{ url_for('register') }}">Register</a>
+            </p>
+
+            <p class="auth-footer">
+                <a href="{{ url_for('home') }}">Return Home</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>

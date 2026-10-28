@@ -4751,3 +4751,244 @@ main {
         transition: none;
     }
 }
+
+
+/* ===== Right-Aligned Main Navigation ===== */
+
+.main-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.75rem 2rem;
+    box-sizing: border-box;
+}
+
+.main-nav a {
+    display: inline-block;
+    padding: 0.65rem 0.8rem;
+    color: #aebed8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 2;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.main-nav a:hover {
+    color: #e6edff;
+    background: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.08);
+}
+
+.main-nav a:focus-visible {
+    color: #e6edff;
+    outline: 2px solid #38bdf8;
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .main-nav {
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.75rem;
+    }
+
+    .main-nav a {
+        padding: 0.5rem;
+        font-size: 0.45rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .main-nav a {
+        transition: none;
+    }
+}
+
+/* ========================================
+   TSUKUYOMI — PUBLIC LIBRARY SHARING
+======================================== */
+
+/* Share button in the Writing Room */
+#share-public-letter {
+    width: 100%;
+    margin-top: 0.85rem;
+    padding: 14px 16px;
+    border: 1px solid rgba(125, 211, 252, 0.45);
+    border-radius: 4px;
+    background: linear-gradient(
+        135deg,
+        rgba(56, 189, 248, 0.14),
+        rgba(12, 20, 35, 0.92)
+    );
+    color: #a5e7ff;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 2;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.05);
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+#share-public-letter:hover {
+    border-color: #7dd3fc;
+    background: rgba(56, 189, 248, 0.16);
+    color: #e6f7ff;
+    box-shadow: 0 0 22px rgba(56, 189, 248, 0.12);
+    transform: translateY(-2px);
+}
+
+#share-public-letter:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 4px;
+}
+
+#share-public-letter:active {
+    transform: translateY(0);
+}
+
+/* Sharing confirmation modal */
+#share-public-modal[hidden] {
+    display: none !important;
+}
+
+#share-public-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(3, 7, 18, 0.86);
+    backdrop-filter: blur(8px);
+}
+
+#share-public-modal .letter-modal-panel {
+    width: min(100%, 540px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: clamp(24px, 5vw, 38px);
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 6px;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(56, 189, 248, 0.12),
+            transparent 70%
+        ),
+        #0b1428;
+    color: #e6edff;
+    box-shadow:
+        0 0 35px rgba(56, 189, 248, 0.09),
+        0 24px 70px rgba(0, 0, 0, 0.45);
+}
+
+#share-public-modal .letter-modal-eyebrow {
+    color: #7dd3fc;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.5rem;
+    line-height: 2;
+    letter-spacing: 0.04em;
+}
+
+#share-public-modal #share-public-title {
+    color: #e6edff;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(0.75rem, 2.5vw, 1rem);
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+#share-public-modal #share-public-description {
+    color: #b9cbea;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    line-height: 2.3;
+}
+
+#share-public-modal .letter-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+#share-public-modal .letter-modal-actions button {
+    flex: 1 1 180px;
+    min-height: 48px;
+    padding: 12px;
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 4px;
+    background: rgba(8, 13, 27, 0.8);
+    color: #b9cbea;
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.48rem;
+    line-height: 2;
+    cursor: pointer;
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease;
+}
+
+#share-public-modal #confirm-share-public {
+    border-color: rgba(56, 189, 248, 0.6);
+    background: rgba(56, 189, 248, 0.12);
+    color: #a5e7ff;
+}
+
+#share-public-modal .letter-modal-actions button:hover {
+    border-color: #7dd3fc;
+    color: #ffffff;
+    background: rgba(56, 189, 248, 0.14);
+}
+
+#share-public-modal .letter-modal-actions button:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    #share-public-letter {
+        font-size: 0.48rem;
+        padding: 12px;
+    }
+
+    #share-public-modal .letter-modal-actions {
+        flex-direction: column;
+    }
+
+    #share-public-modal .letter-modal-actions button {
+        flex-basis: auto;
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #share-public-letter,
+    #share-public-modal .letter-modal-actions button {
+        transition: none;
+    }
+
+    #share-public-letter:hover {
+        transform: none;
+    }
+}

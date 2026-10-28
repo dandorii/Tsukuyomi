@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d1b">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="icon" type="image/svg+xml"
+          href="{{ asset_url('favicon.svg') }}">
+
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/library.css') }}">
+
+    <title>Public Library | Tsukuyomi</title>
+</head>
+
+<body class="library-page">
+    <header class="library-header">
+        <h1>TSUKUYOMI</h1>
+        <p>Letters for the Unknown</p>
+
+        <nav class="library-nav" aria-label="Main navigation">
+            <a href="{{ url_for('home') }}">HOME</a>
+            <a href="{{ url_for('writing_room') }}">WRITE A LETTER</a>
+            <a href="{{ url_for('my_letters') }}">MY LETTERS</a>
+            <a href="{{ url_for('public_library') }}">PUBLIC LIBRARY</a>
+        </nav>
+    </header>
+
+    <main class="library-main">
+        <section class="library-intro">
+            <h2>Public Library</h2>
+
+            <p class="library-description">
+                A collection of letters their authors have chosen to share.
+                Take your time, and read what speaks to you.
+            </p>
+
+            <div class="library-search">
+                <label for="library-search-input">SEARCH THE ARCHIVE</label>
+
+                <input
+                    type="search"
+                    id="library-search-input"
+                    placeholder="Search letters..."
+                    autocomplete="off"
+                    aria-describedby="library-search-status"
+                >
+
+                <p
+                    id="library-search-status"
+                    class="library-search-status"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+                <button
+                    type="button"
+                    id="library-search-clear"
+                    class="library-search-clear"
+                >
+                    CLEAR SEARCH
+                </button>
+            </div>
+        </section>
+
+        {% if letters %}
+            <section class="library-grid" aria-label="Published letters">
+                {% for letter in letters %}
+                    <a
+                        class="library-card-link"
+                        href="{{ url_for('public_library_letter', letter_id=letter.id) }}"
+                        aria-label="Read {{ letter.title or 'Untitled Letter' }}"
+                    >
+                        <article class="library-card">
+                            <span class="library-card-label">FROM THE ARCHIVE</span>
+
+                            <h3>{{ letter.title or "Untitled Letter" }}</h3>
+
+                            <p class="library-card-body">
+                                {{ letter.body[:180] }}
+                                {% if letter.body|length > 180 %}…{% endif %}
+                            </p>
+
+                            <span class="library-card-read">
+                                READ LETTER →
+                            </span>
+                        </article>
+                    </a>
+                {% endfor %}
+            </section>
+        {% else %}
+            <p class="library-empty">
+                No letters have been shared here yet.
+            </p>
+        {% endif %}
+    </main>
+    <script src="{{ asset_url('js/library.js') }}" defer></script>
+</body>
+</html>
